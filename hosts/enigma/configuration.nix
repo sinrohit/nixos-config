@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, pkgs, ... }:
 
 let
   users = import ../../users { inherit lib; };
@@ -24,6 +24,7 @@ in
 
   users.users =
     lib.flip lib.mapAttrs users (name: cfg: {
+      shell = lib.getExe pkgs.zsh;
       isNormalUser = true;
       extraGroups =
         lib.optionals (lib.elem name admins)
