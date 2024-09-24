@@ -95,5 +95,8 @@
   };
 
   # Useful programs
+  programs.zoxide.enable = true;
   programs.htop.enable = true;
+  programs.tmux.enable = true;
+  programs.ripgrep.enable = true;
 }
