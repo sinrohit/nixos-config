@@ -22,6 +22,8 @@ in
   nixpkgs.hostPlatform = "x86_64-linux";
   networking.hostName = "enigma";
 
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
   users.users =
     lib.flip lib.mapAttrs users (name: cfg: {
       shell = lib.getExe pkgs.zsh;
