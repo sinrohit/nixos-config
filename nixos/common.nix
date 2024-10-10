@@ -43,8 +43,10 @@
   # - SSH through tailscale
   # - Allow passwordless sudo for all in 'wheel'
   security.sudo.wheelNeedsPassword = false;
-  services.tailscale.enable = true;
   services.openssh.enable = true;
-
+  services.tailscale = {
+    enable = true;
+    extraSetFlags = [ "--advertise-exit-node" ];
+  };
   virtualisation.docker.enable = true;
 }
