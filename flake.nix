@@ -8,7 +8,7 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     flake-parts.url = "github:hercules-ci/flake-parts";
-    nixos-flake.url = "github:srid/nixos-flake";
+    nixos-unified.url = "github:srid/nixos-unified";
     systems.url = "github:nix-systems/default";
 
     # Software inputs
@@ -27,7 +27,7 @@
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-linux" ];
       imports = [
-        inputs.nixos-flake.flakeModule
+        inputs.nixos-unified.flakeModule
         inputs.treefmt-nix.flakeModule
       ];
 
@@ -44,8 +44,9 @@
 
       flake = {
         # Configurations for Linux (NixOS) machines
-        nixosConfigurations.enigma = self.nixos-flake.lib.mkLinuxSystem
-          ./hosts/enigma/configuration.nix;
+        nixosConfigurations.enigma = self.nixos-unified.lib.mkLinuxSystem { home-manager = true; } {
+          imports = [ ./hosts/enigma/configuration.nix ];
+        };
       };
     };
 }

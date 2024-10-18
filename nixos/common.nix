@@ -2,9 +2,6 @@
 { flake, pkgs, ... }:
 
 {
-  imports = [
-    flake.inputs.self.nixosModules.home-manager
-  ];
 
   # Some machines may not have ethernet.
   networking.networkmanager.enable = true;

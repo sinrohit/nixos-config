@@ -445,18 +445,18 @@
         "type": "github"
       }
     },
-    "nixos-flake": {
+    "nixos-unified": {
       "locked": {
-        "lastModified": 1710867744,
-        "narHash": "sha256-wtAZ+zhW5kMkiOomEA27p+T3M5ZNgY6U4zB+03/EJDs=",
+        "lastModified": 1728929639,
+        "narHash": "sha256-rSf2B2X48ya1UB3rwRWMU0tPKVWA54KgW3HqSAfRON4=",
         "owner": "srid",
-        "repo": "nixos-flake",
-        "rev": "05f9464e282dee5a706273f50344a8201d8980b5",
+        "repo": "nixos-unified",
+        "rev": "4d2954e0c55600875278746d369aa64f4cbc512c",
         "type": "github"
       },
       "original": {
         "owner": "srid",
-        "repo": "nixos-flake",
+        "repo": "nixos-unified",
         "type": "github"
       }
     },
@@ -708,7 +708,7 @@
         "flake-parts": "flake-parts",
         "home-manager": "home-manager",
         "nix-index-database": "nix-index-database",
-        "nixos-flake": "nixos-flake",
+        "nixos-unified": "nixos-unified",
         "nixpkgs": "nixpkgs",
         "nixvim": "nixvim",
         "omnix": "omnix",
