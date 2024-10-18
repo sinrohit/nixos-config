@@ -8,7 +8,7 @@
     enable = true;
 
     # Theme
-    colorschemes.tokyonight.enable = true;
+    colorschemes.gruvbox.enable = true;
 
     # Settings
     opts = {
