@@ -25,7 +25,7 @@
 
   outputs = inputs@{ self, ... }:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
-      systems = [ "x86_64-linux" ];
+      systems = [ "x86_64-linux" "aarch64-darwin" ];
       imports = [
         inputs.nixos-unified.flakeModule
         inputs.treefmt-nix.flakeModule
@@ -46,6 +46,7 @@
         # Configurations for Linux (NixOS) machines
         nixosConfigurations.enigma = self.nixos-unified.lib.mkLinuxSystem { home-manager = true; } {
           imports = [ ./hosts/enigma/configuration.nix ];
+          nixos-unified.sshTarget = "rohit@100.124.228.49";
         };
       };
     };
