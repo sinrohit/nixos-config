@@ -38,6 +38,15 @@
           programs.nixpkgs-fmt.enable = true;
         };
 
+        devShells.default = pkgs.mkShell {
+          name = "nixos-config-shell";
+          meta.description = "Shell environment for modifying this Nix configuration";
+          packages = with pkgs; [
+            just
+            nixd
+          ];
+        };
+
         packages.default = self'.packages.activate; # Enables `nix run`
 
       };
