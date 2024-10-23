@@ -32,16 +32,16 @@ in
       openssh.authorizedKeys.keys = cfg.pubKeys;
     });
 
- # home-manager.users =
- #   lib.flip lib.mapAttrs users (name: cfg: {
- #     imports = [
- #    #   ../../home/common.nix
- #    #   ../../home/neovim.nix
- #       cfg.homeModule
- #     ];
- #     home.stateVersion = "23.11";
- #   }); 
-  
+  # home-manager.users =
+  #   lib.flip lib.mapAttrs users (name: cfg: {
+  #     imports = [
+  #    #   ../../home/common.nix
+  #    #   ../../home/neovim.nix
+  #       cfg.homeModule
+  #     ];
+  #     home.stateVersion = "23.11";
+  #   }); 
+
   # Location: India
   time.timeZone = "Asia/Kolkata";
   i18n.defaultLocale = "en_IN";

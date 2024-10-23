@@ -19,7 +19,7 @@
         export PATH=/run/wrappers/bin:/run/current-system/sw/bin/:/nix/var/nix/profiles/default/bin:$HOME/.nix-profile/bin:/etc/profiles/per-user/$USER/bin:$PATH
 
         eval "$(zoxide init --cmd cd zsh)"
-       '';
+      '';
     };
 
     # Type `z <pat>` to cd to some directory

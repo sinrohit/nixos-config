@@ -11,8 +11,8 @@
       };
     }];
     ignores = [ "*~" "*.swp" ];
-      aliases = {
-        ci = "commit";
+    aliases = {
+      ci = "commit";
     };
     extraConfig = {
       # init.defaultBranch = "master";

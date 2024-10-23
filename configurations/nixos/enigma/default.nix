@@ -20,7 +20,7 @@ in
     extraSetFlags = [ "--advertise-exit-node" ];
   };
   virtualisation.docker.enable = true;
-  
+
   # Some machines may not have ethernet.
   networking.networkmanager.enable = true;
 }
