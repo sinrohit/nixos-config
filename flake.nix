@@ -5,6 +5,8 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
+    nix-darwin.url = "github:LnL7/nix-darwin";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     flake-parts.url = "github:hercules-ci/flake-parts";
@@ -56,6 +58,10 @@
         nixosConfigurations.enigma = self.nixos-unified.lib.mkLinuxSystem { home-manager = true; } {
           imports = [ ./hosts/enigma/configuration.nix ];
           nixos-unified.sshTarget = "rohit@100.124.228.49";
+        };
+
+        darwinConfigurations.rohitsingh-M4KLJ7DH4V = self.nixos-unified.lib.mkMacosSystem { home-manager = true; } {
+          imports = [ ./hosts/zion/configuration.nix ];
         };
       };
     };
