@@ -3,6 +3,8 @@
 
     # Principle inputs (updated by `nix run .#update`)
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nix-darwin.url = "github:LnL7/nix-darwin";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
@@ -29,6 +31,7 @@
       imports = [
         inputs.nixos-unified.flakeModule
         inputs.treefmt-nix.flakeModule
+        inputs.nixos-unified.flakeModules.autoWire
       ];
 
       perSystem = { pkgs, self', config, ... }: {
@@ -49,14 +52,6 @@
 
         packages.default = self'.packages.activate; # Enables `nix run`
 
-      };
-
-      flake = {
-        # Configurations for Linux (NixOS) machines
-        nixosConfigurations.enigma = self.nixos-unified.lib.mkLinuxSystem { home-manager = true; } {
-          imports = [ ./hosts/enigma/configuration.nix ];
-          nixos-unified.sshTarget = "rohit@100.124.228.49";
-        };
       };
     };
 }
