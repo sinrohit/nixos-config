@@ -7,6 +7,26 @@
   programs.nixvim = {
     enable = true;
 
+    plugins.lazygit.enable = true;
+
+    plugins.nvim-tree.enable = true;
+    keymaps = [
+      {
+        action = "<cmd>NvimTreeFindFileToggle<CR>";
+        key = "<leader>tt";
+      }
+      {
+        action = "<cmd>NvimTreeFindFile<CR>";
+        key = "<leader>tf";
+      }
+      # Lazygit keymap
+      {
+        action = "<cmd>LazyGit<CR>";
+        key = "<leader>gg";
+      }
+    ];
+
+
     # Theme
     colorschemes.gruvbox.enable = true;
 
@@ -28,6 +48,7 @@
     plugins = {
 
       # UI
+      web-devicons.enable = true;
       lualine.enable = true;
       bufferline.enable = true;
       treesitter.enable = true;
@@ -56,19 +77,43 @@
             options.desc = "find via grep";
             action = "live_grep";
           };
+          "<leader>fr" = {
+            options.desc = "recent files";
+            action = "oldfiles";
+          };
         };
         extensions = {
           file-browser.enable = true;
+          ui-select.enable = true;
+          frecency.enable = true;
+          fzf-native.enable = true;
         };
       };
 
       # Dev
       lsp = {
         enable = true;
+        keymaps = {
+          lspBuf = {
+            "gd" = "definition";
+            "gD" = "references";
+            "gt" = "type_definition";
+            "gi" = "implementation";
+            "K" = "hover";
+            "<leader>A" = "code_action";
+          };
+          diagnostic = {
+            "<leader>k" = "goto_prev";
+            "<leader>j" = "goto_next";
+          };
+        };
         servers = {
-          hls.enable = true;
+          hls = {
+            enable = true;
+            installGhc = false;
+          };
           marksman.enable = true;
-          nil-ls.enable = true;
+          nil_ls.enable = true;
           rust-analyzer = {
             enable = true;
             installCargo = false;
