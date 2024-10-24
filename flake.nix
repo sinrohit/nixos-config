@@ -56,12 +56,12 @@
       flake = {
         # Configurations for Linux (NixOS) machines
         nixosConfigurations.enigma = self.nixos-unified.lib.mkLinuxSystem { home-manager = true; } {
-          imports = [ ./hosts/enigma/configuration.nix ];
-          nixos-unified.sshTarget = "rohit@100.124.228.49";
+          imports = [ ./machines/enigma/configuration.nix ];
+          nixos-unified.sshTarget = "enigma";
         };
 
         darwinConfigurations.rohitsingh-M4KLJ7DH4V = self.nixos-unified.lib.mkMacosSystem { home-manager = true; } {
-          imports = [ ./hosts/zion/configuration.nix ];
+          imports = [ ./machines/zion/configuration.nix ];
         };
       };
     };
