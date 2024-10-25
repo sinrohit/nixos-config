@@ -2,17 +2,22 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, flake, ... }:
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./xrdp.nix
     ];
+  
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -47,8 +52,8 @@
   services.xserver.enable = true;
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+ # services.xserver.displayManager.gdm.enable = true;
+  #services.xserver.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
   services.xserver = {
@@ -59,58 +64,56 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  # Enable sound with pipewire.
-  sound.enable = true;
-  hardware.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
 
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
     #media-session.enable = true;
-  };
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
-  
+
   services.openssh.enable = true;
   services.tailscale.enable = true;
-  
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.rohit = {
+    shell = lib.getExe pkgs.zsh;
     isNormalUser = true;
     description = "Rohit Singh";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
       firefox
-    #  thunderbird
+      #  thunderbird
     ];
     openssh.authorizedKeys.keys = [
-    	"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCfoDIvV2Wm5MaOSH+AcfO8k2BpXIsBVgtNXHBB6USu8p/nk3OqF+gvtuHQZQbFzRROBVInFdkNz9pEbNehNG/128b0sGPfV9CvN6rbAQLoz4pT8qalB/UQkM9XlKqhh/ltL0SvGT/+n7SfV+HsFodgmqW4u801Wxyg4B2OSzmyhVApRP/ySLEzbKPySJDLCxlL55D6FJYcltY0jSF/8c88zd4kFEWeg71tZhf1nYiUJn5Gl7dA5K5V8wScfrqedZC6qVX6LRRKziBqCLi7DehZOooZaB5vDfMUylJpIP44Rxb0LkLLvcxRvNqQzVKGn2ubu++7FEOHGAy8qpNtd/AXPJEWW4Y+Pw1qQIQlVa6jVCI3/VCgsLSNL2mfh1J1HvYrsQ0p6oOEREIQ4tNOfPlUj5vJvHRBaNXW7m3v/K8Il93C+QjvIGxqYC4S1u4wAEVewbfysbi8rWx1y0EOElkr4e/zMOcqOh8YSuW6iVhUJDgcG1YdBFbe2yPyxm8G7hU= rohit.singh@rohit.singh-MacBookPro
-"
-    ]; 
-   };
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBc3JK3AUaZcZPcMJDd7Utmdk18ZF1moWbkNQSrYg1+o rsrohitsingh682@gmail.com"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEvCnbNCc22/DeR7cZVUHv3PwwfpL6kIAHO4Ns7SMj1h"
+    ];
+  };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  # Swap space
+  swapDevices = lib.mkIf pkgs.stdenv.isLinux [{
+    device = "/var/lib/swapfile";
+    size = 64 * 1024;
+  }];
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-   wget
-   vscode
-   slack
-   git
-   fd
-   lsof
-   redis
+    #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    wget
+    vscode
+    slack
+    git
+    fd
+    lsof
+    redis
+    zoxide
+    vim
+    flake.inputs.omnix.packages.${pkgs.system}.default
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -139,20 +142,22 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.05"; # Did you read the comment?
-  
- nix.settings.experimental-features = [ "nix-command" "flakes" ];
- nix.settings.max-jobs = "auto";
- nix.settings.trusted-users = [ "rohit" "root" ];
 
- # Disable the GNOME3/GDM auto-suspend feature that cannot be disabled in GUI!
- # If no user is logged in, the machine will power down after 20 minutes.
- systemd.targets.sleep.enable = false;
- systemd.targets.suspend.enable = false;
- systemd.targets.hibernate.enable = false;
- systemd.targets.hybrid-sleep.enable = false;
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.max-jobs = "auto";
+  nix.settings.trusted-users = [ "rohit" "root" ];
 
- services.mysql = {
-   enable = true;
-   package = pkgs.mysql80;
+  # Disable the GNOME3/GDM auto-suspend feature that cannot be disabled in GUI!
+  # If no user is logged in, the machine will power down after 20 minutes.
+  systemd.targets.sleep.enable = false;
+  systemd.targets.suspend.enable = false;
+  systemd.targets.hibernate.enable = false;
+  systemd.targets.hybrid-sleep.enable = false;
+
+  services.mysql = {
+    enable = true;
+    package = pkgs.mysql80;
   };
+  
+  virtualisation.docker.enable = true;
 }
