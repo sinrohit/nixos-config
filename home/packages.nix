@@ -15,6 +15,7 @@
     nil # Nix language server
     nix-info
     nixpkgs-fmt
+    nix-output-monitor
 
     # Dev
     tmate
