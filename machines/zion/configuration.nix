@@ -25,6 +25,7 @@
       ../../home/nix-index.nix
       ../../home/packages.nix
       ../../home/shell.nix
+      ../../home/tmux.nix
     ];
     home.stateVersion = "23.11";
   };
