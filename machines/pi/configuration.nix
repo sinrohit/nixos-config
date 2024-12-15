@@ -16,6 +16,11 @@
       fsType = "ext4";
       options = [ "noatime" ];
     };
+    "/mnt/immich" = {
+      device = "/dev/sda1";
+      fsType = "ext4";
+      options = [ "noatime" ];
+    };
   };
 
   age.secrets.acme-cloudflare = {
@@ -70,6 +75,7 @@
 
   services.immich = {
     enable = true;
+    mediaLocation = "/mnt/mydisk/immich";
     machine-learning.enable = false;
   };
 
@@ -93,7 +99,7 @@
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEvCnbNCc22/DeR7cZVUHv3PwwfpL6kIAHO4Ns7SMj1h"
       ];
     };
-    users.nginx.extraGroups = [ "acme" ];
+    users.nginx.extraGroups = [ "acme" "disk" ];
   };
 
   virtualisation.docker.enable = true;
