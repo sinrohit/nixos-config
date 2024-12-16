@@ -7,4 +7,5 @@ let
 in
 {
   "acme-cloudflare.age".publicKeys = [ rohit pi ];
+  "ddns-cloudflare.age".publicKeys = [ rohit pi ];
 }

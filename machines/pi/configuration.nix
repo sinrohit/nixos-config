@@ -23,10 +23,17 @@
     };
   };
 
-  age.secrets.acme-cloudflare = {
-    file = ../../secrets/acme-cloudflare.age;
-    owner = "nginx";
-    group = "users";
+  age.secrets = {
+    acme-cloudflare = {
+      file = ../../secrets/acme-cloudflare.age;
+      owner = "nginx";
+      group = "users";
+    };
+    ddns-cloudflare = {
+      file = ../../secrets/ddns-cloudflare.age;
+      owner = "ddns-updater";
+      group = "users";
+    };
   };
 
   networking = {
@@ -46,6 +53,13 @@
   services.tailscale = {
     enable = true;
     extraSetFlags = [ "--advertise-exit-node" ];
+  };
+
+  services.ddns-updater = {
+    enable = true;
+    environment = {
+      "CONFIG_FILEPATH" = config.age.secrets.ddns-cloudflare.path;
+    };
   };
   
   services.nginx = {
@@ -75,7 +89,7 @@
 
   services.immich = {
     enable = true;
-    mediaLocation = "/mnt/mydisk/immich";
+    mediaLocation = "/mnt/immich/immich";
     machine-learning.enable = false;
   };
 
@@ -100,6 +114,8 @@
       ];
     };
     users.nginx.extraGroups = [ "acme" "disk" ];
+    users.ddns-updater.isNormalUser = true;
+    users.immich.extraGroups = [ "disk" ];
   };
 
   virtualisation.docker.enable = true;
