@@ -57,7 +57,8 @@
        '';
        shellAliases = {
         ll = "ls -l";
-        #cd = "z";
+        lg = "lazygit";
+        cd = "z";
        };
    };  
    carapace.enable = true;
