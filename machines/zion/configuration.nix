@@ -5,7 +5,7 @@
   # Use TouchID for `sudo` authentication
   security.pam.enableSudoTouchIdAuth = true;
 
-  networking.hostName = "rohitsingh-M4KLJ7DH4V";
+  networking.hostName = "zion";
   nixpkgs.hostPlatform = "aarch64-darwin";
 
   # These users can add Nix caches.

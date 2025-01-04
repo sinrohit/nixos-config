@@ -60,7 +60,7 @@
           nixos-unified.sshTarget = "enigma";
         };
 
-        darwinConfigurations.rohitsingh-M4KLJ7DH4V = self.nixos-unified.lib.mkMacosSystem { home-manager = true; } {
+        darwinConfigurations.zion = self.nixos-unified.lib.mkMacosSystem { home-manager = true; } {
           imports = [ ./machines/zion/configuration.nix ];
         };
       };
