@@ -10,6 +10,7 @@
 
   # These users can add Nix caches.
   nix.settings.trusted-users = [ "root" "rohit.singh" ];
+  nix.channel.enable = false;
 
   nix.nixPath = [ "nixpkgs=${flake.inputs.nixpkgs}" ]; # Enables use of `nix-shell -p ...` etc
   nix.registry.nixpkgs.flake = flake.inputs.nixpkgs; # Make `nix shell` etc use pinned nixpkgs
