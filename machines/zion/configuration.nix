@@ -9,24 +9,19 @@
   nixpkgs.hostPlatform = "aarch64-darwin";
 
   # These users can add Nix caches.
-  nix.settings.trusted-users = [ "root" "rohit.singh" ];
+  nix.settings.trusted-users = [ "root" "rohit" ];
   nix.channel.enable = false;
 
   nix.nixPath = [ "nixpkgs=${flake.inputs.nixpkgs}" ]; # Enables use of `nix-shell -p ...` etc
   nix.registry.nixpkgs.flake = flake.inputs.nixpkgs; # Make `nix shell` etc use pinned nixpkgs
+  
+  services.tailscale.enable = true;
 
-  users.users."rohit.singh".home = "/Users/rohit.singh";
+  users.users."rohit".home = "/Users/rohit";
 
-  home-manager.users."rohit.singh" = {
+  home-manager.users."rohit" = {
     imports = [
-      ../../home/direnv.nix
-      ../../home/gc.nix
-      ../../home/git.nix
-      ../../home/neovim.nix
-      ../../home/nix-index.nix
-      ../../home/packages.nix
-      ../../home/shell.nix
-      ../../home/tmux.nix
+      ../../home/default.nix
     ];
     home.stateVersion = "23.11";
   };

@@ -58,7 +58,7 @@
       noice = {
         # WARNING: This is considered experimental feature, but provides nice UX
         enable = true;
-        presets = {
+        settings.presets = {
           bottom_search = true;
           command_palette = true;
           long_message_to_split = true;
@@ -114,7 +114,7 @@
           };
           marksman.enable = true;
           nil_ls.enable = true;
-          rust-analyzer = {
+          rust_analyzer = {
             enable = true;
             installCargo = false;
             installRustc = false;
