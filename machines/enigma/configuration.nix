@@ -43,14 +43,14 @@ in
   home-manager.users =
     lib.flip lib.mapAttrs users (name: cfg: {
       imports = [
-      ../../home/direnv.nix
-      ../../home/gc.nix
-      ../../home/git.nix
-      ../../home/neovim.nix
-      ../../home/nix-index.nix
-      ../../home/packages.nix
-      ../../home/shell.nix
-      ../../home/tmux.nix
+        ../../home/direnv.nix
+        ../../home/gc.nix
+        ../../home/git.nix
+        ../../home/neovim.nix
+        ../../home/nix-index.nix
+        ../../home/packages.nix
+        ../../home/shell.nix
+        ../../home/tmux.nix
       ];
       home.stateVersion = "23.11";
     });

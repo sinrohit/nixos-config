@@ -14,7 +14,7 @@
 
   nix.nixPath = [ "nixpkgs=${flake.inputs.nixpkgs}" ]; # Enables use of `nix-shell -p ...` etc
   nix.registry.nixpkgs.flake = flake.inputs.nixpkgs; # Make `nix shell` etc use pinned nixpkgs
-  
+
   services.tailscale.enable = true;
 
   users.users."rohit".home = "/Users/rohit";

@@ -10,7 +10,7 @@
 
     baseIndex = 1;
 
-     plugins = with pkgs; [
+    plugins = with pkgs; [
       tmuxPlugins.better-mouse-mode
       {
         plugin = tmuxPlugins.catppuccin;
