@@ -9,5 +9,5 @@ This repository contains the Nix / NixOS configuration for all of my systems. Se
 Update the configuration of the system by running below command from the `devShell`
 
 ```sh
-just deploy enigma
+just deploy zion
 ```

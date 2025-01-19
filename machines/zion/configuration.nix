@@ -9,7 +9,7 @@
   nixpkgs.hostPlatform = "aarch64-darwin";
 
   # These users can add Nix caches.
-  nix.settings.trusted-users = [ "root" "rohit" ];
+  nix.settings.trusted-users = [ "root" "${flake.config.me.username}" ];
   nix.channel.enable = false;
 
   nix.nixPath = [ "nixpkgs=${flake.inputs.nixpkgs}" ]; # Enables use of `nix-shell -p ...` etc
@@ -17,9 +17,9 @@
 
   services.tailscale.enable = true;
 
-  users.users."rohit".home = "/Users/rohit";
+  users.users."${flake.config.me.username}".home = "/Users/${flake.config.me.username}";
 
-  home-manager.users."rohit" = {
+  home-manager.users."${flake.config.me.username}" = {
     imports = [
       ../../home/default.nix
     ];

@@ -3,8 +3,6 @@
 
     # Principle inputs (updated by `nix run .#update`)
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    disko.url = "github:nix-community/disko";
-    disko.inputs.nixpkgs.follows = "nixpkgs";
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
@@ -27,10 +25,11 @@
 
   outputs = inputs@{ self, ... }:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
-      systems = [ "x86_64-linux" "aarch64-darwin" ];
+      systems = import inputs.systems;
       imports = [
         inputs.nixos-unified.flakeModule
         inputs.treefmt-nix.flakeModule
+        ./config.nix
       ];
 
       perSystem = { pkgs, self', config, ... }: {
