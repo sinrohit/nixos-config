@@ -22,7 +22,9 @@
     isNormalUser = true;
     shell = lib.getExe pkgs.zsh;
     extraGroups = [ "networkmanager" "wheel" "docker" ];
-    openssh.authorizedKeys.keys = flake.config.me.sshKey;
+    openssh.authorizedKeys.keys = [
+      "${flake.config.me.sshKey}"
+    ];
   };
 
   nix.settings.trusted-users = [ "root" "${flake.config.me.username}" ];
@@ -33,14 +35,7 @@
 
   home-manager.users."${flake.config.me.username}" = {
     imports = [
-      ../../home/direnv.nix
-      ../../home/gc.nix
-      ../../home/git.nix
-      ../../home/neovim.nix
-      ../../home/nix-index.nix
-      ../../home/packages.nix
-      ../../home/shell.nix
-      ../../home/tmux.nix
+      ../../home/default.nix
     ];
     home.stateVersion = "23.11";
   };
