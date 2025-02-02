@@ -25,6 +25,7 @@
     less
 
     flake.inputs.omnix.packages.${pkgs.system}.default
+    flake.inputs.nvnix.packages.${pkgs.system}.default
 
     # TODO: This should be installed only for admins
     (pkgs.writeShellApplication {
