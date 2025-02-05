@@ -110,7 +110,7 @@
       isNormalUser = true;
       extraGroups = [ "wheel" "docker" "networkmanager" ];
       openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEvCnbNCc22/DeR7cZVUHv3PwwfpL6kIAHO4Ns7SMj1h"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH7XfzR41VnfOP4Dh6Jxkew6Jz1BA9zAaXZMieAC9BSp"
       ];
     };
     users.nginx.extraGroups = [ "acme" "disk" ];
