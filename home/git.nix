@@ -1,23 +1,14 @@
+{ flake, ... }:
 {
   programs.git = {
     enable = true;
-    userName = "Rohit Singh";
-    userEmail = "rsrohitsingh682@gmail.com";
-    includes = [{
-      condition = "gitdir:~/euler/**";
-      contents = {
-        user.email = "rohit.singh@juspay.in";
-        user.name = "Rohit Singh";
-      };
-    }];
+    userName = flake.config.me.fullname;
+    userEmail = flake.config.me.email;
     ignores = [ "*~" "*.swp" ];
     aliases = {
       ci = "commit";
     };
-    extraConfig = {
-      # init.defaultBranch = "master";
-      # pull.rebase = "false";
-    };
+    extraConfig = { };
   };
 
   home.shellAliases = {

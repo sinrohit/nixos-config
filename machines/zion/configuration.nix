@@ -5,15 +5,21 @@
   # Use TouchID for `sudo` authentication
   security.pam.enableSudoTouchIdAuth = true;
 
-  networking.hostName = "rohitsingh-M4KLJ7DH4V";
+  networking.hostName = "zion";
   nixpkgs.hostPlatform = "aarch64-darwin";
 
   # These users can add Nix caches.
-  nix.settings.trusted-users = [ "root" "rohit.singh" ];
+  nix.settings.trusted-users = [ "root" "${flake.config.me.username}" ];
+  nix.channel.enable = false;
 
-  users.users."rohit.singh".home = "/Users/rohit.singh";
+  nix.nixPath = [ "nixpkgs=${flake.inputs.nixpkgs}" ]; # Enables use of `nix-shell -p ...` etc
+  nix.registry.nixpkgs.flake = flake.inputs.nixpkgs; # Make `nix shell` etc use pinned nixpkgs
 
-  home-manager.users."rohit.singh" = {
+  services.tailscale.enable = true;
+
+  users.users."${flake.config.me.username}".home = "/Users/${flake.config.me.username}";
+
+  home-manager.users."${flake.config.me.username}" = {
     imports = [
       ../../home/default.nix
     ];
