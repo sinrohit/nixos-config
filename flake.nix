@@ -16,6 +16,7 @@
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
     nvnix.url = "github:rsrohitsingh682/nvnix";
     nvnix.inputs.nixpkgs.follows = "nixpkgs";
+    ragenix.url = "github:yaxitech/ragenix";
 
     omnix.url = "github:juspay/omnix";
 
