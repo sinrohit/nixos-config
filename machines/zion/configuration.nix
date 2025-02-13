@@ -19,6 +19,17 @@
 
   users.users."${flake.config.me.username}".home = "/Users/${flake.config.me.username}";
 
+  nix.distributedBuilds = true;
+  nix.buildMachines = [{
+    hostName = "build-box.nix-community.org";
+    sshUser = "sinrohit";
+    sshKey = "/Users/${flake.config.me.username}/.ssh/id_ed25519";
+    system = "x86_64-linux";
+    supportedFeatures = [ "kvm" "benchmark" "big-parallel" ];
+    publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUVsSVE1NHFBeTdEaDYzckJ1ZFlLZGJ6SkhycmJyck1YTFlsN1BrbWs4OEg=";
+  }];
+  nix.settings.builders-use-substitutes = true;
+
   home-manager.users."${flake.config.me.username}" = {
     imports = [
       ../../home/default.nix
