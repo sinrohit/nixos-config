@@ -63,7 +63,7 @@
           };
 
           pi = self.nixos-unified.lib.mkLinuxSystem { home-manager = false; } {
-            imports = [ 
+            imports = [
               ./machines/pi/configuration.nix
               inputs.ragenix.nixosModules.default
             ];

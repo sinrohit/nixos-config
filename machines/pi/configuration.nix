@@ -61,30 +61,30 @@
       "CONFIG_FILEPATH" = config.age.secrets.ddns-cloudflare.path;
     };
   };
-  
+
   services.nginx = {
     enable = true;
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
 
     virtualHosts."vault.rdev.in" = {
-     useACMEHost = "rdev.in";
-     forceSSL = true;
+      useACMEHost = "rdev.in";
+      forceSSL = true;
       locations."/" = {
         proxyPass = "http://localhost:${toString config.services.vaultwarden.config.ROCKET_PORT}";
         proxyWebsockets = true;
       };
     };
     virtualHosts."immich.rdev.in" = {
-     useACMEHost = "rdev.in";
-     forceSSL = true;
+      useACMEHost = "rdev.in";
+      forceSSL = true;
       locations."/" = {
         proxyPass = "http://localhost:2283";
         proxyWebsockets = true;
       };
     };
   };
-  
+
   services.vaultwarden.enable = true;
 
   services.immich = {
@@ -119,7 +119,7 @@
   };
 
   virtualisation.docker.enable = true;
-  
+
   # Allow unfree packages
   nixpkgs.config = {
     allowBroken = true;
