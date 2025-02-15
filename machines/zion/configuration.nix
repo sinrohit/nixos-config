@@ -12,6 +12,21 @@
   nix.settings.trusted-users = [ "root" "${flake.config.me.username}" ];
   nix.channel.enable = false;
 
+  nix.linux-builder = {
+    enable = true;
+    systems = [ "aarch64-linux" ];
+    maxJobs = 4;
+    config = {
+      virtualisation = {
+        darwin-builder = {
+          diskSize = 40 * 1024;
+          memorySize = 8 * 1024;
+        };
+        cores = 6;
+      };
+    };
+  };
+
   nix.nixPath = [ "nixpkgs=${flake.inputs.nixpkgs}" ]; # Enables use of `nix-shell -p ...` etc
   nix.registry.nixpkgs.flake = flake.inputs.nixpkgs; # Make `nix shell` etc use pinned nixpkgs
 
