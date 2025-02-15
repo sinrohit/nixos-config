@@ -16,6 +16,7 @@
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
     nvnix.url = "github:rsrohitsingh682/nvnix";
     nvnix.inputs.nixpkgs.follows = "nixpkgs";
+    ragenix.url = "github:yaxitech/ragenix";
 
     omnix.url = "github:juspay/omnix";
 
@@ -32,7 +33,7 @@
         ./config.nix
       ];
 
-      perSystem = { pkgs, self', config, ... }: {
+      perSystem = { pkgs, self', config, inputs', ... }: {
 
         treefmt.config = {
           projectRootFile = "flake.nix";
@@ -45,6 +46,7 @@
           packages = with pkgs; [
             just
             nixd
+            inputs'.ragenix.packages.default
           ];
         };
 
@@ -54,9 +56,20 @@
 
       flake = {
         # Configurations for Linux (NixOS) machines
-        nixosConfigurations.enigma = self.nixos-unified.lib.mkLinuxSystem { home-manager = true; } {
-          imports = [ ./machines/enigma/configuration.nix ];
-          nixos-unified.sshTarget = "enigma";
+        nixosConfigurations = {
+          enigma = self.nixos-unified.lib.mkLinuxSystem { home-manager = true; } {
+            imports = [ ./machines/enigma/configuration.nix ];
+            nixos-unified.sshTarget = "enigma";
+          };
+
+          pi = self.nixos-unified.lib.mkLinuxSystem { home-manager = false; } {
+            imports = [ 
+              ./machines/pi/configuration.nix
+              inputs.ragenix.nixosModules.default
+            ];
+            nixos-unified.sshTarget = "pi";
+          };
+
         };
 
         darwinConfigurations.zion = self.nixos-unified.lib.mkMacosSystem { home-manager = true; } {
