@@ -54,6 +54,12 @@
 
       };
 
+      flake.checks.x86_64-linux = {
+        enigma = self.nixosConfigurations.enigma.config.system.build.toplevel;
+
+        pi = self.nixosConfigurations.pi.config.system.build.toplevel;
+      };
+
       flake = {
         # Configurations for Linux (NixOS) machines
         nixosConfigurations = {
