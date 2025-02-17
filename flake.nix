@@ -10,6 +10,7 @@
     flake-parts.url = "github:hercules-ci/flake-parts";
     nixos-unified.url = "github:srid/nixos-unified";
     systems.url = "github:nix-systems/default";
+    nixos-hardware.url = "github:nixos/nixos-hardware";
 
     # Software inputs
     nix-index-database.url = "github:nix-community/nix-index-database";
@@ -58,6 +59,8 @@
         enigma = self.nixosConfigurations.enigma.config.system.build.toplevel;
 
         pi = self.nixosConfigurations.pi.config.system.build.toplevel;
+
+        riscv = self.nixosConfigurations.riscv.config.system.build.toplevel;
       };
 
       flake = {
@@ -74,6 +77,13 @@
               inputs.ragenix.nixosModules.default
             ];
             nixos-unified.sshTarget = "pi";
+          };
+
+          riscv = self.nixos-unified.lib.mkLinuxSystem { home-manager = false; } {
+            imports = [
+              ./machines/riscv/configuration.nix
+            ];
+            nixos-unified.sshTarget = "riscv";
           };
 
         };
