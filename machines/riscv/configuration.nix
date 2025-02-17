@@ -23,6 +23,12 @@
         "${flake.config.me.sshKey}"
       ];
     };
+    users.nixos = {
+      isNormalUser = true;
+      openssh.authorizedKeys.keys = [
+        "${flake.config.me.sshKey}"
+      ];
+    };
   };
 
   environment.systemPackages = with pkgs; [ git vim ];
