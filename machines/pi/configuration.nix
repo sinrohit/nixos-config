@@ -6,7 +6,7 @@
     initrd.availableKernelModules = [ "xhci_pci" "usbhid" "usb_storage" ];
     loader = {
       grub.enable = false;
-      generic-extlinux-compatible.enable = true;
+      generic-extlinux-compatible.enable = true; 
     };
   };
 

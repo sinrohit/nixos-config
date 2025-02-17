@@ -2,7 +2,7 @@
 {
   programs.tmux = {
 
-    prefix = "^A";
+    prefix = "^B";
 
     shell = lib.getExe pkgs.zsh;
 
