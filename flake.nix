@@ -59,6 +59,8 @@
         enigma = self.nixosConfigurations.enigma.config.system.build.toplevel;
 
         pi = self.nixosConfigurations.pi.config.system.build.toplevel;
+
+        riscv = self.nixosConfigurations.riscv.config.system.build.toplevel;
       };
 
       flake = {
