@@ -10,6 +10,18 @@
 
   # These users can add Nix caches.
   nix.settings.trusted-users = [ "root" "${flake.config.me.username}" ];
+  nix.settings = {
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+    substituters = [
+      "https://cache.clan.lol"
+    ];
+    trusted-public-keys = [
+      "cache.clan.lol-1:3KztgSAB5R1M+Dz7vzkBGzXdodizbgLXGXKXlcQLA28="
+    ];
+  };
   nix.channel.enable = false;
 
   nix.linux-builder = {
