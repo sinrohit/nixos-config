@@ -16,7 +16,7 @@
       fsType = "ext4";
       options = [ "noatime" ];
     };
-    "/mnt/immich" = {
+    "/media" = {
       device = "/dev/sda1";
       fsType = "ext4";
       options = [ "noatime" ];
@@ -46,7 +46,7 @@
   environment.systemPackages = with pkgs; [ git vim ];
   nixpkgs.hostPlatform = "aarch64-linux";
 
-  nix.settings.trusted-users = [ "root" "wheel" ];
+  nix.settings.trusted-users = [ "root" "@wheel" ];
 
   services.openssh.enable = true;
   services.openssh.settings.PasswordAuthentication = false;
@@ -89,7 +89,7 @@
 
   services.immich = {
     enable = true;
-    mediaLocation = "/mnt/immich/immich";
+    mediaLocation = "/media/immich";
     machine-learning.enable = false;
   };
 
@@ -108,23 +108,22 @@
   users = {
     users.rohit = {
       isNormalUser = true;
-      extraGroups = [ "wheel" "docker" "networkmanager" ];
+      extraGroups = [ "wheel" "networkmanager" ];
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOWUINFSlhsbwckdAlvE/V1ESIk0yXdVvE/BuMEJpEvl"
       ];
     };
     users.nginx.extraGroups = [ "acme" "disk" ];
     users.ddns-updater.isNormalUser = true;
-    users.immich.extraGroups = [ "disk" ];
   };
-
-  virtualisation.docker.enable = true;
 
   # Allow unfree packages
   nixpkgs.config = {
     allowBroken = true;
     allowUnfree = true;
   };
+
+  nix.gc.automatic = true;
 
   hardware.enableRedistributableFirmware = true;
   system.stateVersion = "23.11";
