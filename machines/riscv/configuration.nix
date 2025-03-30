@@ -33,7 +33,7 @@
   };
 
   environment.systemPackages = with pkgs; [ git vim ];
-  nix.settings.trusted-users = [ "root" "wheel" "sinrohit" ];
+  nix.settings.trusted-users = [ "root" "@wheel" "sinrohit" ];
   nix.settings = {
     experimental-features = [
       "nix-command"
