@@ -1,6 +1,11 @@
 # This is your nix-darwin configuration.
 # For home configuration, see /modules/home/*
-{ flake, pkgs, lib, ... }: {
+{ flake
+, pkgs
+, lib
+, ...
+}:
+{
 
   # Use TouchID for `sudo` authentication
   security.pam.services.sudo_local.touchIdAuth = true;
@@ -9,7 +14,10 @@
   nixpkgs.hostPlatform = "aarch64-darwin";
 
   # These users can add Nix caches.
-  nix.settings.trusted-users = [ "root" "${flake.config.me.username}" ];
+  nix.settings.trusted-users = [
+    "root"
+    "${flake.config.me.username}"
+  ];
   nix.settings = {
     experimental-features = [
       "nix-command"
@@ -25,8 +33,7 @@
   nix.channel.enable = false;
 
   nix.linux-builder = {
-    enable = true;
-    systems = [ "aarch64-linux" ];
+    enable = false;
     maxJobs = 4;
     config = {
       virtualisation = {
@@ -47,14 +54,37 @@
   users.users."${flake.config.me.username}".home = "/Users/${flake.config.me.username}";
 
   nix.distributedBuilds = true;
-  nix.buildMachines = [{
-    hostName = "build-box.nix-community.org";
-    sshUser = "sinrohit";
-    sshKey = "/Users/${flake.config.me.username}/.ssh/id_ed25519";
-    system = "x86_64-linux";
-    supportedFeatures = [ "kvm" "benchmark" "big-parallel" ];
-    publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUVsSVE1NHFBeTdEaDYzckJ1ZFlLZGJ6SkhycmJyck1YTFlsN1BrbWs4OEg=";
-  }];
+  nix.buildMachines = [
+    {
+      hostName = "build-box.nix-community.org";
+      sshUser = "sinrohit";
+      sshKey = "/Users/${flake.config.me.username}/.ssh/id_ed25519";
+      systems = [
+        "x86_64-linux"
+      ];
+      supportedFeatures = [
+        "kvm"
+        "benchmark"
+        "big-parallel"
+      ];
+      publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUVsSVE1NHFBeTdEaDYzckJ1ZFlLZGJ6SkhycmJyck1YTFlsN1BrbWs4OEg=";
+    }
+    {
+      hostName = "aarch64-build-box.nix-community.org";
+      maxJobs = 12;
+      sshUser = "sinrohit";
+      sshKey = "/Users/${flake.config.me.username}/.ssh/id_ed25519";
+      systems = [
+        "aarch64-linux"
+      ];
+      supportedFeatures = [
+        "kvm"
+        "benchmark"
+        "big-parallel"
+      ];
+      publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUc5dXlmaHlsaStCUnRrNjR5K25pcXRiK3NLcXVSR0daODdmNFlSYzhFRTE=";
+    }
+  ];
   nix.settings.builders-use-substitutes = true;
 
   home-manager.users."${flake.config.me.username}" = {
