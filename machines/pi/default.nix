@@ -1,9 +1,22 @@
-{ config, pkgs, ... }:
 {
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
+{
+
+  imports = [
+    inputs.ragenix.nixosModules.default
+  ];
 
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
-    initrd.availableKernelModules = [ "xhci_pci" "usbhid" "usb_storage" ];
+    initrd.availableKernelModules = [
+      "xhci_pci"
+      "usbhid"
+      "usb_storage"
+    ];
     loader = {
       grub.enable = false;
       generic-extlinux-compatible.enable = true;
@@ -43,10 +56,16 @@
     };
   };
 
-  environment.systemPackages = with pkgs; [ git vim ];
+  environment.systemPackages = with pkgs; [
+    git
+    vim
+  ];
   nixpkgs.hostPlatform = "aarch64-linux";
 
-  nix.settings.trusted-users = [ "root" "@wheel" ];
+  nix.settings.trusted-users = [
+    "root"
+    "@wheel"
+  ];
 
   services.openssh.enable = true;
   services.openssh.settings.PasswordAuthentication = false;
@@ -106,14 +125,10 @@
   };
 
   users = {
-    users.rohit = {
-      isNormalUser = true;
-      extraGroups = [ "wheel" "networkmanager" ];
-      openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOWUINFSlhsbwckdAlvE/V1ESIk0yXdVvE/BuMEJpEvl"
-      ];
-    };
-    users.nginx.extraGroups = [ "acme" "disk" ];
+    users.nginx.extraGroups = [
+      "acme"
+      "disk"
+    ];
     users.ddns-updater.isNormalUser = true;
   };
 

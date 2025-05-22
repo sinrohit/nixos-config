@@ -1,7 +1,7 @@
-{ pkgs, config, lib, ... }:
-{
+{ pkgs, lib, ... }: {
   programs.tmux = {
 
+    enable = true;
     prefix = "^B";
 
     shell = lib.getExe pkgs.zsh;
@@ -14,7 +14,7 @@
       tmuxPlugins.better-mouse-mode
       {
         plugin = tmuxPlugins.catppuccin;
-        extraConfig = '' 
+        extraConfig = ''
           set -g @catppuccin_window_left_separator ""
           set -g @catppuccin_window_right_separator " "
           set -g @catppuccin_window_middle_separator " █"

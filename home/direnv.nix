@@ -1,6 +1,5 @@
-{ config, pkgs, ... }:
+{ ... }:
 {
-  # https://nixos.asia/en/direnv
   programs.direnv = {
     enable = true;
     nix-direnv = {
