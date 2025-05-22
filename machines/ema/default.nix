@@ -1,0 +1,154 @@
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+{
+  imports = [
+    ./hardware-configuration.nix
+    ../../modules/vmware-guest.nix
+  ];
+
+  # Be careful updating this.
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
+  # Use the systemd-boot EFI boot loader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+  # VMware, Parallels both only support this being 0 otherwise you see
+  # "error switching console mode" on boot.
+  boot.loader.systemd-boot.consoleMode = "0";
+
+  # Setup qemu so we can run x86_64 binaries
+  boot.binfmt.emulatedSystems = [ "x86_64-linux" ];
+
+  networking.hostName = "ema";
+
+  time.timeZone = "Asia/Kolkata";
+
+  # Disable the default module and import our override. We have
+  # customizations to make this work on aarch64.
+  disabledModules = [ "virtualisation/vmware-guest.nix" ];
+
+  # The global useDHCP flag is deprecated, therefore explicitly set to false here.
+  # Per-interface useDHCP will be mandatory in the future, so this generated config
+  # replicates the default behaviour.
+  networking.useDHCP = false;
+
+  # Disable the firewall since we're in a VM and we want to make it
+  # easy to visit stuff in here. We only use NAT networking anyways.
+  networking.firewall.enable = false;
+
+  # Interface is this on M1
+  networking.interfaces.ens160.useDHCP = true;
+
+  # Lots of stuff that uses aarch64 that claims doesn't work, but actually works.
+  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowUnsupportedSystem = true;
+
+  # This works through our custom module imported above
+  virtualisation.vmware.guest.enable = true;
+
+  # Share our host filesystem
+  fileSystems."/host" = {
+    fsType = "fuse./run/current-system/sw/bin/vmhgfs-fuse";
+    device = ".host:/";
+    options = [
+      "umask=22"
+      "uid=1000"
+      "gid=1000"
+      "allow_other"
+      "auto_unmount"
+      "defaults"
+    ];
+  };
+
+  nix = {
+    package = pkgs.nixVersions.latest;
+    extraOptions = ''
+      experimental-features = nix-command flakes
+      keep-outputs = true
+      keep-derivations = true
+    '';
+  };
+
+  nixpkgs.config.permittedInsecurePackages = [
+    # Needed for k2pdfopt 2.53.
+    "mupdf-1.17.0"
+  ];
+  # Don't require password for sudo
+  security.sudo.wheelNeedsPassword = false;
+
+  # Enable tailscale. We manually authenticate when we want with
+  # "sudo tailscale up". If you don't use tailscale, you should comment
+  # out or delete all of this.
+  services.tailscale.enable = true;
+
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.mutableUsers = false;
+  # Manage fonts. We pull these from a secret directory since most of these
+  # fonts require a purchase.
+  fonts = {
+    fontDir.enable = true;
+
+    packages = [
+      pkgs.fira-code
+      pkgs.jetbrains-mono
+      pkgs.font-awesome
+    ];
+  };
+
+  # List packages installed in system profile. To search, run:
+  # $ nix search wget
+  environment.systemPackages = with pkgs; [
+    cachix
+    gnumake
+    killall
+    niv
+    xclip
+
+    # Packages required for xmonad
+    dunst
+    picom
+    feh
+    xmobar-custom
+    (nerdfonts.override {
+      fonts = [
+        "JetBrainsMono"
+        "NerdFontsSymbolsOnly"
+      ];
+    })
+
+    # For hypervisors that support auto-resizing, this script forces it.
+    # I've noticed not everyone listens to the udev events so this is a hack.
+    (writeShellScriptBin "xrandr-auto" ''
+      xrandr --output Virtual-1 --auto
+    '')
+    # This is needed for the vmware user tools clipboard to work.
+    # You can test if you don't need this by deleting this and seeing
+    # if the clipboard sill works.
+    gtkmm3
+  ];
+
+  # Our default non-specialised desktop environment.
+  services.xserver = lib.mkIf (config.specialisation != { }) {
+    enable = true;
+    xkb.layout = "us";
+    desktopManager.gnome.enable = true;
+    displayManager.gdm.enable = true;
+  };
+
+  # Enable the OpenSSH daemon.
+  services.openssh.enable = true;
+  services.openssh.settings.PasswordAuthentication = true;
+  services.openssh.settings.PermitRootLogin = "no";
+
+  # This value determines the NixOS release from which the default
+  # settings for stateful data, like file locations and database versions
+  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # this value at the release version of the first install of this system.
+  # Before changing this value read the documentation for this option
+  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+  system.stateVersion = "20.09"; # Did you read the comment?
+}
