@@ -1,95 +1,74 @@
 {
+  description = "NixOS systems";
+
   inputs = {
 
-    # Principle inputs (updated by `nix run .#update`)
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nix-darwin.url = "github:LnL7/nix-darwin";
-    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-    home-manager.url = "github:nix-community/home-manager";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    flake-parts.url = "github:hercules-ci/flake-parts";
-    nixos-unified.url = "github:srid/nixos-unified";
-    systems.url = "github:nix-systems/default";
-    nixos-hardware.url = "github:nixos/nixos-hardware";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
 
-    # Software inputs
-    nix-index-database.url = "github:nix-community/nix-index-database";
-    nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
-    nvnix.url = "github:rsrohitsingh682/nvnix";
-    nvnix.inputs.nixpkgs.follows = "nixpkgs";
+    # Used to get ibus 1.5.29 which has some quirks we want to test.
+    nixpkgs-old-ibus.url = "github:nixos/nixpkgs/e2dd4e18cc1c7314e24154331bae07df76eb582f";
+
+    # We use the unstable nixpkgs repo for some packages.
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+
+    home-manager = {
+      url = "github:nix-community/home-manager/release-24.11";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nix-darwin = {
+      url = "github:nix-darwin/nix-darwin/nix-darwin-24.11";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    flake-parts.url = "github:hercules-ci/flake-parts";
     ragenix.url = "github:yaxitech/ragenix";
 
-    omnix.url = "github:juspay/omnix";
-
-    # Devshell
-    treefmt-nix.url = "github:numtide/treefmt-nix";
   };
 
-  outputs = inputs@{ self, ... }:
+  outputs =
+    inputs@{ self, ... }:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
-      systems = import inputs.systems;
-      imports = [
-        inputs.nixos-unified.flakeModule
-        inputs.treefmt-nix.flakeModule
-        ./config.nix
+      systems = [
+        "aarch64-darwin"
+        "aarch64-linux"
+        "x86_64-linux"
       ];
+      imports = [ ./lib/mksystem.nix ];
 
-      perSystem = { pkgs, self', config, inputs', ... }: {
+      perSystem =
+        {
+          pkgs,
+          inputs',
+          ...
+        }:
+        {
 
-        treefmt.config = {
-          projectRootFile = "flake.nix";
-          programs.nixpkgs-fmt.enable = true;
+          devShells.default = pkgs.mkShell {
+            name = "nixos-config-shell";
+            meta.description = "Shell environment for modifying this Nix configuration";
+            packages = with pkgs; [
+              nixd
+              nil
+              inputs'.ragenix.packages.default
+            ];
+          };
+
         };
-
-        devShells.default = pkgs.mkShell {
-          name = "nixos-config-shell";
-          meta.description = "Shell environment for modifying this Nix configuration";
-          packages = with pkgs; [
-            just
-            nixd
-            inputs'.ragenix.packages.default
-          ];
-        };
-
-        packages.default = self'.packages.activate; # Enables `nix run`
-
-      };
-
-      flake.checks.x86_64-linux = {
-        enigma = self.nixosConfigurations.enigma.config.system.build.toplevel;
-
-        pi = self.nixosConfigurations.pi.config.system.build.toplevel;
-
-        riscv = self.nixosConfigurations.riscv.config.system.build.toplevel;
-      };
 
       flake = {
-        # Configurations for Linux (NixOS) machines
         nixosConfigurations = {
-          enigma = self.nixos-unified.lib.mkLinuxSystem { home-manager = true; } {
-            imports = [ ./machines/enigma/configuration.nix ];
-            nixos-unified.sshTarget = "enigma";
-          };
-
-          pi = self.nixos-unified.lib.mkLinuxSystem { home-manager = false; } {
-            imports = [
-              ./machines/pi/configuration.nix
-              inputs.ragenix.nixosModules.default
-            ];
-            nixos-unified.sshTarget = "pi";
-          };
-
-          riscv = self.nixos-unified.lib.mkLinuxSystem { home-manager = false; } {
-            imports = [
-              ./machines/riscv/configuration.nix
-            ];
-            nixos-unified.sshTarget = "riscv";
-          };
-
+          ema = self.mkSystem.nixOS "ema" { withHomeManager = true; };
+          pi = self.mkSystem.nixOS "pi";
         };
 
-        darwinConfigurations.zion = self.nixos-unified.lib.mkMacosSystem { home-manager = true; } {
-          imports = [ ./machines/zion/configuration.nix ];
+        darwinConfigurations.zion = self.mkSystem.macOS "zion" { withHomeManager = true; };
+
+        checks.x86_64-linux = {
+
+          ema = self.nixosConfigurations.ema.config.system.build.toplevel;
+
+          pi = self.nixosConfigurations.pi.config.system.build.toplevel;
         };
       };
     };
