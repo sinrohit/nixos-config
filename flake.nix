@@ -64,7 +64,7 @@
 
         darwinConfigurations.zion = self.mkSystem.macOS "zion" { withHomeManager = true; };
 
-        checks.x86_64-linux = {
+        checks.aarch64-linux = {
 
           ema = self.nixosConfigurations.ema.config.system.build.toplevel;
 
