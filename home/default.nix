@@ -51,7 +51,7 @@ in
       sentry-cli
       tree
       watch
-      nixfmt-rfc-style
+      nixfmt-tree
     ]
     ++ (lib.optionals isDarwin [
       # This is automatically setup on Linux
