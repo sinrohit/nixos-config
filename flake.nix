@@ -5,9 +5,6 @@
 
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
 
-    # Used to get ibus 1.5.29 which has some quirks we want to test.
-    nixpkgs-old-ibus.url = "github:nixos/nixpkgs/e2dd4e18cc1c7314e24154331bae07df76eb582f";
-
     # We use the unstable nixpkgs repo for some packages.
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
