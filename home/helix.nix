@@ -41,7 +41,7 @@
       nixd.command = lib.getExe pkgs.nixd;
       nil.command = lib.getExe pkgs.nil;
       hls.command = lib.getExe pkgs.haskell-language-server;
-      rust-analyzer = lib.getExe pkgs.rust-rust-analyzer;
+      rust-analyzer.command = lib.getExe pkgs.rust-analyzer;
     };
 
     settings = {

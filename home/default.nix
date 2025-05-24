@@ -19,6 +19,7 @@ in
     ./packages.nix
     ./terminal.nix
     ./direnv.nix
+    ./helix.nix
   ];
 
   # Home-manager 22.11 requires this be set. We never set it so we have
