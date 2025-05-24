@@ -7,7 +7,7 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/vmware-guest.nix
+    ../../modules/vmware-guest
   ];
 
   # Be careful updating this.
