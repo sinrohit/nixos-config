@@ -22,6 +22,10 @@
 
   users.users."${config.me.username}".home = "/Users/${config.me.username}";
 
+  nix.gc = {
+    automatic = true;
+  };
+
   nix.distributedBuilds = true;
   nix.buildMachines = [
     {

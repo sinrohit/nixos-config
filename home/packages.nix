@@ -16,10 +16,6 @@
       enable = true;
     };
 
-    # nix.gc = {
-    #   automatic = true;
-    # };
-
     atuin = {
       enable = true;
       enableNushellIntegration = true;
@@ -28,6 +24,7 @@
         style = "compact";
       };
     };
+
     helix = {
       enable = true;
 
