@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   specialisation."xmonad".configuration = {
     services.xserver = {
       enable = true;
@@ -13,7 +14,10 @@
         enable = true;
         enableContribAndExtras = true;
 
-        extraPackages = hp: [ hp.dbus hp.monad-logger ];
+        extraPackages = hp: [
+          hp.dbus
+          hp.monad-logger
+        ];
         config = ./XMonadConfig.hs;
       };
     };

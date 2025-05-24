@@ -1,4 +1,11 @@
-{ config, flake, pkgs, lib, ... }: {
+{
+  config,
+  flake,
+  pkgs,
+  lib,
+  ...
+}:
+{
 
   imports = [
     # Uncomment to build sd-Image
@@ -6,11 +13,10 @@
     flake.inputs.nixos-hardware.nixosModules.starfive-visionfive-2
   ];
 
-  fileSystems."/" =
-    {
-      device = "/dev/disk/by-uuid/44444444-4444-4444-8888-888888888888";
-      fsType = "ext4";
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/44444444-4444-4444-8888-888888888888";
+    fsType = "ext4";
+  };
 
   nixpkgs.buildPlatform = lib.mkDefault "x86_64-linux";
   nixpkgs.hostPlatform = lib.mkDefault "riscv64-linux";
@@ -19,7 +25,11 @@
     users.root.openssh.authorizedKeys.keys = config.users.users.sinrohit.openssh.authorizedKeys.keys;
     users.sinrohit = {
       isNormalUser = true;
-      extraGroups = [ "wheel" "docker" "networkmanager" ];
+      extraGroups = [
+        "wheel"
+        "docker"
+        "networkmanager"
+      ];
       openssh.authorizedKeys.keys = [
         "${flake.config.me.sshKey}"
       ];
@@ -32,8 +42,15 @@
     };
   };
 
-  environment.systemPackages = with pkgs; [ git vim ];
-  nix.settings.trusted-users = [ "root" "@wheel" "sinrohit" ];
+  environment.systemPackages = with pkgs; [
+    git
+    vim
+  ];
+  nix.settings.trusted-users = [
+    "root"
+    "@wheel"
+    "sinrohit"
+  ];
   nix.settings = {
     experimental-features = [
       "nix-command"
@@ -61,4 +78,3 @@
 
   system.stateVersion = "24.11";
 }
-
