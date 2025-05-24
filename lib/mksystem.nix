@@ -90,7 +90,7 @@ in
           { nixpkgs.config.allowUnfree = true; }
 
           ../machines/${hostName}
-          ../users/nixos.nix
+          ../modules/nixos
         ] ++ lib.optional withHomeManager nixosModules.home-manager;
       };
 
@@ -114,7 +114,6 @@ in
           { nixpkgs.config.allowUnfree = true; }
 
           ../machines/${hostName}
-          #../users/darwin.nix
         ] ++ lib.optional withHomeManager darwinModules.home-manager;
       };
   };

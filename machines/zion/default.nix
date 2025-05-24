@@ -1,7 +1,7 @@
 { config, inputs, ... }:
 {
 
-  imports = [ ../../users/config.nix ];
+  imports = [ ../../config.nix ];
 
   # Use TouchID for `sudo` authentication
   #security.pam.services.sudo_local.touchIdAuth = true;

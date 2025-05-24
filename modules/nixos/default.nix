@@ -1,6 +1,5 @@
 {
   pkgs,
-  inputs,
   config,
   lib,
   ...
@@ -8,7 +7,7 @@
 
 {
 
-  imports = [ ./config.nix ];
+  imports = [ ../../config.nix ];
 
   # Add ~/.local/bin to PATH
   environment.localBinInPath = true;
