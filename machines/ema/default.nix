@@ -96,6 +96,8 @@
       pkgs.fira-code
       pkgs.jetbrains-mono
       pkgs.font-awesome
+      pkgs.nerd-fonts.jetbrains-mono
+      pkgs.nerd-fonts.symbols-only
     ];
   };
 
@@ -113,12 +115,6 @@
     picom
     feh
     xmobar-custom
-    (nerdfonts.override {
-      fonts = [
-        "JetBrainsMono"
-        "NerdFontsSymbolsOnly"
-      ];
-    })
 
     # For hypervisors that support auto-resizing, this script forces it.
     # I've noticed not everyone listens to the udev events so this is a hack.
