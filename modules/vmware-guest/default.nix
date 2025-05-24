@@ -1,8 +1,3 @@
-# This is based on the official vmware-guest module, but modified
-# for aarch64 to disable certain features and add support. I'm unsure
-# how to upstream this because I just don't use certain features... maybe
-# making them toggle-able? I'm not sure.
-
 {
   config,
   lib,
@@ -15,7 +10,6 @@ with lib;
 let
   cfg = config.virtualisation.vmware.guest;
   open-vm-tools = if cfg.headless then pkgs.open-vm-tools-headless else pkgs.open-vm-tools;
-  xf86inputvmmouse = pkgs.xorg.xf86inputvmmouse;
 in
 {
   imports = [
@@ -47,7 +41,6 @@ in
     ];
 
     boot.initrd.availableKernelModules = [ "mptspi" ];
-    # boot.initrd.kernelModules = [ "vmw_pvscsi" ];
 
     environment.systemPackages = [ open-vm-tools ];
 
