@@ -2,7 +2,7 @@
 {
 
   # Use TouchID for `sudo` authentication
-  #security.pam.services.sudo_local.touchIdAuth = true;
+  security.pam.enableSudoTouchIdAuth = true;
 
   networking.hostName = "zion";
   nixpkgs.hostPlatform = "aarch64-darwin";
