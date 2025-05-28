@@ -29,11 +29,8 @@
     flake-parts.lib.mkFlake { inherit inputs; } {
 
       imports = [
-        ./lib/mksystem.nix
-        ./modules/flake/devShell.nix
-        ./modules/flake/systems.nix
-        ./modules/flake/checks.nix
-        ./modules/flake/configurations.nix
+        ./lib
+        ./modules/flake
       ];
     };
 }
