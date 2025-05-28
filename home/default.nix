@@ -58,6 +58,7 @@ in
       zls
       nil
       nixd
+      nixfmt-rfc-style
     ]
     ++ (lib.optionals isDarwin [
       # This is automatically setup on Linux
