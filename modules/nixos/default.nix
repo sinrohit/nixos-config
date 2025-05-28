@@ -38,7 +38,6 @@
       "networkmanager"
       "wheel"
     ];
-    shell = lib.getExe pkgs.zsh;
     openssh.authorizedKeys.keys = [ "${config.me.sshKey}" ];
   };
 

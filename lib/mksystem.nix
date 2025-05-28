@@ -25,7 +25,9 @@ let
   common =
     { lib, ... }:
     {
-      imports = [ ../modules/user.nix ];
+      imports = [
+        ../modules/user.nix
+      ];
       nix = {
         settings = {
           # Use all CPU cores
