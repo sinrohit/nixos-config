@@ -35,6 +35,13 @@
           "rust-analyzer"
         ];
       }
+      {
+        name = "zig";
+        auto-format = false;
+        language-servers = [
+          "rust-analyzer"
+        ];
+      }
     ];
 
     languages.language-server = {
@@ -42,6 +49,7 @@
       nil.command = lib.getExe pkgs.nil;
       hls.command = lib.getExe pkgs.haskell-language-server;
       rust-analyzer.command = lib.getExe pkgs.rust-analyzer;
+      zig.command = lib.getExe pkgs.zls;
     };
 
     settings = {

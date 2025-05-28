@@ -52,6 +52,12 @@ in
       tree
       watch
       nixfmt-tree
+      neovim
+      rustfmt
+      fourmolu
+      zls
+      nil
+      nixd
     ]
     ++ (lib.optionals isDarwin [
       # This is automatically setup on Linux
