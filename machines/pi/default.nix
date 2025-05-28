@@ -54,11 +54,16 @@
     wireless = {
       enable = true;
     };
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [ 2283 ];
+    };
   };
 
   environment.systemPackages = with pkgs; [
     git
     vim
+    btop
   ];
   nixpkgs.hostPlatform = "aarch64-linux";
 
@@ -110,6 +115,8 @@
     enable = true;
     mediaLocation = "/media/immich";
     machine-learning.enable = false;
+    host = "0.0.0.0"; # Listen on all interfaces instead of just localhost
+    port = 2283;
   };
 
   security.acme = {
