@@ -73,10 +73,6 @@
     '';
   };
 
-  nixpkgs.config.permittedInsecurePackages = [
-    # Needed for k2pdfopt 2.53.
-    "mupdf-1.17.0"
-  ];
   # Don't require password for sudo
   security.sudo.wheelNeedsPassword = false;
 
@@ -115,6 +111,7 @@
     picom
     feh
     xmobar-custom
+    ghostty
 
     # For hypervisors that support auto-resizing, this script forces it.
     # I've noticed not everyone listens to the udev events so this is a hack.
