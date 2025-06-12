@@ -137,6 +137,9 @@
   services.openssh.settings.PasswordAuthentication = true;
   services.openssh.settings.PermitRootLogin = "no";
 
+  services.hercules-ci-agent.enable = true;
+  services.hercules-ci-agent.settings.concurrentTasks = 4; # Number of jobs to run
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
