@@ -1,4 +1,4 @@
-# nixos-config
+# ❄️ nixos-config ❄️
 
 This repository contains the Nix / NixOS configuration for all of my systems using [flake-parts](https://github.com/hercules-ci/flake-parts).
 
@@ -10,15 +10,17 @@ nix flake show github:sinrohit/nixos-config
 
 ## Structure
 
--  [home](./home): Home Manager Configuration for user specific settings and packages.
--  [lib](./lib): Helper functions to create NixOS/Darwin system configurations with common settings.
--  [machines](./machines/): Host specific Configurations for different systems.
--  [modules](./modules/): Custom NixOS modules including flakes integration, xmonad configuration, etc.
--  [overlays](./overlays/): Package overlays to extend or upgrade packages
--  [pkgs](./pkgs): Custom Package definitions.
--  [secrets](./secrets/): Age-encrypted secrets management.
+| 📂 Directory | 📝 Description |
+|-----------|-------------|
+| 🏠 **[home](./home)** | Home Manager Configuration for user specific settings and packages.
+| 🔧 **[lib](./lib)** | Helper functions to create NixOS/Darwin system configurations with common settings |
+| 💻 **[machines](./machines/)** | Host-specific configurations for different systems |
+| 📂 **[modules](./modules/)** | Custom NixOS modules including flakes integration, xmonad configuration, etc. |
+| 📦 **[overlays](./overlays/)** | Package overlays to extend or upgrade packages |
+| 🎁 **[pkgs](./pkgs)** | Custom package definitions |
+| 🔐 **[secrets](./secrets/)** | Age-encrypted secrets management |
 
-## Managing Secrets
+## Managing Secrets 🔐
 
 This configuration uses [ragenix](github.com/yaxitech/ragenix) for secret management. Secrets are stored in secrets directory.
 
