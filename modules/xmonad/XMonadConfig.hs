@@ -89,7 +89,7 @@ myConfig screenCount l =
       withSB (foldMap sb [0 .. (screenCount - 1)]) $
         withNavigation2DConfig myNavigation2DConfig $
           def
-            { terminal = "kitty",
+            { terminal = "ghostty",
               modMask = mod1Mask,
               normalBorderColor = myColorBorder,
               focusedBorderColor = myColorFocused,
@@ -128,7 +128,7 @@ myKeymap c =
   [ ("M-S-q", commands >>= runCommandConfig rofiCommand),
     ("M-f", spawn "firefox"),
     ("M-<Space>", spawn "rofi -show run -theme gruvbox-dark"),
-    ("M-c", spawn "kitty"),
+    ("M-c", spawn "ghostty"),
     ("<XF86AudioPlay>", spawn "mpc sendmessage toggle 1"),
     ("<XF86AudioNext>", spawn "mpc sendmessage playlist next"),
     ("<XF86AudioPrev>", spawn "mpc sendmessage playlist prev"),
