@@ -6,12 +6,6 @@ let
   systems = [ pi ];
 in
 {
-  "acme-cloudflare.age".publicKeys = [
-    rohit
-    pi
-  ];
-  "ddns-cloudflare.age".publicKeys = [
-    rohit
-    pi
-  ];
+  "acme-cloudflare.age".publicKeys = users ++ systems;
+  "ddns-cloudflare.age".publicKeys = users ++ systems;
 }

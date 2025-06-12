@@ -3,8 +3,5 @@ default:
 
 # Auto-format tree
 fmt:
-    nix fmt
+    treefmt
 
-# Deploy the given machine (e.g.: `just deploy enigma`)
-deploy HOST:
-    nix run .#activate {{HOST}}
