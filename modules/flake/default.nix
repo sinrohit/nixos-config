@@ -4,6 +4,6 @@
     ./systems.nix
     ./checks.nix
     ./configurations.nix
-
+    ./herculesCISystems.nix
   ];
 }
