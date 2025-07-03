@@ -1,6 +1,8 @@
 { config, inputs, ... }:
 {
 
+  imports = [ ./aerospace.nix ];
+
   # Use TouchID for `sudo` authentication
   security.pam.services.sudo_local.touchIdAuth = true;
 
@@ -21,6 +23,7 @@
   services.tailscale.enable = true;
 
   users.users."${config.me.username}".home = "/Users/${config.me.username}";
+  system.primaryUser = "${config.me.username}";
 
   nix.gc = {
     automatic = true;
