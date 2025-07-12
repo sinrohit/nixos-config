@@ -59,6 +59,8 @@ in
       nil
       nixd
       nixfmt-rfc-style
+      nix-eval-jobs
+      nix-output-monitor
     ]
     ++ (lib.optionals isDarwin [
       # This is automatically setup on Linux
