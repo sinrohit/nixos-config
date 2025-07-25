@@ -8,4 +8,6 @@
     pi = self.nixosConfigurations.pi.config.system.build.toplevel;
   };
 
+  flake.checks.aarch64-darwin.zion = self.darwinConfigurations.zion.config.system.build.toplevel;
+
 }

@@ -12,7 +12,7 @@
         packages = with pkgs; [
           nixd
           nil
-          inputs'.ragenix.packages.default
+          inputs'.agenix.packages.default
         ];
       };
     };

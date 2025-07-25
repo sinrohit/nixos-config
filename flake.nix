@@ -20,7 +20,11 @@
 
     flake-parts.url = "github:hercules-ci/flake-parts";
 
-    ragenix.url = "github:yaxitech/ragenix";
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.darwin.follows = "nix-darwin";
+    };
 
   };
 

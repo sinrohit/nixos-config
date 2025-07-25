@@ -1,7 +1,33 @@
-{ config, inputs, ... }:
+{
+  config,
+  inputs,
+  ...
+}:
 {
 
-  imports = [ ./aerospace.nix ];
+  imports = [
+    ./aerospace.nix
+    inputs.agenix.darwinModules.default
+  ];
+
+  age = {
+    identityPaths = [ "/Users/rohit/.ssh/id_ed25519" ]; # TODO: Find a better way to do this
+    secrets.github-runner = {
+      file = ../../secrets/github-runner.age;
+      owner = "_github-runner";
+      group = "_github-runner";
+      mode = "600";
+    };
+  };
+
+  services.github-runners = {
+    "runner2" = {
+      enable = true;
+      name = "macos-runner1";
+      url = "https://github.com/sinrohit/fold";
+      tokenFile = config.age.secrets.github-runner.path;
+    };
+  };
 
   # Use TouchID for `sudo` authentication
   security.pam.services.sudo_local.touchIdAuth = true;
@@ -13,14 +39,13 @@
   nix.settings.trusted-users = [
     "root"
     "${config.me.username}"
+    "_github-runner"
   ];
 
   nix.channel.enable = false;
 
   nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ]; # Enables use of `nix-shell -p ...` etc
   nix.registry.nixpkgs.flake = inputs.nixpkgs; # Make `nix shell` etc use pinned nixpkgs
-
-  services.tailscale.enable = true;
 
   users.users."${config.me.username}".home = "/Users/${config.me.username}";
   system.primaryUser = "${config.me.username}";
