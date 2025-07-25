@@ -8,6 +8,7 @@
   imports = [
     ./hardware-configuration.nix
     ../../modules/vmware-guest
+    ../../modules/nixos
   ];
 
   # Be careful updating this.

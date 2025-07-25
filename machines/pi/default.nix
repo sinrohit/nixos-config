@@ -7,7 +7,8 @@
 {
 
   imports = [
-    inputs.ragenix.nixosModules.default
+    inputs.agenix.nixosModules.default
+    ../../modules/nixos
   ];
 
   boot = {
@@ -42,11 +43,6 @@
       owner = "nginx";
       group = "users";
     };
-    ddns-cloudflare = {
-      file = ../../secrets/ddns-cloudflare.age;
-      owner = "ddns-updater";
-      group = "users";
-    };
   };
 
   networking = {
@@ -77,13 +73,6 @@
   services.tailscale = {
     enable = true;
     extraSetFlags = [ "--advertise-exit-node" ];
-  };
-
-  services.ddns-updater = {
-    enable = true;
-    environment = {
-      "CONFIG_FILEPATH" = config.age.secrets.ddns-cloudflare.path;
-    };
   };
 
   services.nginx = {
@@ -136,7 +125,6 @@
       "acme"
       "disk"
     ];
-    users.ddns-updater.isNormalUser = true;
   };
 
   # Allow unfree packages

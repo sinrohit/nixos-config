@@ -93,7 +93,6 @@ in
           { nixpkgs.config.allowUnfree = true; }
 
           ../machines/${hostName}
-          ../modules/nixos
         ] ++ lib.optional withHomeManager nixosModules.home-manager;
       };
 

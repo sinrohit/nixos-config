@@ -4,12 +4,15 @@ let
 
   pi = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILm4Jfv+D2mUwyEYZ+DBeEBnFFeKxMNoG4ZpvV9VXorQ";
   zion = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOZWNuSlFSzLHVOB59SxltjNDNLYuwKqA4iiKAf4Lo8n";
+  orb = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOZWNuSlFSzLHVOB59SxltjNDNLYuwKqA4iiKAf4Lo8n";
   systems = [
     pi
     zion
+    orb
   ];
 in
 {
   "acme-cloudflare.age".publicKeys = users ++ systems;
   "github-runner.age".publicKeys = users ++ systems;
+  "github-runner-linux.age".publicKeys = users ++ systems;
 }
