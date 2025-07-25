@@ -7,27 +7,9 @@
 
   imports = [
     ./aerospace.nix
-    inputs.agenix.darwinModules.default
+    ./github-runners.nix
+    ./remote-builders.nix
   ];
-
-  age = {
-    identityPaths = [ "/Users/rohit/.ssh/id_ed25519" ]; # TODO: Find a better way to do this
-    secrets.github-runner = {
-      file = ../../secrets/github-runner.age;
-      owner = "_github-runner";
-      group = "_github-runner";
-      mode = "600";
-    };
-  };
-
-  services.github-runners = {
-    "runner2" = {
-      enable = true;
-      name = "macos-runner1";
-      url = "https://github.com/sinrohit/fold";
-      tokenFile = config.age.secrets.github-runner.path;
-    };
-  };
 
   # Use TouchID for `sudo` authentication
   security.pam.services.sudo_local.touchIdAuth = true;
@@ -53,36 +35,6 @@
   nix.gc = {
     automatic = true;
   };
-
-  nix.distributedBuilds = true;
-  nix.buildMachines = [
-    {
-      hostName = "build-box.nix-community.org";
-      sshUser = "sinrohit";
-      sshKey = "/Users/${config.me.username}/.ssh/id_ed25519";
-      systems = [ "x86_64-linux" ];
-      supportedFeatures = [
-        "kvm"
-        "benchmark"
-        "big-parallel"
-      ];
-      publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUVsSVE1NHFBeTdEaDYzckJ1ZFlLZGJ6SkhycmJyck1YTFlsN1BrbWs4OEg=";
-    }
-    {
-      hostName = "aarch64-build-box.nix-community.org";
-      maxJobs = 12;
-      sshUser = "sinrohit";
-      sshKey = "/Users/${config.me.username}/.ssh/id_ed25519";
-      systems = [ "aarch64-linux" ];
-      supportedFeatures = [
-        "kvm"
-        "benchmark"
-        "big-parallel"
-      ];
-      publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUc5dXlmaHlsaStCUnRrNjR5K25pcXRiK3NLcXVSR0daODdmNFlSYzhFRTE=";
-    }
-  ];
-  nix.settings.builders-use-substitutes = true;
 
   system.stateVersion = 5;
 }
