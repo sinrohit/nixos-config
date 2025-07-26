@@ -13,6 +13,8 @@ let
 in
 {
   "acme-cloudflare.age".publicKeys = users ++ systems;
-  "github-runner.age".publicKeys = users ++ systems;
-  "github-runner-linux.age".publicKeys = users ++ systems;
+  "github-runner-fold-macos.age".publicKeys = users ++ systems;
+  "github-runner-fold-linux.age".publicKeys = users ++ systems;
+  "github-runner-nixos-config-macos.age".publicKeys = users ++ systems;
+  "github-runner-nixos-config-linux.age".publicKeys = users ++ systems;
 }

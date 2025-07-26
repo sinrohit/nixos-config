@@ -7,11 +7,19 @@
 
   age = {
     identityPaths = [ "/Users/${config.me.username}/.ssh/id_ed25519" ]; # TODO: Find a better way to do this
-    secrets.github-runner = {
-      file = ../../secrets/github-runner.age;
-      owner = "_github-runner";
-      group = "_github-runner";
-      mode = "600";
+    secrets = {
+      github-runner-fold-macos = {
+        file = ../../secrets/github-runner-fold-macos.age;
+        owner = "_github-runner";
+        group = "_github-runner";
+        mode = "600";
+      };
+      github-runner-nixos-config-macos = {
+        file = ../../secrets/github-runner-nixos-config-macos.age;
+        owner = "_github-runner";
+        group = "_github-runner";
+        mode = "600";
+      };
     };
   };
 
@@ -20,7 +28,13 @@
       enable = true;
       name = "macos-runner1";
       url = "https://github.com/sinrohit/fold";
-      tokenFile = config.age.secrets.github-runner.path;
+      tokenFile = config.age.secrets.github-runner-fold-macos.path;
+    };
+    "runner2" = {
+      enable = true;
+      name = "macos-runner2";
+      url = "https://github.com/sinrohit/nixos-config";
+      tokenFile = config.age.secrets.github-runner-nixos-config-macos.path;
     };
   };
 }

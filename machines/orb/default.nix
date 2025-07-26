@@ -49,6 +49,7 @@
     trusted-users = [
       "root"
       "github-runner-runner1"
+      "github-runner-runner2"
       "rohit"
     ];
   };
@@ -61,11 +62,13 @@
   ];
 
   age = {
-    secrets.github-runner-linux = {
-      file = ../../secrets/github-runner-linux.age;
-      owner = "github-runner-runner1";
-      group = "github-runner-runner1";
-      mode = "600";
+    secrets = {
+      github-runner-fold-linux = {
+        file = ../../secrets/github-runner-fold-linux.age;
+      };
+      github-runner-nixos-config-linux = {
+        file = ../../secrets/github-runner-nixos-config-linux.age;
+      };
     };
   };
 
@@ -74,7 +77,13 @@
       enable = true;
       name = "linux-runner1";
       url = "https://github.com/sinrohit/fold";
-      tokenFile = config.age.secrets.github-runner-linux.path;
+      tokenFile = config.age.secrets.github-runner-fold-linux.path;
+    };
+    "runner2" = {
+      enable = true;
+      name = "linux-runner2";
+      url = "https://github.com/sinrohit/nixos-config";
+      tokenFile = config.age.secrets.github-runner-nixos-config-linux.path;
     };
   };
   # Don't require password for sudo
