@@ -1,31 +1,30 @@
 { pkgs, lib, ... }:
 let
   isLinux = pkgs.stdenv.isLinux;
-  shellAliases =
-    {
-      ga = "git add";
-      gc = "git commit";
-      gco = "git checkout";
-      gcp = "git cherry-pick";
-      gdiff = "git diff";
-      gl = "git prettylog";
-      gp = "git push";
-      gs = "git status";
-      gt = "git tag";
+  shellAliases = {
+    ga = "git add";
+    gc = "git commit";
+    gco = "git checkout";
+    gcp = "git cherry-pick";
+    gdiff = "git diff";
+    gl = "git prettylog";
+    gp = "git push";
+    gs = "git status";
+    gt = "git tag";
 
-      lg = "lazygit";
+    lg = "lazygit";
 
-    }
-    // (
-      if isLinux then
-        {
-          # keep it consistent with MacOS
-          pbcopy = "xclip";
-          pbpaste = "xclip -o";
-        }
-      else
-        { }
-    );
+  }
+  // (
+    if isLinux then
+      {
+        # keep it consistent with MacOS
+        pbcopy = "xclip";
+        pbpaste = "xclip -o";
+      }
+    else
+      { }
+  );
 in
 {
 

@@ -93,7 +93,8 @@ in
           { nixpkgs.config.allowUnfree = true; }
 
           ../machines/${hostName}
-        ] ++ lib.optional withHomeManager nixosModules.home-manager;
+        ]
+        ++ lib.optional withHomeManager nixosModules.home-manager;
       };
 
     macOS =
@@ -116,7 +117,8 @@ in
           { nixpkgs.config.allowUnfree = true; }
 
           ../machines/${hostName}
-        ] ++ lib.optional withHomeManager darwinModules.home-manager;
+        ]
+        ++ lib.optional withHomeManager darwinModules.home-manager;
       };
   };
 }

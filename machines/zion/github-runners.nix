@@ -1,9 +1,16 @@
-{ config, inputs, ... }:
+{
+  config,
+  inputs,
+  lib,
+  ...
+}:
 {
 
   imports = [
     inputs.agenix.darwinModules.default
   ];
+
+  users.users._github-runner.home = lib.mkForce "/private/var/lib/github-runners";
 
   age = {
     identityPaths = [ "/Users/${config.me.username}/.ssh/id_ed25519" ]; # TODO: Find a better way to do this

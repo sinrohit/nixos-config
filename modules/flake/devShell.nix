@@ -13,6 +13,7 @@
           nixd
           nil
           inputs'.agenix.packages.default
+          nixos-rebuild
         ];
       };
     };

@@ -58,9 +58,9 @@ in
       zls
       nil
       nixd
-      nixfmt-rfc-style
       nix-eval-jobs
       nix-output-monitor
+      nixfmt
     ]
     ++ (lib.optionals isDarwin [
       # This is automatically setup on Linux
@@ -86,27 +86,26 @@ in
     PAGER = "less -FirSwX";
   };
 
-  xdg.configFile =
-    {
-      "rofi/config.rasi".text = builtins.readFile ./rofi;
-    }
-    // (
-      if isDarwin then
-        {
-          # Rectangle.app. This has to be imported manually using the app.
-          "rectangle/RectangleConfig.json".text = builtins.readFile ./RectangleConfig.json;
-        }
-      else
-        { }
-    )
-    // (
-      if isLinux then
-        {
-          "ghostty/config".text = builtins.readFile ./ghostty.linux;
-        }
-      else
-        { }
-    );
+  xdg.configFile = {
+    "rofi/config.rasi".text = builtins.readFile ./rofi;
+  }
+  // (
+    if isDarwin then
+      {
+        # Rectangle.app. This has to be imported manually using the app.
+        "rectangle/RectangleConfig.json".text = builtins.readFile ./RectangleConfig.json;
+      }
+    else
+      { }
+  )
+  // (
+    if isLinux then
+      {
+        "ghostty/config".text = builtins.readFile ./ghostty.linux;
+      }
+    else
+      { }
+  );
 
   #---------------------------------------------------------------------
   # Programs
