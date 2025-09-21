@@ -6,13 +6,15 @@
 {
 
   imports = [
-    ./aerospace.nix
+    #./aerospace.nix
     ./github-runners.nix
     ./remote-builders.nix
+    ./wm.nix
   ];
 
   # Use TouchID for `sudo` authentication
   security.pam.services.sudo_local.touchIdAuth = true;
+  nixpkgs.config.allowUnfree = true;
 
   networking.hostName = "zion";
   nixpkgs.hostPlatform = "aarch64-darwin";
