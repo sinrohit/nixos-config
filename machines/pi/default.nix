@@ -9,6 +9,7 @@
   imports = [
     inputs.agenix.nixosModules.default
     ../../modules/nixos
+    inputs.addn-hosts.nixosModule
   ];
 
   boot = {
@@ -33,7 +34,6 @@
     "/media" = {
       device = "/dev/sda1";
       fsType = "ext4";
-      options = [ "noatime" ];
     };
   };
 
@@ -47,12 +47,17 @@
 
   networking = {
     hostName = "pi";
+    enableIPv6 = true;
     wireless = {
       enable = true;
     };
     firewall = {
       enable = true;
-      allowedTCPPorts = [ 2283 ];
+      allowedTCPPorts = [
+        2283
+        53
+      ];
+      allowedUDPPorts = [ 53 ];
     };
   };
 
@@ -67,6 +72,24 @@
     "root"
     "@wheel"
   ];
+
+  services.dnsmasq = {
+    enable = true;
+    resolveLocalQueries = false;
+    settings = {
+      no-hosts = true;
+      no-resolv = true;
+      no-poll = true;
+      server = [
+        "9.9.9.9" # Quad9 (privacy-focused)
+        "1.1.1.1" # Cloudflare (fast)
+        "8.8.8.8" # Google
+      ];
+
+      addn-hosts = "${inputs.addn-hosts}/hosts";
+      address = [ "/hesads.akamaized.net/::" ];
+    };
+  };
 
   services.openssh.enable = true;
   services.openssh.settings.PasswordAuthentication = false;
