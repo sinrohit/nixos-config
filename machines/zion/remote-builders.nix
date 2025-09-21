@@ -16,17 +16,19 @@
       publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUVsSVE1NHFBeTdEaDYzckJ1ZFlLZGJ6SkhycmJyck1YTFlsN1BrbWs4OEg=";
     }
     {
-      hostName = "aarch64-build-box.nix-community.org";
+      hostName = "nixos.orb.local";
       maxJobs = 12;
-      sshUser = "sinrohit";
+      speedFactor = 2;
+      sshUser = "rohit";
       sshKey = "/Users/${config.me.username}/.ssh/id_ed25519";
       systems = [ "aarch64-linux" ];
       supportedFeatures = [
         "kvm"
         "benchmark"
         "big-parallel"
+        "nixos-test"
       ];
-      publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUc5dXlmaHlsaStCUnRrNjR5K25pcXRiK3NLcXVSR0daODdmNFlSYzhFRTE=";
+      publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSU9aV051U2xGU3pMSFZPQjU5U3hsdGpORE5MWXV3S3FBNGlpS0FmNExvOG4=";
     }
   ];
   nix.settings.builders-use-substitutes = true;
