@@ -17,4 +17,5 @@ in
   "github-runner-fold-linux.age".publicKeys = users ++ systems;
   "github-runner-nixos-config-macos.age".publicKeys = users ++ systems;
   "github-runner-nixos-config-linux.age".publicKeys = users ++ systems;
+  "github-runner-sinrohit.age".publicKeys = users ++ systems;
 }

@@ -50,6 +50,7 @@
       "root"
       "github-runner-runner1"
       "github-runner-runner2"
+      "github-runner-runner3"
       "rohit"
     ];
   };
@@ -69,6 +70,9 @@
       github-runner-nixos-config-linux = {
         file = ../../secrets/github-runner-nixos-config-linux.age;
       };
+      github-runner-sinrohit = {
+        file = ../../secrets/github-runner-sinrohit.age;
+      };
     };
   };
 
@@ -84,6 +88,12 @@
       name = "linux-runner2";
       url = "https://github.com/sinrohit/nixos-config";
       tokenFile = config.age.secrets.github-runner-nixos-config-linux.path;
+    };
+    "runner3" = {
+      enable = true;
+      name = "linux-runner3";
+      url = "https://github.com/sinrohit/sinrohit.com";
+      tokenFile = config.age.secrets.github-runner-sinrohit.path;
     };
   };
   # Don't require password for sudo
