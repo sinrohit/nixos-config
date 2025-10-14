@@ -13,4 +13,6 @@ final: prev: {
   # Want the latest version of these
   nushell = inputs.nixpkgs-unstable.legacyPackages.${prev.system}.nushell;
 
+  nixci = inputs.nixci.packages.${prev.system}.default;
+
 }

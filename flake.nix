@@ -31,6 +31,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nixci.url = "github:sinrohit/nixci/refactor";
+
   };
 
   outputs =

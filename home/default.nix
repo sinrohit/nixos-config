@@ -61,6 +61,7 @@ in
       nix-eval-jobs
       nix-output-monitor
       nixfmt
+      nixci
     ]
     ++ (lib.optionals isDarwin [
       # This is automatically setup on Linux
