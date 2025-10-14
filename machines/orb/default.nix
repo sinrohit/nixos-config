@@ -51,6 +51,7 @@
       "github-runner-runner1"
       "github-runner-runner2"
       "github-runner-runner3"
+      "github-runner-runner4"
       "rohit"
     ];
   };
@@ -73,6 +74,9 @@
       github-runner-sinrohit = {
         file = ../../secrets/github-runner-sinrohit.age;
       };
+      github-runner-nixci-linux = {
+        file = ../../secrets/github-runner-nixci-linux.age;
+      };
     };
   };
 
@@ -82,18 +86,28 @@
       name = "linux-runner1";
       url = "https://github.com/sinrohit/fold";
       tokenFile = config.age.secrets.github-runner-fold-linux.path;
+      extraPackages = [ pkgs.nixci ];
     };
     "runner2" = {
       enable = true;
       name = "linux-runner2";
       url = "https://github.com/sinrohit/nixos-config";
       tokenFile = config.age.secrets.github-runner-nixos-config-linux.path;
+      extraPackages = [ pkgs.nixci ];
     };
     "runner3" = {
       enable = true;
       name = "linux-runner3";
       url = "https://github.com/sinrohit/sinrohit.com";
       tokenFile = config.age.secrets.github-runner-sinrohit.path;
+      extraPackages = [ pkgs.nixci ];
+    };
+    "runner4" = {
+      enable = true;
+      name = "linux-runner4";
+      url = "https://github.com/sinrohit/nixci";
+      tokenFile = config.age.secrets.github-runner-nixci-linux.path;
+      extraPackages = [ pkgs.nixci ];
     };
   };
   # Don't require password for sudo

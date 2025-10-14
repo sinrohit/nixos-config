@@ -2,6 +2,7 @@
   config,
   inputs,
   lib,
+  pkgs,
   ...
 }:
 {
@@ -27,6 +28,12 @@
         group = "_github-runner";
         mode = "600";
       };
+      github-runner-nixci-macos = {
+        file = ../../secrets/github-runner-nixci-macos.age;
+        owner = "_github-runner";
+        group = "_github-runner";
+        mode = "600";
+      };
     };
   };
 
@@ -36,12 +43,21 @@
       name = "macos-runner1";
       url = "https://github.com/sinrohit/fold";
       tokenFile = config.age.secrets.github-runner-fold-macos.path;
+      extraPackages = [ pkgs.nixci ];
     };
     "runner2" = {
       enable = true;
       name = "macos-runner2";
       url = "https://github.com/sinrohit/nixos-config";
       tokenFile = config.age.secrets.github-runner-nixos-config-macos.path;
+      extraPackages = [ pkgs.nixci ];
+    };
+    "runner3" = {
+      enable = true;
+      name = "macos-runner3";
+      url = "https://github.com/sinrohit/nixci";
+      tokenFile = config.age.secrets.github-runner-nixci-macos.path;
+      extraPackages = [ pkgs.nixci ];
     };
   };
 }
