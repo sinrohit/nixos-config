@@ -62,6 +62,7 @@ in
       nix-output-monitor
       nixfmt
       nixci
+      rust-analyzer
     ]
     ++ (lib.optionals isDarwin [
       # This is automatically setup on Linux

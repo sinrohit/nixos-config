@@ -9,6 +9,7 @@ final: prev: {
   gh = inputs.nixpkgs-unstable.legacyPackages.${prev.system}.gh;
   nixfmt = inputs.nixpkgs-unstable.legacyPackages.${prev.system}.nixfmt;
   nixfmt-tree = inputs.nixpkgs-unstable.legacyPackages.${prev.system}.nixfmt-tree;
+  rust-analyzer = inputs.nixpkgs-unstable.legacyPackages.${prev.system}.rust-analyzer;
 
   # Want the latest version of these
   nushell = inputs.nixpkgs-unstable.legacyPackages.${prev.system}.nushell;
