@@ -5,41 +5,65 @@
 {
   services.skhd = {
     enable = true;
-    # CMD is Super
     skhdConfig = ''
-      cmd - return : /Applications/Ghostty.app/Contents/MacOS/ghostty --working-directory ~
+      # change window focus within space
+      alt - j : yabai -m window --focus south
+      alt - k : yabai -m window --focus north
+      alt - h : yabai -m window --focus west
+      alt - l : yabai -m window --focus east
 
-      cmd - left : yabai -m window --focus west
-      cmd - right : yabai -m window --focus east
-      cmd - up : yabai -m window --focus north
-      cmd - down : yabai -m window --focus south
+      # change focus between external displays (left & right)
+      alt - s : yabai -m display --focus west
+      alt - g : yabai -m display --focus east
 
-      cmd + shift - left : yabai -m window --swap west
-      cmd + shift - right : yabai -m window --swap east
-      cmd + shift - up : yabai -m window --swap north
-      cmd + shift - down : yabai -m window --swap south
+      # rotate layout clockwise
+      shift + alt - r : yabai -m space --rotate 270
 
-      cmd - 1 : yabai -m display --focus 1
-      cmd - 2 : yabai -m display --focus 2
-      cmd - 3 : yabai -m display --focus 3
-      cmd - 4 : yabai -m display --focus 4
-      cmd - 5 : yabai -m display --focus 5
-      cmd - 6 : yabai -m display --focus 6
-      cmd - 7 : yabai -m display --focus 7
-      cmd - 8 : yabai -m display --focus 8
-      cmd - 9 : yabai -m display --focus 9
-      cmd - 0 : yabai -m display --focus 10
+      # flip along y-axis
+      shift + alt - y : yabai -m space --mirror y-axis
 
-      cmd + shift - 1 : yabai -m window --display 1; yabai -m display --focus 1
-      cmd + shift - 2 : yabai -m window --display 2; yabai -m display --focus 2
-      cmd + shift - 3 : yabai -m window --display 3; yabai -m display --focus 3
-      cmd + shift - 4 : yabai -m window --display 4; yabai -m display --focus 4
-      cmd + shift - 5 : yabai -m window --display 5; yabai -m display --focus 5
-      cmd + shift - 6 : yabai -m window --display 6; yabai -m display --focus 6
-      cmd + shift - 7 : yabai -m window --display 7; yabai -m display --focus 7
-      cmd + shift - 8 : yabai -m window --display 8; yabai -m display --focus 8
-      cmd + shift - 9 : yabai -m window --display 9; yabai -m display --focus 9
-      cmd + shift - 0 : yabai -m window --display 10; yabai -m display --focus 10
+      # flip along x-axis
+      shift + alt - x : yabai -m space --mirror x-axis
+
+      # toggle window float
+      shift + alt - t : yabai -m window --toggle float --grid 4:4:1:1:2:2
+
+      # maximize a window
+      shift + alt - m : yabai -m window --toggle zoom-fullscreen
+
+      # balance out tree of windows (resize to occupy same area)
+      shift + alt - e : yabai -m space --balance
+
+      # swap windows
+      shift + alt - j : yabai -m window --swap south
+      shift + alt - k : yabai -m window --swap north
+      shift + alt - h : yabai -m window --swap west
+      shift + alt - l : yabai -m window --swap east
+
+      # move window and split
+      ctrl + alt - j : yabai -m window --warp south
+      ctrl + alt - k : yabai -m window --warp north
+      ctrl + alt - h : yabai -m window --warp west
+      ctrl + alt - l : yabai -m window --warp east
+
+      # move window to display left and right
+      shift + alt - s : yabai -m window --display west; yabai -m display --focus west;
+      shift + alt - g : yabai -m window --display east; yabai -m display --focus east;
+
+      # move window to prev and next space
+      shift + alt - p : yabai -m window --space prev;
+      shift + alt - n : yabai -m window --space next;
+
+      # move window to space #
+      shift + alt - 1 : yabai -m window --space 1;
+      shift + alt - 2 : yabai -m window --space 2;
+      shift + alt - 3 : yabai -m window --space 3;
+      shift + alt - 4 : yabai -m window --space 4;
+
+      # stop/start/restart yabai
+      ctrl + alt - q : yabai --stop-service
+      ctrl + alt - s : yabai --start-service
+      ctrl + alt - r : yabai --restart-service
 
     '';
   };
@@ -49,30 +73,46 @@
     package = pkgs.yabai;
     enableScriptingAddition = true;
     config = {
-      external_bar = "main:32:0";
 
-      mouse_modifier = "cmd";
-      mouse_action1 = "move";
-      mouse_action2 = "resize";
-      mouse_drop_action = "sway";
-
+      # default layout (can be bsp, stack or float)
       layout = "bsp";
+
+      # padding set to 12px
       top_padding = 12;
       bottom_padding = 12;
       left_padding = 12;
       right_padding = 12;
-      window_gap = 6;
+      window_gap = 12;
 
-      focus_follows_mouse = "autofocus";
+      # center mouse on window with focus
       mouse_follows_focus = "on";
+      focus_follows_mouse = "autofocus";
 
+      # modifier for clicking and dragging with mouse
+      mouse_modifier = "alt";
+
+      # set modifier + left-click drag to move window
+      mouse_action1 = "move";
+
+      # set modifier + right-click drag to resize window
+      mouse_action2 = "resize";
+
+      # when window is dropped in center of another window, swap them (on edges it will split it)
+      mouse_drop_action = "sway";
+
+      # New window spawns to the right if vertical split, or bottom if horizontal split
+      window_placement = "second_child";
       window_topmost = "on";
       window_shadow = "float";
-      window_placement = "second_child";
       window_border = "off";
 
       auto_balance = "on";
       split_ratio = 0.5;
     };
+
+    extraConfig = ''
+      yabai -m rule --add app='System Preferences' manage=off
+      yabai -m rule --add app='Calculator' manage=off
+    '';
   };
 }
