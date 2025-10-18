@@ -61,6 +61,8 @@
   environment.systemPackages = with pkgs; [
     git
     vim
+    ghostty
+    rsync
   ];
 
   age = {
