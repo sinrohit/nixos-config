@@ -5,6 +5,8 @@
 
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
 
+    nixos-hardware.url = "github:nixos/nixos-hardware";
+
     # We use the unstable nixpkgs repo for some packages.
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 

@@ -1,7 +1,7 @@
 {
   config,
-  flake,
   pkgs,
+  inputs,
   lib,
   ...
 }:
@@ -10,7 +10,7 @@
   imports = [
     # Uncomment to build sd-Image
     # "${flake.inputs.nixos-hardware}/starfive/visionfive/v2/sd-image-installer.nix"
-    flake.inputs.nixos-hardware.nixosModules.starfive-visionfive-2
+    inputs.nixos-hardware.nixosModules.starfive-visionfive-2
   ];
 
   fileSystems."/" = {
@@ -21,27 +21,6 @@
   nixpkgs.buildPlatform = lib.mkDefault "x86_64-linux";
   nixpkgs.hostPlatform = lib.mkDefault "riscv64-linux";
 
-  users = {
-    users.root.openssh.authorizedKeys.keys = config.users.users.sinrohit.openssh.authorizedKeys.keys;
-    users.sinrohit = {
-      isNormalUser = true;
-      extraGroups = [
-        "wheel"
-        "docker"
-        "networkmanager"
-      ];
-      openssh.authorizedKeys.keys = [
-        "${flake.config.me.sshKey}"
-      ];
-    };
-    users.nixos = {
-      isNormalUser = true;
-      openssh.authorizedKeys.keys = [
-        "${flake.config.me.sshKey}"
-      ];
-    };
-  };
-
   environment.systemPackages = with pkgs; [
     git
     vim
@@ -49,13 +28,8 @@
   nix.settings.trusted-users = [
     "root"
     "@wheel"
-    "sinrohit"
   ];
   nix.settings = {
-    experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
     substituters = [
       "https://cache.nichi.co"
       "https://cache.ztier.in"
@@ -72,6 +46,7 @@
 
   services.openssh.enable = true;
   services.tailscale.enable = true;
+  security.sudo.wheelNeedsPassword = false;
 
   networking.interfaces.end0.useDHCP = true;
   networking.interfaces.end1.useDHCP = true;
