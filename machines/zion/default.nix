@@ -9,7 +9,7 @@
     #./aerospace.nix
     ./github-runners.nix
     ./remote-builders.nix
-    ./wm.nix
+    #./wm.nix
   ];
 
   # Use TouchID for `sudo` authentication
