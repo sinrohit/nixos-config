@@ -49,7 +49,7 @@
     hostName = "pi";
     enableIPv6 = true;
     wireless = {
-      enable = true;
+      enable = false;
     };
     firewall = {
       enable = true;
