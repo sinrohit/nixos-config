@@ -103,6 +103,9 @@
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
 
+    # allow large file uploads
+    clientMaxBodySize = "50000M";
+
     virtualHosts."vault.rdev.in" = {
       useACMEHost = "rdev.in";
       forceSSL = true;
