@@ -33,8 +33,10 @@ let
           # Use all CPU cores
           max-jobs = lib.mkDefault "auto";
           experimental-features = lib.mkDefault "nix-command flakes";
-          substituters = [ "https://cache.clan.lol" ];
-          trusted-public-keys = [ "cache.clan.lol-1:3KztgSAB5R1M+Dz7vzkBGzXdodizbgLXGXKXlcQLA28=" ];
+          extra-substituters = [ "https://cache.clan.lol" ];
+          extra-trusted-public-keys = [
+            "cache.clan.lol-1:3KztgSAB5R1M+Dz7vzkBGzXdodizbgLXGXKXlcQLA28="
+          ];
         };
       };
     };
