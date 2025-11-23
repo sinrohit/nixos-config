@@ -73,6 +73,21 @@ colors() {
         tput sgr0
 }
 
+# print a rainbow if truecolor is available to the terminal
+truecolor-rainbow() {
+        local i r g b
+        for ((i = 0; i < 77; i++)); do
+                r=$((255 - (i * 255 / 76)))
+                g=$((i * 510 / 76))
+                b=$((i * 255 / 76))
+                ((g > 255)) && g=$((510 - g))
+                printf '\033[48;2;%d;%d;%dm ' "$r" "$g" "$b"
+        done
+        tput sgr0
+        echo
+}
+
+
 # Change the prompt colors to a theme, themes are 0-29
 set_prompt_colors() {
         local h=${1:-0}
@@ -93,23 +108,26 @@ set_prompt_colors() {
         done
 }
 
+# Define reset color
+RESET_COLOR=$(tput sgr0)
+
 # Construct the prompt
 # [(exit code)] <user> - <hostname> <uname> <cwd> [git branch] <$|#>
 
 # exit code of last process
-PS1='$(ret=$?;(($ret!=0)) && echo "\[${COLOR256[0]}\]($ret) \[${COLOR256[256]}\]")'
+PS1='$(ret=$?;(($ret!=0)) && echo "\[${COLOR256[0]}\]($ret) \[\033[0m\]")'
 
 # username (red for root)
-PS1+='\[${PROMPT_COLORS[0]}\]\[${COLOR256[257]}\]$(((UID==0)) && echo "\[${COLOR256[0]}\]")\u\[${COLOR256[256]}\]@'
+PS1+='\[${PROMPT_COLORS[0]}\]$(((UID==0)) && echo "\[${COLOR256[0]}\]")\u\[\033[0m\]@'
 
 # zonename (global zone warning)
-PS1+='\[${COLOR256[0]}\]\[${COLOR256[257]}\]'"$(zonename 2>/dev/null | grep -q '^global$' && echo 'GZ:')"'\[${COLOR256[256]}\]'
+PS1+='\[${COLOR256[0]}\]'"$(zonename 2>/dev/null | grep -q '^global$' && echo 'GZ:')"'\[\033[0m\]'
 
 # hostname
 PS1+='\[${PROMPT_COLORS[3]}\]\H '
 
 # PID
-PS1+='\[${PROMPT_COLORS[4]}\](PID:$$) \[${COLOR256[256]}\]'
+PS1+='\[${PROMPT_COLORS[4]}\](PID:$$) \[\033[0m\]'
 
 # uname
 PS1+='\[${PROMPT_COLORS[2]}\]'"$(uname | tr '[:upper:]' '[:lower:]')"' '
@@ -121,8 +139,7 @@ PS1+='\[${PROMPT_COLORS[5]}\]\w '
 PS1+='$(branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null); [[ -n $branch ]] && echo "\[${PROMPT_COLORS[2]}\](\[${PROMPT_COLORS[3]}\]git:$branch\[${PROMPT_COLORS[2]}\]) ")'
 
 # prompt character
-PS1+='\[${PROMPT_COLORS[0]}\]\$\[${COLOR256[256]}\] '
-
+PS1+='\[${PROMPT_COLORS[0]}\]\$\[\033[0m\] '
 # set the theme
 set_prompt_colors 24
 
