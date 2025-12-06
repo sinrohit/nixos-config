@@ -25,6 +25,11 @@
     };
   };
 
+  # Required by cloudflared-tunnel
+  boot.kernel.sysctl = {
+    "net.core.rmem_max" = 7500000;
+  };
+
   fileSystems = {
     "/" = {
       device = "/dev/disk/by-label/NIXOS_SD";
@@ -43,6 +48,7 @@
       owner = "nginx";
       group = "users";
     };
+    cloudflare-tunnel.file = ../../secrets/cloudflare-tunnel.age;
   };
 
   networking = {
@@ -173,6 +179,17 @@
       DISABLE_GIT_HOOKS = false;
     };
   };
+
+  services.cloudflared = {
+    enable = true;
+    tunnels = {
+      "HOME_PI" = {
+        credentialsFile = "${config.age.secrets.cloudflare-tunnel.path}";
+        default = "http_status:404";
+      };
+    };
+  };
+
   users = {
     users.nginx.extraGroups = [
       "acme"

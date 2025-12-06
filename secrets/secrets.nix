@@ -20,4 +20,5 @@ in
   "github-runner-sinrohit.age".publicKeys = users ++ systems;
   "github-runner-nixci-macos.age".publicKeys = users ++ systems;
   "github-runner-nixci-linux.age".publicKeys = users ++ systems;
+  "cloudflare-tunnel.age".publicKeys = users ++ systems;
 }
