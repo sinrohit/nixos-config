@@ -122,6 +122,14 @@
         proxyWebsockets = true;
       };
     };
+    virtualHosts."git.rdev.in" = {
+      useACMEHost = "rdev.in";
+      forceSSL = true;
+      locations."/" = {
+        proxyPass = "http://localhost:3002";
+        proxyWebsockets = true;
+      };
+    };
   };
 
   services.vaultwarden.enable = true;
@@ -146,6 +154,25 @@
     };
   };
 
+  services.gitea = {
+    enable = true;
+    database = {
+      type = "postgres";
+      port = 5432;
+    };
+    settings.log.LEVEL = "Error";
+    settings.service.DISABLE_REGISTRATION = true;
+    settings.metrics.ENABLED = true;
+    settings.server = {
+      DISABLE_ROUTER_LOG = true;
+      ROOT_URL = "https://git.rdev.in";
+      HTTP_PORT = 3002;
+      DOMAIN = "rdev.in";
+    };
+    settings.security = {
+      DISABLE_GIT_HOOKS = false;
+    };
+  };
   users = {
     users.nginx.extraGroups = [
       "acme"
