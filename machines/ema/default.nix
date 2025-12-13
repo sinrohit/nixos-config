@@ -82,6 +82,8 @@
   # out or delete all of this.
   services.tailscale.enable = true;
 
+  services.getty.autologinUser = "rohit";
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.mutableUsers = false;
   # Manage fonts. We pull these from a secret directory since most of these
@@ -111,14 +113,18 @@
     dunst
     picom
     feh
-    xmobar-custom
+    #xmobar-custom
     ghostty
+    kitty
+    foot
+    waybar
+    hyprpaper
 
     # For hypervisors that support auto-resizing, this script forces it.
     # I've noticed not everyone listens to the udev events so this is a hack.
-    (writeShellScriptBin "xrandr-auto" ''
-      xrandr --output Virtual-1 --auto
-    '')
+    # (writeShellScriptBin "xrandr-auto" ''
+    #   xrandr --output Virtual-1 --auto
+    # '')
     # This is needed for the vmware user tools clipboard to work.
     # You can test if you don't need this by deleting this and seeing
     # if the clipboard sill works.
@@ -126,20 +132,20 @@
   ];
 
   # Our default non-specialised desktop environment.
-  services.xserver = lib.mkIf (config.specialisation != { }) {
-    enable = true;
-    xkb.layout = "us";
-    desktopManager.gnome.enable = true;
-    displayManager.gdm.enable = true;
-  };
+  # services.xserver = lib.mkIf (config.specialisation != { }) {
+  #   enable = true;
+  #   xkb.layout = "us";
+  #   desktopManager.gnome.enable = true;
+  #   displayManager.gdm.enable = true;
+  # };
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
   services.openssh.settings.PasswordAuthentication = true;
   services.openssh.settings.PermitRootLogin = "no";
 
-  services.hercules-ci-agent.enable = true;
-  services.hercules-ci-agent.settings.concurrentTasks = 4; # Number of jobs to run
+  # services.hercules-ci-agent.enable = true;
+  # services.hercules-ci-agent.settings.concurrentTasks = 4; # Number of jobs to run
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

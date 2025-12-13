@@ -77,24 +77,30 @@ in
 
     environment.etc.vmware-tools.source = "${open-vm-tools}/etc/vmware-tools/*";
 
-    services.xserver = {
+    #services.xserver = {
+    #  enable = true;
+    #  displayManager = {
+    #    sessionCommands = ''
+    #      ${pkgs.xorg.xset}/bin/xset r rate 200 40
+    #    '';
+    #  };
+
+    #  windowManager.xmonad = {
+    #    enable = true;
+    #    enableContribAndExtras = true;
+
+    #    extraPackages = hp: [
+    #      hp.dbus
+    #      hp.monad-logger
+    #    ];
+    #    config = ../xmonad/XMonadConfig.hs;
+    #  };
+    #};
+
+    programs.hyprland = {
       enable = true;
-      displayManager = {
-        sessionCommands = ''
-          ${pkgs.xorg.xset}/bin/xset r rate 200 40
-        '';
-      };
-
-      windowManager.xmonad = {
-        enable = true;
-        enableContribAndExtras = true;
-
-        extraPackages = hp: [
-          hp.dbus
-          hp.monad-logger
-        ];
-        config = ../xmonad/XMonadConfig.hs;
-      };
+      withUWSM = true; # recommended for most users
+      xwayland.enable = true; # Xwayland can be disabled.
     };
 
     services.udev.packages = [ open-vm-tools ];

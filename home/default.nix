@@ -21,6 +21,7 @@ in
     ./direnv.nix
     ./helix.nix
   ];
+  #++ lib.optionals isLinux [ ./hyprland.nix ];
 
   # Home-manager 22.11 requires this be set. We never set it so we have
   # to use the old state version.
@@ -122,4 +123,14 @@ in
     size = 128;
     x11.enable = true;
   };
+
+  home.file.".config/hypr" = {
+    source = ./config/hypr;
+    recursive = true;
+  };
+  home.file.".config/waybar" = {
+    source = ./config/waybar;
+    recursive = true;
+  };
+  #home.file.".config/foot".source = "./config/foot";
 }

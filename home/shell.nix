@@ -37,6 +37,11 @@ in
     ];
     initExtra = builtins.readFile ./bashrc;
     shellAliases = shellAliases;
+    profileExtra = ''
+      if [ -z "$WAYLAND_DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then
+        exec uwsm start -S hyprland-uwsm.desktop
+      fi
+    '';
   };
   # Better shell prmot!
   programs.starship = {
