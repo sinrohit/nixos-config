@@ -35,6 +35,11 @@
 
     nixci.url = "github:sinrohit/nixci/refactor";
 
+    st = {
+      url = "github:siduck/st";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
   outputs =

@@ -5,14 +5,16 @@
 */
 final: prev: {
   xmobar-custom = final.callPackage ../pkgs/xmobar { };
+  chadwm = final.callPackage ../pkgs/chadwm { };
   # gh CLI on stable has bugs.
   gh = inputs.nixpkgs-unstable.legacyPackages.${prev.system}.gh;
-  nixfmt = inputs.nixpkgs-unstable.legacyPackages.${prev.system}.nixfmt;
-  nixfmt-tree = inputs.nixpkgs-unstable.legacyPackages.${prev.system}.nixfmt-tree;
-  rust-analyzer = inputs.nixpkgs-unstable.legacyPackages.${prev.system}.rust-analyzer;
+  st = inputs.st.packages."${prev.system}".st-snazzy;
 
   # Want the latest version of these
   nushell = inputs.nixpkgs-unstable.legacyPackages.${prev.system}.nushell;
+  nixfmt-tree = inputs.nixpkgs-unstable.legacyPackages.${prev.system}.nixfmt-tree;
+  nixfmt = inputs.nixpkgs-unstable.legacyPackages.${prev.system}.nixfmt;
+  rust-analyzer = inputs.nixpkgs-unstable.legacyPackages.${prev.system}.rust-analyzer;
 
   nixci = inputs.nixci.packages.${prev.system}.default;
 
