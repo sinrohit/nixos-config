@@ -59,14 +59,7 @@
     ];
   };
 
-  nix = {
-    package = pkgs.nixVersions.latest;
-    extraOptions = ''
-      experimental-features = nix-command flakes
-      keep-outputs = true
-      keep-derivations = true
-    '';
-  };
+  nix.package = pkgs.nixVersions.latest;
 
   # Don't require password for sudo
   security.sudo.wheelNeedsPassword = false;
@@ -98,7 +91,6 @@
     cachix
     gnumake
     killall
-    niv
     xclip
 
     # Packages required for xmonad
