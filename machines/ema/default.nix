@@ -112,15 +112,43 @@
     # You can test if you don't need this by deleting this and seeing
     # if the clipboard sill works.
     gtkmm3
+
+    # niri
+    swaylock
+    swayidle
+    swaybg
+    fuzzel # launcher
+    mako # notification daemon
+    wl-clipboard
+    wlr-randr
+    grim
+    slurp
+    wallust
+    cliphist
+    swappy
+    kanshi
+    brightnessctl
+    playerctl
+    pavucontrol
+    wdisplays
+    alacritty
   ];
 
-  # Our default non-specialised desktop environment.
-  services.xserver = lib.mkIf (config.specialisation != { }) {
+  services.greetd = {
     enable = true;
-    xkb.layout = "us";
-    desktopManager.gnome.enable = true;
-    displayManager.gdm.enable = true;
+    settings = {
+      default_session = {
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd niri-session";
+        user = "greeter";
+      };
+      initial_session = {
+        command = "niri-session";
+        user = "rohit";
+      };
+    };
   };
+
+  programs.niri.enable = true;
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
