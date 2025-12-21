@@ -7,7 +7,6 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/vmware-guest
     ../../modules/nixos
   ];
 
@@ -28,10 +27,6 @@
 
   time.timeZone = "Asia/Kolkata";
 
-  # Disable the default module and import our override. We have
-  # customizations to make this work on aarch64.
-  disabledModules = [ "virtualisation/vmware-guest.nix" ];
-
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
@@ -48,7 +43,6 @@
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowUnsupportedSystem = true;
 
-  # This works through our custom module imported above
   virtualisation.vmware.guest.enable = true;
 
   # Share our host filesystem
