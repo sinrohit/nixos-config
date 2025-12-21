@@ -17,6 +17,9 @@ let
           home-manager.useUserPackages = true;
           home-manager.extraSpecialArgs = specialArgs;
           home-manager.users."rohit" = import ../home;
+          home-manager.sharedModules = [
+            self.homeModules.linux
+          ];
         }
       ];
     };
@@ -57,6 +60,9 @@ let
           "/usr/local/bin" # Some macOS GUI programs install here
         ];
       };
+    linux = import ../home/linux.nix;
+    darwin = import ../home/darwin.nix;
+
   };
   darwinModules = {
     home-manager = {
@@ -65,7 +71,10 @@ let
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.sharedModules = [ homeModules.common ];
+          home-manager.sharedModules = [
+            homeModules.common
+            self.homeModules.darwin
+          ];
           home-manager.extraSpecialArgs = specialArgs;
           home-manager.users."rohit" = import ../home;
         }
@@ -74,6 +83,7 @@ let
   };
 in
 {
+  config.flake.homeModules = homeModules;
   config.flake.mkSystem = {
     nixOS =
       hostName:
