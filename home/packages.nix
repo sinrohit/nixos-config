@@ -18,7 +18,6 @@
 
     atuin = {
       enable = true;
-      enableNushellIntegration = true;
       settings = {
         show_tabs = false;
         style = "compact";
