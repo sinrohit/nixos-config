@@ -114,6 +114,8 @@
     gtkmm3
 
     # niri
+    waybar
+    wlogout
     swaylock
     swayidle
     swaybg
