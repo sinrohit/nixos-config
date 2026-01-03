@@ -138,7 +138,12 @@
     };
   };
 
-  services.vaultwarden.enable = true;
+  services.vaultwarden = {
+    enable = true;
+    config = {
+      ROCKET_PORT = 8222;
+    };
+  };
 
   services.immich = {
     enable = true;
