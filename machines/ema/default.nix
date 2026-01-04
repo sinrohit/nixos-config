@@ -105,17 +105,13 @@
     eww
     chadwm
 
-    # For hypervisors that support auto-resizing, this script forces it.
-    # I've noticed not everyone listens to the udev events so this is a hack.
-    (writeShellScriptBin "xrandr-auto" ''
-      xrandr --output Virtual-1 --auto
-    '')
     # This is needed for the vmware user tools clipboard to work.
     # You can test if you don't need this by deleting this and seeing
     # if the clipboard sill works.
     gtkmm3
 
     # niri
+    catppuccin-gtk
     waybar
     wlogout
     swaylock
