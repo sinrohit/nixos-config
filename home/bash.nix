@@ -18,6 +18,7 @@ in
 {
   programs.bash = {
     enable = true;
+    enableCompletion = true;
     shellOptions = [ ];
     historyControl = [
       "ignoredups"
