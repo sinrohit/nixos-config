@@ -25,6 +25,12 @@
     };
   };
 
+  # Disable UAS for external nvme drive
+  boot.kernelParams = [
+    "usb-storage.quirks=0bda:9210:u"
+    "usbcore.autosuspend=-1"
+  ];
+
   # Required by cloudflared-tunnel
   boot.kernel.sysctl = {
     "net.core.rmem_max" = 7500000;
