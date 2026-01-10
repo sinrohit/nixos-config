@@ -85,21 +85,72 @@
     "@wheel"
   ];
 
-  services.dnsmasq = {
+  services.pihole-ftl = {
     enable = true;
-    resolveLocalQueries = false;
+    openFirewallDNS = true;
+    openFirewallDHCP = true;
+    openFirewallWebserver = true;
+    queryLogDeleter.enable = true;
+    webserverEnabled = true;
+    lists = [
+      {
+        url = "https://raw.githubusercontent.com/sinrohit/hosts/master/hosts";
+        description = "Steven Black's unified adlist";
+      }
+    ];
     settings = {
-      no-hosts = true;
-      no-resolv = true;
-      no-poll = true;
-      server = [
-        "9.9.9.9" # Quad9 (privacy-focused)
-        "1.1.1.1" # Cloudflare (fast)
-        "8.8.8.8" # Google
+      webserver.port = "8080";
+      dns = {
+        domainNeeded = true;
+        expandHosts = true;
+        interface = "end0";
+        listeningMode = "BIND";
+        upstreams = [
+          "127.0.0.1#5053"
+        ];
+      };
+      dhcp = {
+        active = true;
+        router = "192.168.1.1"; # Router
+        start = "192.168.1.100"; # DHCP pool starts here
+        end = "192.168.1.200"; # DHCP pool ends here
+        leaseTime = "1d"; # 1 day lease time
+        ipv6 = true;
+        multiDNS = true;
+        hosts = [
+          # Static address for Pi-hole itself
+          "D8:3A:DD:AA:90:7F,192.168.1.5,${config.networking.hostName},infinite"
+        ];
+        rapidCommit = true;
+      };
+      misc.dnsmasq_lines = [
+        "dhcp-authoritative"
+        "trust-anchor=.,38696,8,2,683D2D0ACB8C9B712A1948B27F741219298D0A450D612C483AF444A4C0FB2B16"
       ];
+    };
+  };
 
-      addn-hosts = "${inputs.addn-hosts}/hosts";
-      address = [ "/hesads.akamaized.net/::" ];
+  services.pihole-web = {
+    enable = true;
+    ports = [
+      8080
+    ];
+  };
+
+  services.unbound = {
+    enable = true;
+    settings = {
+      server = {
+        interface = [
+          "127.0.0.1"
+          "::1"
+        ]; # Only listen locally (Pi-hole will forward to it)
+        port = 5053;
+        access-control = [
+          "127.0.0.0/8 allow"
+          "::1 allow"
+        ];
+      };
     };
   };
 
