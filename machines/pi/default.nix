@@ -193,6 +193,14 @@
         proxyWebsockets = true;
       };
     };
+    virtualHosts."pihole.rdev.in" = {
+      useACMEHost = "rdev.in";
+      forceSSL = true;
+      locations."/" = {
+        proxyPass = "http://localhost:8080";
+        proxyWebsockets = true;
+      };
+    };
   };
 
   services.vaultwarden = {
