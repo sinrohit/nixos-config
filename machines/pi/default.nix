@@ -103,8 +103,8 @@
       dns = {
         domainNeeded = true;
         expandHosts = true;
-        interface = "end0";
-        listeningMode = "BIND";
+        interface = "ALL";
+        listeningMode = "ALL";
         upstreams = [
           "127.0.0.1#5053"
         ];
