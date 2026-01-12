@@ -1,8 +1,5 @@
 {
-  config,
-  lib,
   pkgs,
-  inputs,
   ...
 }:
 {
@@ -57,7 +54,7 @@
   ];
 
   #---------------------------------------------------------------------
-  # Env vars and dotfiles
+  # Env vars
   #---------------------------------------------------------------------
 
   home.sessionVariables = {
@@ -67,10 +64,4 @@
     EDITOR = "nvim";
     PAGER = "less -FirSwX";
   };
-
-  xdg.configFile = {
-    "rofi/config.rasi".text = builtins.readFile ./rofi;
-  };
-
-  xresources.extraConfig = builtins.readFile ./Xresources;
 }

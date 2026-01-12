@@ -19,4 +19,8 @@
     size = 128;
     x11.enable = true;
   };
+
+  xdg.configFile = {
+    "rofi/config.rasi".text = builtins.readFile ./rofi;
+  };
 }
