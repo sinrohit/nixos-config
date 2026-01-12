@@ -28,11 +28,6 @@
       inputs.darwin.follows = "nix-darwin";
     };
 
-    addn-hosts = {
-      url = "github:sinrohit/hosts";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     nixci.url = "github:sinrohit/nixci/refactor";
 
     st = {

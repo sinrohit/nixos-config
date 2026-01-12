@@ -1,25 +1,5 @@
 {
   "nodes": {
-    "addn-hosts": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1763912985,
-        "narHash": "sha256-8+xV4AY493qR7Byt5bSspK/y2cm9gpwtAtffFMfiOXw=",
-        "owner": "sinrohit",
-        "repo": "hosts",
-        "rev": "f9b8b691ec9d228dfa8d3964c5fa7ea144a5acfb",
-        "type": "github"
-      },
-      "original": {
-        "owner": "sinrohit",
-        "repo": "hosts",
-        "type": "github"
-      }
-    },
     "agenix": {
       "inputs": {
         "darwin": [
@@ -402,7 +382,6 @@
     },
     "root": {
       "inputs": {
-        "addn-hosts": "addn-hosts",
         "agenix": "agenix",
         "flake-parts": "flake-parts",
         "home-manager": "home-manager_2",

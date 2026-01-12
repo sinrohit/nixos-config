@@ -9,7 +9,6 @@
   imports = [
     inputs.agenix.nixosModules.default
     ../../modules/nixos
-    inputs.addn-hosts.nixosModule
   ];
 
   boot = {
