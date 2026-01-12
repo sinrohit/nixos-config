@@ -42,10 +42,6 @@
   };
 
   nix.settings = {
-    experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
     trusted-users = [
       "root"
       "github-runner-runner1"

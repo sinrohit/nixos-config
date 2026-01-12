@@ -8,7 +8,6 @@
 
   imports = [
     inputs.agenix.nixosModules.default
-    ../../modules/nixos
   ];
 
   boot = {

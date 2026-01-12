@@ -32,6 +32,7 @@ in
         # Allow unfree packages
         { nixpkgs.config.allowUnfree = true; }
 
+        ../modules/nixos
         ../machines/${hostName}
       ]
       ++ lib.optional withHomeManager config.homeModules.nixosHomeManagerModule;
