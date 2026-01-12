@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 
-# If not running interactively, don't do anything
-[[ -n $PS1 ]] || return
-
-export EDITOR=vim
+export EDITOR=nvim
 export GREP_COLOR='1;36'
 export LSCOLORS='ExGxbEaECxxEhEhBaDaCaD'
 export PAGER='less'
@@ -127,10 +124,10 @@ PS1+='\[${COLOR256[0]}\]'"$(zonename 2>/dev/null | grep -q '^global$' && echo 'G
 PS1+='\[${PROMPT_COLORS[3]}\]\H '
 
 # PID
-PS1+='\[${PROMPT_COLORS[4]}\](PID:$$) \[\033[0m\]'
+# PS1+='\[${PROMPT_COLORS[4]}\](PID:$$) \[\033[0m\]'
 
 # uname
-PS1+='\[${PROMPT_COLORS[2]}\]'"$(uname | tr '[:upper:]' '[:lower:]')"' '
+# PS1+='\[${PROMPT_COLORS[2]}\]'"$(uname | tr '[:upper:]' '[:lower:]')"' '
 
 # cwd
 PS1+='\[${PROMPT_COLORS[5]}\]\w '
@@ -140,6 +137,7 @@ PS1+='$(branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null); [[ -n $branch ]] 
 
 # prompt character
 PS1+='\[${PROMPT_COLORS[0]}\]\$\[\033[0m\] '
+
 # set the theme
 set_prompt_colors 24
 
