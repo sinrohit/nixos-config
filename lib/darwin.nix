@@ -33,6 +33,7 @@ in
         # Allow unfree packages.
         { nixpkgs.config.allowUnfree = true; }
 
+        ../modules/darwin
         ../machines/${hostName}
       ]
       ++ lib.optional withHomeManager config.homeModules.darwinHomeManagerModule;
