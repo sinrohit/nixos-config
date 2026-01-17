@@ -14,7 +14,7 @@ let
         useGlobalPkgs = true;
         useUserPackages = true;
         extraSpecialArgs = specialArgs;
-        users."rohit" = import ../home;
+        users."rohit" = import ../modules/home;
         sharedModules = [
           {
             # Sensible default for `home.homeDirectory`
@@ -30,7 +30,7 @@ let
             ];
           }
         ]
-        ++ (if pkgs.stdenv.isDarwin then [ ../home/darwin.nix ] else [ ../home/linux.nix ]);
+        ++ (if pkgs.stdenv.isDarwin then [ ../modules/home/darwin.nix ] else [ ../modules/home/linux.nix ]);
       };
     };
 
