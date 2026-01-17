@@ -3,7 +3,7 @@
   ...
 }:
 {
-  imports = [ ../modules/user.nix ];
+  imports = [ ./user.nix ];
 
   nix = {
     settings = {
