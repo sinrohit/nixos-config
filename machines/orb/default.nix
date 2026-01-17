@@ -4,6 +4,7 @@
 
 {
   config,
+  lib,
   pkgs,
   modulesPath,
   inputs,
@@ -30,6 +31,7 @@
 
     # simulate isNormalUser, but with an arbitrary UID
     isSystemUser = true;
+    isNormalUser = lib.mkForce false;
     group = "users";
     createHome = true;
     home = "/home/rohit";
