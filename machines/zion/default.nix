@@ -33,6 +33,12 @@
 
   nix.gc = {
     automatic = true;
+    options = "--delete-older-than 10d";
+    interval = {
+      # This will run gc everyday at 12:30 AM
+      Hour = 0;
+      Minute = 30;
+    };
   };
 
   system.stateVersion = 5;
