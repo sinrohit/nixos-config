@@ -5,5 +5,7 @@
     ./checks.nix
     ./configurations.nix
     ./herculesCISystems.nix
+    ./overlays.nix
+    ./packages.nix
   ];
 }

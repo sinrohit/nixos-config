@@ -7,7 +7,6 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/nixos
   ];
 
   # Be careful updating this.

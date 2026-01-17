@@ -6,10 +6,7 @@
 {
 
   imports = [
-    #./aerospace.nix
     ./github-runners.nix
-    ./remote-builders.nix
-    #./wm.nix
   ];
 
   # Use TouchID for `sudo` authentication
