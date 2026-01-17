@@ -28,6 +28,14 @@
       inputs.darwin.follows = "nix-darwin";
     };
 
+    actions-nix = {
+      url = "github:nialov/actions.nix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
+      };
+    };
+
     nixci.url = "github:sinrohit/nixci/refactor";
 
     st = {

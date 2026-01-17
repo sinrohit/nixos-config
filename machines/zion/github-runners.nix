@@ -56,6 +56,7 @@
       extraPackages = with pkgs; [
         nixci
         cachix
+        python3
       ];
     };
     "runner3" = {

@@ -1,5 +1,6 @@
 {
   imports = [
+    ./ci.nix
     ./devShell.nix
     ./systems.nix
     ./checks.nix
