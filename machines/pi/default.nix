@@ -41,8 +41,13 @@
       options = [ "noatime" ];
     };
     "/media" = {
-      device = "/dev/sda1";
+      device = "/dev/disk/by-label/MEDIA_DISK";
       fsType = "ext4";
+      options = [
+        "nofail"
+        "x-systemd.automount"
+        "x-systemd.device-timeout=5s"
+      ];
     };
   };
 
