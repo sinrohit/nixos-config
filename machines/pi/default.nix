@@ -157,8 +157,14 @@
     };
   };
 
-  services.openssh.enable = true;
-  services.openssh.settings.PasswordAuthentication = false;
+  services.openssh = {
+    enable = true;
+    settings = {
+      PasswordAuthentication = true;
+      PermitRootLogin = "no";
+    };
+  };
+
   services.tailscale = {
     enable = true;
     extraSetFlags = [ "--advertise-exit-node" ];
