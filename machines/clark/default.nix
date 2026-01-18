@@ -16,6 +16,17 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  fileSystems."/media" = {
+    device = "/dev/disk/by-label/MEDIA_DISK";
+    fsType = "ext4";
+    options = [
+      "nofail"
+      "x-systemd.automount"
+      "x-systemd.device-timeout=5s"
+      "defaults" # Standard mount options
+    ];
+  };
+
   networking.hostName = "clark";
 
   # Enable networking
@@ -23,13 +34,6 @@
 
   # Set your time zone.
   time.timeZone = "Asia/Kolkata";
-
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -53,9 +57,6 @@
     # no need to redefine it in your config for now)
     #media-session.enable = true;
   };
-
-  # Install firefox.
-  programs.firefox.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -129,6 +130,14 @@
         proxyWebsockets = true;
       };
     };
+    virtualHosts."immich.sinrohit.com" = {
+      useACMEHost = "sinrohit.com";
+      forceSSL = true;
+      locations."/" = {
+        proxyPass = "http://localhost:2283";
+        proxyWebsockets = true;
+      };
+    };
   };
 
   services.vaultwarden = {
@@ -148,6 +157,15 @@
       dnsResolver = "1.1.1.1:53";
       environmentFile = config.age.secrets.acme-cloudflare-sinrohit.path;
     };
+  };
+
+  services.immich = {
+    enable = true;
+    package = pkgs.immich;
+    mediaLocation = "/media/immich";
+    machine-learning.enable = true;
+    host = "0.0.0.0"; # Listen on all interfaces instead of just localhost
+    port = 2283;
   };
 
   # This value determines the NixOS release from which the default
