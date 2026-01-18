@@ -23,12 +23,6 @@
     };
   };
 
-  # Disable UAS for external nvme drive
-  boot.kernelParams = [
-    "usb-storage.quirks=0bda:9210:u"
-    "usbcore.autosuspend=-1"
-  ];
-
   # Required by cloudflared-tunnel
   boot.kernel.sysctl = {
     "net.core.rmem_max" = 7500000;
@@ -178,22 +172,6 @@
     # allow large file uploads
     clientMaxBodySize = "50000M";
 
-    virtualHosts."vault.rdev.in" = {
-      useACMEHost = "rdev.in";
-      forceSSL = true;
-      locations."/" = {
-        proxyPass = "http://localhost:${toString config.services.vaultwarden.config.ROCKET_PORT}";
-        proxyWebsockets = true;
-      };
-    };
-    virtualHosts."immich.rdev.in" = {
-      useACMEHost = "rdev.in";
-      forceSSL = true;
-      locations."/" = {
-        proxyPass = "http://localhost:2283";
-        proxyWebsockets = true;
-      };
-    };
     virtualHosts."git.rdev.in" = {
       useACMEHost = "rdev.in";
       forceSSL = true;
@@ -210,21 +188,6 @@
         proxyWebsockets = true;
       };
     };
-  };
-
-  services.vaultwarden = {
-    enable = true;
-    config = {
-      ROCKET_PORT = 8222;
-    };
-  };
-
-  services.immich = {
-    enable = true;
-    mediaLocation = "/media/immich";
-    machine-learning.enable = false;
-    host = "0.0.0.0"; # Listen on all interfaces instead of just localhost
-    port = 2283;
   };
 
   security.acme = {
