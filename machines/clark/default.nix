@@ -164,7 +164,6 @@
     package = pkgs.immich;
     mediaLocation = "/media/immich";
     machine-learning.enable = true;
-    host = "0.0.0.0"; # Listen on all interfaces instead of just localhost
     port = 2283;
   };
 
