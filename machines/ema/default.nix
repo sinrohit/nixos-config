@@ -93,6 +93,7 @@
     gnumake
     killall
     xclip
+    deploy
 
     # Packages required for xmonad
     dunst

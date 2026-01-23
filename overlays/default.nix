@@ -6,6 +6,7 @@
 final: prev: {
   xmobar-custom = final.callPackage ../pkgs/xmobar { };
   chadwm = final.callPackage ../pkgs/chadwm { };
+  deploy = final.callPackage ../pkgs/deploy { };
   # gh CLI on stable has bugs.
   gh = inputs.nixpkgs-unstable.legacyPackages.${prev.system}.gh;
   st = inputs.st.packages."${prev.system}".st-snazzy;

@@ -1,6 +1,7 @@
 {
   config,
   inputs,
+  pkgs,
   ...
 }:
 {
@@ -30,6 +31,11 @@
 
   users.users."${config.me.username}".home = "/Users/${config.me.username}";
   system.primaryUser = "${config.me.username}";
+
+  environment.systemPackages = with pkgs; [
+    restic
+    deploy
+  ];
 
   nix.gc = {
     automatic = true;

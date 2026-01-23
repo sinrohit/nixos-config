@@ -68,6 +68,7 @@
     git
     rsync
     restic
+    deploy
   ];
 
   users = {
