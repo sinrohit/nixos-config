@@ -12,6 +12,9 @@
     ./disko-media.nix
     inputs.agenix.nixosModules.default
     inputs.disko.nixosModules.default
+
+    # nixos services
+    ./services
   ];
 
   # Bootloader.
@@ -121,40 +124,6 @@
       group = "users";
     };
     cloudflare-tunnel.file = ../../secrets/cloudflare-tunnel.age;
-    restic.file = ../../secrets/restic.age;
-  };
-
-  services.nginx = {
-    enable = true;
-    recommendedProxySettings = true;
-    recommendedTlsSettings = true;
-
-    # allow large file uploads
-    clientMaxBodySize = "50000M";
-
-    virtualHosts."vault.sinrohit.com" = {
-      useACMEHost = "sinrohit.com";
-      forceSSL = true;
-      locations."/" = {
-        proxyPass = "http://localhost:${toString config.services.vaultwarden.config.ROCKET_PORT}";
-        proxyWebsockets = true;
-      };
-    };
-    virtualHosts."immich.sinrohit.com" = {
-      useACMEHost = "sinrohit.com";
-      forceSSL = true;
-      locations."/" = {
-        proxyPass = "http://localhost:2283";
-        proxyWebsockets = true;
-      };
-    };
-  };
-
-  services.vaultwarden = {
-    enable = true;
-    config = {
-      ROCKET_PORT = 8222;
-    };
   };
 
   security.acme = {
@@ -166,70 +135,6 @@
       dnsProvider = "cloudflare";
       dnsResolver = "1.1.1.1:53";
       environmentFile = config.age.secrets.acme-cloudflare-sinrohit.path;
-    };
-  };
-
-  services.immich = {
-    enable = true;
-    package = pkgs.immich;
-    mediaLocation = "/media/immich";
-    machine-learning.enable = true;
-    port = 2283;
-  };
-
-  services.restic.backups = {
-    immich = {
-      # Repository configuration
-      repository = "sftp:hetzner-storagebox:/backups/immich";
-      passwordFile = config.age.secrets.restic.path;
-
-      # Paths to backup
-      paths = [
-        "/media/immich"
-      ];
-
-      # Exclude patterns
-      exclude = [
-        # Cache directories
-        "**/.cache"
-        "**/cache"
-        "**/tmp"
-
-        # Immich thumbnails (can be regenerated)
-        "**/thumbs"
-        "**/encoded-video"
-
-        # Temporary files
-        "**/*.tmp"
-        "**/.Trash-*"
-      ];
-
-      # Initialize repository on first run
-      initialize = true;
-
-      # Pruning policy - keeps:
-      # - Last 7 daily backups
-      # - Last 4 weekly backups
-      # - Last 6 monthly backups
-      # - Last 2 yearly backups
-      pruneOpts = [
-        "--keep-daily 7"
-        "--keep-weekly 4"
-        "--keep-monthly 6"
-        "--keep-yearly 2"
-      ];
-
-      # Timer configuration - runs daily at 2 AM with a random delay
-      timerConfig = {
-        OnCalendar = "02:00";
-        RandomizedDelaySec = "30m";
-        Persistent = true;
-      };
-
-      runCheck = true;
-      checkOpts = [
-        "--read-data-subset=5%" # Check 5% of data each run
-      ];
     };
   };
 
