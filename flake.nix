@@ -47,6 +47,8 @@
 
     nixci.url = "github:sinrohit/nixci/refactor";
 
+    import-tree.url = "github:vic/import-tree";
+
     st = {
       url = "github:siduck/st";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -60,7 +62,7 @@
 
       imports = [
         ./lib
-        ./modules/flake
+        (inputs.import-tree ./modules/flake)
       ];
     };
 }
