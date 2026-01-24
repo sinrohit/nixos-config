@@ -25,4 +25,5 @@ in
   "github-runner-nixci-linux.age".publicKeys = users ++ systems;
   "cloudflare-tunnel.age".publicKeys = users ++ systems;
   "cloudflare-tunnel-sinrohit.age".publicKeys = users ++ systems;
+  "restic.age".publicKeys = users ++ systems;
 }
