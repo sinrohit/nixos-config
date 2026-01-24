@@ -47,6 +47,7 @@ let
     cachix = "cachix/cachix-action@0fc020193b5a1fa3ac4575aa3a7d3aa6a35435ad"; # v16
     checkout = "actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8"; # v6.0.1
     nix-installer = "DeterminateSystems/nix-installer-action@c5a866b6ab867e88becbed4467b93592bce69f8a"; # v21
+    update-flake-inputs = "mic92/update-flake-inputs@main";
   };
 
   # Reusable step definitions
@@ -260,6 +261,54 @@ in
                 token = "\${{ secrets.PAT }}";
                 pull-request-number = "\${{ github.event.pull_request.number }}";
                 merge-method = "rebase";
+              };
+            }
+          ];
+        };
+      };
+
+      ".github/workflows/update-inputs.yaml" = {
+        name = "update-flake-inputs";
+
+        on = {
+          schedule = [
+            { cron = "0 2 * * 1"; }
+          ];
+          workflow_dispatch = { };
+        };
+
+        permissions = {
+          contents = "write";
+          pull-requests = "write";
+        };
+
+        jobs.update-inputs = {
+          runs-on = "ubuntu-latest";
+
+          steps = [
+            (
+              steps.checkout
+              // {
+                "with" = {
+                  token = "\${{ secrets.PAT }}";
+                };
+              }
+            )
+
+            steps.nixInstaller
+
+            {
+              name = "Update flake inputs";
+              uses = actions.update-flake-inputs;
+              "with" = {
+                github-token = "\${{ secrets.PAT }}";
+
+                # Explicit: PR only
+                auto-merge = false;
+
+                commit-message = "chore(flake): update inputs";
+                pr-title = "chore(flake): update inputs";
+                pr-labels = "dependencies,nix";
               };
             }
           ];
