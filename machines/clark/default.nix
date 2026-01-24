@@ -9,26 +9,32 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ./disko-media.nix
     inputs.agenix.nixosModules.default
+    inputs.disko.nixosModules.default
   ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  fileSystems."/media" = {
-    device = "/dev/disk/by-label/MEDIA_DISK";
-    fsType = "ext4";
-    options = [
-      "nofail"
-      "x-systemd.automount"
-      "x-systemd.device-timeout=5s"
-      "defaults" # Standard mount options
-    ];
+  # Enable ZFS support
+  boot.supportedFilesystems = [ "zfs" ];
+
+  # Recommended ZFS services
+  services.zfs = {
+    autoScrub = {
+      # weekly integrity checks
+      enable = true;
+      interval = "weekly";
+    };
+    trim.enable = true; # weekly TRIM for SSDs
   };
 
-  networking.hostName = "clark";
-
+  networking = {
+    hostId = "2dbce559";
+    hostName = "clark";
+  };
   # Enable networking
   networking.networkmanager.enable = true;
 
