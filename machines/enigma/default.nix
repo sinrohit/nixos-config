@@ -115,6 +115,14 @@
   };
   services.xserver.desktopManager.gnome.enable = true;
 
+  nix.settings = {
+    trusted-users = [
+      "root"
+      "github-runner-runner1"
+      "rohit"
+    ];
+  };
+
   age.secrets.github-runner-nixos-config-aarch64-linux.file = ../../secrets/github-runner-nixos-config-aarch64-linux.age;
 
   services.github-runners = {

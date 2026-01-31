@@ -15,4 +15,10 @@
       ];
     };
   };
+
+  nix.settings.trusted-users = [
+    "root"
+    "github-runner-runner1"
+    "rohit"
+  ];
 }
