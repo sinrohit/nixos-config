@@ -41,9 +41,9 @@ jobs:
           hostPlatform: aarch64-linux
           name: ema
           runsOn: Linux
-        - attr: nixosConfigurations.orb.config.system.build.toplevel
+        - attr: nixosConfigurations.enigma.config.system.build.toplevel
           hostPlatform: aarch64-linux
-          name: orb
+          name: enigma
           runsOn: Linux
         - attr: nixosConfigurations.pi.config.system.build.toplevel
           hostPlatform: aarch64-linux
