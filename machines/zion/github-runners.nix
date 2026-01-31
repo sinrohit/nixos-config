@@ -16,20 +16,8 @@
   age = {
     identityPaths = [ "/Users/${config.me.username}/.ssh/id_ed25519" ]; # TODO: Find a better way to do this
     secrets = {
-      github-runner-fold-macos = {
-        file = ../../secrets/github-runner-fold-macos.age;
-        owner = "_github-runner";
-        group = "_github-runner";
-        mode = "600";
-      };
       github-runner-nixos-config-macos = {
         file = ../../secrets/github-runner-nixos-config-macos.age;
-        owner = "_github-runner";
-        group = "_github-runner";
-        mode = "600";
-      };
-      github-runner-nixci-macos = {
-        file = ../../secrets/github-runner-nixci-macos.age;
         owner = "_github-runner";
         group = "_github-runner";
         mode = "600";
@@ -41,32 +29,11 @@
     "runner1" = {
       enable = true;
       name = "macos-runner1";
-      url = "https://github.com/sinrohit/fold";
-      tokenFile = config.age.secrets.github-runner-fold-macos.path;
-      extraPackages = with pkgs; [
-        nixci
-        cachix
-      ];
-    };
-    "runner2" = {
-      enable = true;
-      name = "macos-runner2";
       url = "https://github.com/sinrohit/nixos-config";
       tokenFile = config.age.secrets.github-runner-nixos-config-macos.path;
       extraPackages = with pkgs; [
-        nixci
         cachix
         python3
-      ];
-    };
-    "runner3" = {
-      enable = true;
-      name = "macos-runner3";
-      url = "https://github.com/sinrohit/nixci";
-      tokenFile = config.age.secrets.github-runner-nixci-macos.path;
-      extraPackages = with pkgs; [
-        nixci
-        cachix
       ];
     };
   };
