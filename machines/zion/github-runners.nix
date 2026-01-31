@@ -26,9 +26,9 @@
   };
 
   services.github-runners = {
-    "runner1" = {
+    "runner" = {
       enable = true;
-      name = "macos-runner1";
+      name = "macos-runner";
       url = "https://github.com/sinrohit/nixos-config";
       tokenFile = config.age.secrets.github-runner-nixos-config-macos.path;
       extraPackages = with pkgs; [
