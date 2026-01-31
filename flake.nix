@@ -45,6 +45,11 @@
       };
     };
 
+    git-hooks = {
+      url = "github:cachix/git-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nixci.url = "github:sinrohit/nixci/refactor";
 
     import-tree.url = "github:vic/import-tree";
