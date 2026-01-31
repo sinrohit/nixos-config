@@ -43,11 +43,10 @@ let
   # GitHub Actions references - all versions consolidated here for Renovate
   actions = {
     alls-green = "re-actors/alls-green@05ac9388f0aebcb5727afa17fcccfecd6f8ec5fe"; # v1.2.2
-    automerge = "peter-evans/enable-pull-request-automerge@a660677d5469627102a1c1e11409dd063606628d"; # v3.0.0
     cache = "actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7"; # v5.0.2
     cachix = "cachix/cachix-action@0fc020193b5a1fa3ac4575aa3a7d3aa6a35435ad"; # v16
     checkout = "actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8"; # v6.0.1
-    nix-installer = "DeterminateSystems/nix-installer-action@c5a866b6ab867e88becbed4467b93592bce69f8a"; # v21
+    nix-installer = "nixbuild/nix-quick-install-action@v33";
     update-flake-inputs = "mic92/update-flake-inputs@main";
   };
 
@@ -162,12 +161,12 @@ in
             ];
           };
 
-          # Build hosts directly (NixOS + home-manager on any platform)
+          # Build hosts
           build = {
             name = "\${{ matrix.attrs.name }} (\${{ matrix.attrs.hostPlatform }})";
             strategy = {
               fail-fast = false;
-              matrix.attrs = nixosHosts;
+              matrix.attrs = nixosHosts ++ darwinHosts;
             };
             runs-on = "\${{ fromJSON(matrix.attrs.runsOn) }}";
             steps = setupSteps ++ [ (steps.nixci-build "\${{ matrix.attrs.attr }}") ];
@@ -179,7 +178,6 @@ in
             needs = [
               "flake-check"
               "build"
-              "build-darwin-host"
             ];
             "if" = "always()";
             steps = [
@@ -187,84 +185,10 @@ in
                 uses = actions.alls-green;
                 "with" = {
                   jobs = "\${{ toJSON(needs) }}";
-                  allowed-skips = "build-darwin-host";
                 };
               }
             ];
           };
-        }
-        // (lib.optionalAttrs (lib.length darwinHosts > 0) {
-          # Build nix-darwin hosts
-          build-darwin-host = {
-            name = "\${{ matrix.attrs.name }} (\${{ matrix.attrs.hostPlatform }})";
-            strategy = {
-              fail-fast = false;
-              matrix.attrs = darwinHosts;
-            };
-            runs-on = "\${{ fromJSON(matrix.attrs.runsOn) }}";
-            steps = setupSteps ++ [ (steps.nixci-build "\${{ matrix.attrs.attr }}") ];
-          };
-        });
-      };
-
-      # Regenerate workflows for Renovate PRs or manual trigger
-      ".github/workflows/regenerate-workflows.yaml" = {
-        name = "regenerate-workflows";
-
-        on = {
-          pull_request.paths = [
-            "modules/flake/ci.nix"
-            "flake.lock"
-          ];
-          workflow_dispatch = { };
-        };
-
-        permissions = {
-          contents = "write";
-          pull-requests = "write";
-        };
-
-        jobs.regenerate = {
-          runs-on = "macOS";
-          # Only run for Renovate PRs or manual dispatch
-          "if" = "github.actor == 'renovate[bot]' || github.event_name == 'workflow_dispatch'";
-          steps = [
-            (
-              steps.checkout
-              // {
-                "with" = {
-                  ref = "\${{ github.head_ref || github.ref_name }}";
-                  token = "\${{ secrets.PAT }}";
-                  fetch-depth = 2;
-                };
-              }
-            )
-            steps.nixInstaller
-            steps.nixCache
-            steps.cachix
-            {
-              name = "Regenerate workflows";
-              run = "nix run .#render-workflows";
-            }
-            {
-              name = "Amend commit with regenerated workflows";
-              run = ''
-                git config user.name "Rohit Singh"
-                git config user.email "rsrohitsingh682@gmail.com"
-                git add .github/workflows/
-                git diff --staged --quiet || git commit --amend --no-edit
-                git push --force-with-lease
-              '';
-            }
-            {
-              uses = actions.automerge;
-              "with" = {
-                token = "\${{ secrets.PAT }}";
-                pull-request-number = "\${{ github.event.pull_request.number }}";
-                merge-method = "rebase";
-              };
-            }
-          ];
         };
       };
 
