@@ -8,12 +8,13 @@
 let
   # Platform mappings: Nix system -> GitHub runner
   platforms = {
-    aarch64-linux.label = "Linux";
-    aarch64-darwin.label = "macOS";
+    aarch64-linux.label = ''["self-hosted", "linux", "ARM64"]'';
+    aarch64-darwin.label = ''["self-hosted", "macOS", "ARM64"]'';
+    x86_64-linux.label = ''["self-hosted", "linux", "x64"]'';
   };
 
   # Build matrix entry from configuration (autodiscovery)
-  # Returns data in the exact shape needed for GitHub Actions matrix
+  # Returns data in the exact shape needed for GitHub Acuctions matrix
   mkHostInfo =
     kind: name: cfg:
     let
@@ -148,7 +149,7 @@ in
           flake-check = {
             name = "flake check (\${{ matrix.systems.platform }})";
             strategy.matrix.systems = checkPlatforms;
-            runs-on = "\${{ matrix.systems.label }}";
+            runs-on = "\${{ fromJSON(matrix.attrs.runsOn) }}";
             steps = setupSteps ++ [
               {
                 name = "nix flake check";
@@ -168,7 +169,7 @@ in
               fail-fast = false;
               matrix.attrs = nixosHosts;
             };
-            runs-on = "\${{ matrix.attrs.runsOn }}";
+            runs-on = "\${{ fromJSON(matrix.attrs.runsOn) }}";
             steps = setupSteps ++ [ (steps.nixci-build "\${{ matrix.attrs.attr }}") ];
           };
 
@@ -200,7 +201,7 @@ in
               fail-fast = false;
               matrix.attrs = darwinHosts;
             };
-            runs-on = "\${{ matrix.attrs.runsOn }}";
+            runs-on = "\${{ fromJSON(matrix.attrs.runsOn) }}";
             steps = setupSteps ++ [ (steps.nixci-build "\${{ matrix.attrs.attr }}") ];
           };
         });

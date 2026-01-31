@@ -9,7 +9,7 @@ concurrency:
 jobs:
   build:
     name: ${{ matrix.attrs.name }} (${{ matrix.attrs.hostPlatform }})
-    runs-on: ${{ matrix.attrs.runsOn }}
+    runs-on: ${{ fromJSON(matrix.attrs.runsOn) }}
     steps:
     - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
       with:
@@ -37,22 +37,26 @@ jobs:
       fail-fast: false
       matrix:
         attrs:
+        - attr: nixosConfigurations.clark.config.system.build.toplevel
+          hostPlatform: x86_64-linux
+          name: clark
+          runsOn: '["self-hosted", "linux", "x64"]'
         - attr: nixosConfigurations.ema.config.system.build.toplevel
           hostPlatform: aarch64-linux
           name: ema
-          runsOn: Linux
+          runsOn: '["self-hosted", "linux", "ARM64"]'
         - attr: nixosConfigurations.enigma.config.system.build.toplevel
           hostPlatform: aarch64-linux
           name: enigma
-          runsOn: Linux
+          runsOn: '["self-hosted", "linux", "ARM64"]'
         - attr: nixosConfigurations.pi.config.system.build.toplevel
           hostPlatform: aarch64-linux
           name: pi
-          runsOn: Linux
+          runsOn: '["self-hosted", "linux", "ARM64"]'
     timeout-minutes: 60
   build-darwin-host:
     name: ${{ matrix.attrs.name }} (${{ matrix.attrs.hostPlatform }})
-    runs-on: ${{ matrix.attrs.runsOn }}
+    runs-on: ${{ fromJSON(matrix.attrs.runsOn) }}
     steps:
     - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
       with:
@@ -83,7 +87,7 @@ jobs:
         - attr: darwinConfigurations.zion.config.system.build.toplevel
           hostPlatform: aarch64-darwin
           name: zion
-          runsOn: macOS
+          runsOn: '["self-hosted", "macOS", "ARM64"]'
     timeout-minutes: 60
   check:
     if: always()
@@ -100,7 +104,7 @@ jobs:
     timeout-minutes: 60
   flake-check:
     name: flake check (${{ matrix.systems.platform }})
-    runs-on: ${{ matrix.systems.label }}
+    runs-on: ${{ fromJSON(matrix.attrs.runsOn) }}
     steps:
     - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
       with:
@@ -129,9 +133,11 @@ jobs:
     strategy:
       matrix:
         systems:
-        - label: Linux
+        - label: '["self-hosted", "linux", "x64"]'
+          platform: x86_64-linux
+        - label: '["self-hosted", "linux", "ARM64"]'
           platform: aarch64-linux
-        - label: macOS
+        - label: '["self-hosted", "macOS", "ARM64"]'
           platform: aarch64-darwin
     timeout-minutes: 60
 name: ci
