@@ -36,7 +36,10 @@
       "networkmanager"
       "wheel"
     ];
-    openssh.authorizedKeys.keys = [ "${config.me.sshKey}" ];
+    openssh.authorizedKeys.keys = [
+      "${config.me.sshKey}"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO2I5q4joEZHECEbEhLvcH1J67NGODrCmjZXwVCoMSLo"
+    ];
   };
 
 }
