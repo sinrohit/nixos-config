@@ -1,6 +1,10 @@
 let
   rohit = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOWUINFSlhsbwckdAlvE/V1ESIk0yXdVvE/BuMEJpEvl";
-  users = [ rohit ];
+  rohit-enigma = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO2I5q4joEZHECEbEhLvcH1J67NGODrCmjZXwVCoMSLo";
+  users = [
+    rohit
+    rohit-enigma
+  ];
 
   clark = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMY+NmD4GBq9Haqa1iBiofEWvsmQh7KgHCP60y6TFLZq";
   pi = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILm4Jfv+D2mUwyEYZ+DBeEBnFFeKxMNoG4ZpvV9VXorQ";
