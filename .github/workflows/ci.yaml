@@ -71,7 +71,7 @@ jobs:
     timeout-minutes: 60
   flake-check:
     name: flake check (${{ matrix.systems.platform }})
-    runs-on: ${{ fromJSON(matrix.attrs.runsOn) }}
+    runs-on: ${{ fromJSON(matrix.systems.label) }}
     steps:
     - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
       with:

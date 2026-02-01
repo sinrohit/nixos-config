@@ -148,7 +148,7 @@ in
           flake-check = {
             name = "flake check (\${{ matrix.systems.platform }})";
             strategy.matrix.systems = checkPlatforms;
-            runs-on = "\${{ fromJSON(matrix.attrs.runsOn) }}";
+            runs-on = "\${{ fromJSON(matrix.systems.label) }}";
             steps = setupSteps ++ [
               {
                 name = "nix flake check";
