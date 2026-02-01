@@ -30,7 +30,7 @@
           statix.enable = true;
           deadnix.enable = true;
           shellcheck.enable = true;
-          nixfmt.enable = true;
+          nixfmt.enable = false;
         };
       };
     };
