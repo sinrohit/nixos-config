@@ -46,7 +46,7 @@ let
     cache = "actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7"; # v5.0.2
     cachix = "cachix/cachix-action@0fc020193b5a1fa3ac4575aa3a7d3aa6a35435ad"; # v16
     checkout = "actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8"; # v6.0.1
-    nix-installer = "nixbuild/nix-quick-install-action@v33";
+    nix-installer = "cachix/install-nix-action@v24";
     update-flake-inputs = "mic92/update-flake-inputs@main";
   };
 
