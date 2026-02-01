@@ -12,19 +12,33 @@
     inputs.agenix.nixosModules.default
   ];
 
-  boot.kernelPackages = pkgs.linuxPackages;
+  boot = {
+    kernelPackages = pkgs.linuxPackages;
 
-  boot.initrd.availableKernelModules = [
-    "ehci_pci"
-    "ahci"
-    "xhci_pci"
-    "nvme"
-    "usbhid"
-    "sr_mod"
-  ];
+    initrd.availableKernelModules = [
+      "ehci_pci"
+      "ahci"
+      "xhci_pci"
+      "nvme"
+      "usbhid"
+      "sr_mod"
+    ];
 
-  # Enable ZFS support
-  boot.supportedFilesystems = [ "zfs" ];
+    # Enable ZFS support
+    supportedFilesystems = [ "zfs" ];
+
+    # Use the systemd-boot EFI boot loader.
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+      # VMware, Parallels both only support this being 0 otherwise you see
+      # "error switching console mode" on boot.
+      systemd-boot.consoleMode = "0";
+    };
+
+    # Setup qemu so we can run x86_64 binaries
+    binfmt.emulatedSystems = [ "x86_64-linux" ];
+  };
 
   # Recommended ZFS services
   services.zfs = {
@@ -36,40 +50,28 @@
     trim.enable = true;
   };
 
-  networking.hostId = "3bd6608b";
-
   nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
 
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  # VMware, Parallels both only support this being 0 otherwise you see
-  # "error switching console mode" on boot.
-  boot.loader.systemd-boot.consoleMode = "0";
+  networking = {
+    hostName = "enigma";
+    hostId = "3bd6608b";
+    # The global useDHCP flag is deprecated, therefore explicitly set to false here.
+    # Per-interface useDHCP will be mandatory in the future, so this generated config
+    # replicates the default behaviour.
+    useDHCP = false;
 
-  # Setup qemu so we can run x86_64 binaries
-  boot.binfmt.emulatedSystems = [ "x86_64-linux" ];
+    # Disable the firewall since we're in a VM and we want to make it
+    # easy to visit stuff in here. We only use NAT networking anyways.
+    firewall.enable = false;
 
-  networking.hostName = "enigma";
+    # Interface is this on M4
+    interfaces.ens160.useDHCP = true;
+  };
 
   time.timeZone = "Asia/Kolkata";
 
-  # The global useDHCP flag is deprecated, therefore explicitly set to false here.
-  # Per-interface useDHCP will be mandatory in the future, so this generated config
-  # replicates the default behaviour.
-  networking.useDHCP = false;
-
-  # Disable the firewall since we're in a VM and we want to make it
-  # easy to visit stuff in here. We only use NAT networking anyways.
-  networking.firewall.enable = false;
-
-  # Interface is this on M4
-  networking.interfaces.ens160.useDHCP = true;
-
   # Don't require password for sudo
   security.sudo.wheelNeedsPassword = false;
-
-  services.tailscale.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.mutableUsers = false;
@@ -87,10 +89,6 @@
     ];
   };
 
-  environment.pathsToLink = [ "/share/bash-completion" ];
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
   environment.systemPackages = with pkgs; [
     cachix
     gnumake
@@ -105,16 +103,6 @@
     st
   ];
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager = {
-    gdm.enable = true;
-    autoLogin.user = "rohit";
-  };
-  services.xserver.desktopManager.gnome.enable = true;
-
   nix.settings = {
     trusted-users = [
       "root"
@@ -125,23 +113,40 @@
 
   age.secrets.github-runner-nixos-config-aarch64-linux.file = ../../secrets/github-runner-nixos-config-aarch64-linux.age;
 
-  services.github-runners = {
-    "runner1" = {
+  services = {
+    tailscale.enable = true;
+
+    github-runners = {
+      "runner1" = {
+        enable = true;
+        name = "aarch64-linux-runner1";
+        url = "https://github.com/sinrohit/nixos-config";
+        tokenFile = config.age.secrets.github-runner-nixos-config-aarch64-linux.path;
+        extraPackages = with pkgs; [
+          cachix
+          python3
+        ];
+      };
+    };
+    # Enable the X11 windowing system.
+    xserver = {
       enable = true;
-      name = "aarch64-linux-runner1";
-      url = "https://github.com/sinrohit/nixos-config";
-      tokenFile = config.age.secrets.github-runner-nixos-config-aarch64-linux.path;
-      extraPackages = with pkgs; [
-        cachix
-        python3
-      ];
+      # Enable the GNOME Desktop Environment.
+      displayManager = {
+        gdm.enable = true;
+        autoLogin.user = "rohit";
+      };
+      desktopManager.gnome.enable = true;
+    };
+
+    openssh = {
+      enable = true;
+      settings = {
+        PasswordAuthentication = false;
+        PermitRootLogin = "no";
+      };
     };
   };
-
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
-  services.openssh.settings.PasswordAuthentication = true;
-  services.openssh.settings.PermitRootLogin = "no";
 
   system.stateVersion = "25.11";
 }

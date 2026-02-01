@@ -19,12 +19,16 @@
         on-focused-monitor-changed = [ "move-mouse monitor-lazy-center" ];
 
         gaps = {
-          outer.left = 8;
-          outer.bottom = 8;
-          outer.top = 8;
-          outer.right = 8;
-          inner.horizontal = 8;
-          inner.vertical = 8;
+          outer = {
+            left = 8;
+            bottom = 8;
+            top = 8;
+            right = 8;
+          };
+          inner = {
+            horizontal = 8;
+            vertical = 8;
+          };
         };
         mode.main.binding = {
 

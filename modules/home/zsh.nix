@@ -1,4 +1,4 @@
-{ ... }:
+_:
 let
   shellAliases = {
     ga = "git add";
@@ -27,6 +27,6 @@ in
       export PATH=/run/wrappers/bin:/run/current-system/sw/bin/:/nix/var/nix/profiles/default/bin:$HOME/.nix-profile/bin:/etc/profiles/per-user/$USER/bin:$PATH
       eval "$(zoxide init --cmd cd zsh)"
     '';
-    shellAliases = shellAliases;
+    inherit shellAliases;
   };
 }

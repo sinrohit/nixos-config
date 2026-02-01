@@ -1,4 +1,4 @@
-{ ... }:
+_:
 let
   shellAliases = {
     ga = "git add";
@@ -25,6 +25,6 @@ in
       "ignorespace"
     ];
     initExtra = builtins.readFile ./bashrc;
-    shellAliases = shellAliases;
+    inherit shellAliases;
   };
 }

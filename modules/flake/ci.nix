@@ -21,7 +21,7 @@ let
       platform = cfg.pkgs.stdenv.hostPlatform.system;
       platformInfo = platforms.${platform} or null;
     in
-    lib.optionalAttrs (platformInfo != null) ({
+    lib.optionalAttrs (platformInfo != null) {
       inherit name;
       hostPlatform = platform;
       runsOn = platformInfo.label;
@@ -30,7 +30,7 @@ let
           "nixosConfigurations.${name}.config.system.build.toplevel"
         else
           "darwinConfigurations.${name}.config.system.build.toplevel";
-    });
+    };
 
   # Autodiscover all hosts and filter out unsupported platforms
   nixosHosts = lib.filter (h: h != { }) (

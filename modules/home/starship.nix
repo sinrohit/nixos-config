@@ -1,4 +1,4 @@
-{ ... }:
+_:
 {
   # Better shell prmot!
   programs.starship = {

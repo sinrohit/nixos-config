@@ -1,5 +1,4 @@
 {
-  config,
   pkgs,
   inputs,
   lib,
@@ -42,14 +41,17 @@
     ];
   };
 
-  networking.hostName = "riscv";
+  networking = {
+    hostName = "riscv";
+    interfaces = {
+      end0.useDHCP = true;
+      end1.useDHCP = true;
+    };
+  };
 
   services.openssh.enable = true;
   services.tailscale.enable = true;
   security.sudo.wheelNeedsPassword = false;
-
-  networking.interfaces.end0.useDHCP = true;
-  networking.interfaces.end1.useDHCP = true;
 
   system.stateVersion = "24.11";
 }

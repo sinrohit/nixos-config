@@ -2,13 +2,12 @@
   perSystem =
     {
       pkgs,
-      inputs',
       ...
     }:
     {
       packages = {
-        chadwm = pkgs.chadwm;
-        deploy = pkgs.deploy;
+        inherit (pkgs) chadwm;
+        inherit (pkgs) deploy;
       };
     };
 }

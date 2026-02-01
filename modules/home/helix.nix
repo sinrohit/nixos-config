@@ -6,9 +6,11 @@
     languages.language = [
       {
         name = "markdown";
-        soft-wrap.enable = true;
-        soft-wrap.wrap-indicator = "";
-        soft-wrap.wrap-at-text-width = true;
+        soft-wrap = {
+          enable = true;
+          wrap-indicator = "";
+          wrap-at-text-width = true;
+        };
       }
       {
         name = "nix";

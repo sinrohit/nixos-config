@@ -1,7 +1,5 @@
 {
-  config,
   pkgs,
-  lib,
   ...
 }:
 {
@@ -9,38 +7,36 @@
     ./hardware-configuration.nix
   ];
 
-  # Be careful updating this.
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot = {
+    kernelPackages = pkgs.linuxPackages_latest;
 
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  # VMware, Parallels both only support this being 0 otherwise you see
-  # "error switching console mode" on boot.
-  boot.loader.systemd-boot.consoleMode = "0";
+    # Use the systemd-boot EFI boot loader.
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+      # VMware, Parallels both only support this being 0 otherwise you see
+      # "error switching console mode" on boot.
+      systemd-boot.consoleMode = "0";
+    };
 
-  # Setup qemu so we can run x86_64 binaries
-  boot.binfmt.emulatedSystems = [ "x86_64-linux" ];
+    # Setup qemu so we can run x86_64 binaries
+    binfmt.emulatedSystems = [ "x86_64-linux" ];
+  };
 
-  networking.hostName = "ema";
+  networking = {
+    # The global useDHCP flag is deprecated, therefore explicitly set to false here.
+    # Per-interface useDHCP will be mandatory in the future, so this generated config
+    # replicates the default behaviour.
+    useDHCP = false;
+    hostName = "ema";
+    # Interface is this on M4
+    interfaces.ens160.useDHCP = true;
+    # Disable the firewall since we're in a VM and we want to make it
+    # easy to visit stuff in here. We only use NAT networking anyways.
+    firewall.enable = false;
+  };
 
   time.timeZone = "Asia/Kolkata";
-
-  # The global useDHCP flag is deprecated, therefore explicitly set to false here.
-  # Per-interface useDHCP will be mandatory in the future, so this generated config
-  # replicates the default behaviour.
-  networking.useDHCP = false;
-
-  # Disable the firewall since we're in a VM and we want to make it
-  # easy to visit stuff in here. We only use NAT networking anyways.
-  networking.firewall.enable = false;
-
-  # Interface is this on M1
-  networking.interfaces.ens160.useDHCP = true;
-
-  # Lots of stuff that uses aarch64 that claims doesn't work, but actually works.
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.allowUnsupportedSystem = true;
 
   virtualisation.vmware.guest.enable = true;
 
@@ -57,8 +53,6 @@
       "defaults"
     ];
   };
-
-  nix.package = pkgs.nixVersions.latest;
 
   # Don't require password for sudo
   security.sudo.wheelNeedsPassword = false;
@@ -83,8 +77,6 @@
       pkgs.nerd-fonts.symbols-only
     ];
   };
-
-  environment.pathsToLink = [ "/share/bash-completion" ];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -134,32 +126,32 @@
     alacritty
   ];
 
-  services.greetd = {
-    enable = true;
-    settings = {
-      default_session = {
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd niri-session";
-        user = "greeter";
+  programs.niri.enable = true;
+
+  services = {
+    greetd = {
+      enable = true;
+      settings = {
+        default_session = {
+          command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd niri-session";
+          user = "greeter";
+        };
+        initial_session = {
+          command = "niri-session";
+          user = "rohit";
+        };
       };
-      initial_session = {
-        command = "niri-session";
-        user = "rohit";
+    };
+
+    # Enable the OpenSSH daemon.
+    openssh = {
+      enable = true;
+      settings = {
+        PasswordAuthentication = true;
+        PermitRootLogin = "no";
       };
     };
   };
 
-  programs.niri.enable = true;
-
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
-  services.openssh.settings.PasswordAuthentication = true;
-  services.openssh.settings.PermitRootLogin = "no";
-
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "20.09"; # Did you read the comment?
+  system.stateVersion = "20.09";
 }

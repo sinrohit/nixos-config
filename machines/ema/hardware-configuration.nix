@@ -2,16 +2,11 @@
 # and may be overwritten by future invocations.  Please make changes
 # to /etc/nixos/configuration.nix instead.
 {
-  config,
   lib,
-  pkgs,
-  modulesPath,
   ...
 }:
 
 {
-  imports = [ ];
-
   boot.initrd.availableKernelModules = [
     "ehci_pci"
     "ahci"
@@ -20,22 +15,21 @@
     "usbhid"
     "sr_mod"
   ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ ];
-  boot.extraModulePackages = [ ];
 
-  fileSystems."/" = {
-    device = "/dev/disk/by-uuid/6a0da8af-c9e4-41aa-be3b-c5877e0d5a28";
-    fsType = "ext4";
-  };
+  fileSystems = {
+    "/" = {
+      device = "/dev/disk/by-uuid/6a0da8af-c9e4-41aa-be3b-c5877e0d5a28";
+      fsType = "ext4";
+    };
 
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/A4B2-A299";
-    fsType = "vfat";
-    options = [
-      "fmask=0022"
-      "dmask=0022"
-    ];
+    "/boot" = {
+      device = "/dev/disk/by-uuid/A4B2-A299";
+      fsType = "vfat";
+      options = [
+        "fmask=0022"
+        "dmask=0022"
+      ];
+    };
   };
 
   swapDevices = [

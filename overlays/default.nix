@@ -8,14 +8,14 @@ final: prev: {
   chadwm = final.callPackage ../pkgs/chadwm { };
   deploy = final.callPackage ../pkgs/deploy { };
   # gh CLI on stable has bugs.
-  gh = inputs.nixpkgs-unstable.legacyPackages.${prev.system}.gh;
+  inherit (inputs.nixpkgs-unstable.legacyPackages.${prev.system}) gh;
   st = inputs.st.packages."${prev.system}".st-snazzy;
 
   # Want the latest version of these
-  nushell = inputs.nixpkgs-unstable.legacyPackages.${prev.system}.nushell;
-  nixfmt-tree = inputs.nixpkgs-unstable.legacyPackages.${prev.system}.nixfmt-tree;
-  nixfmt = inputs.nixpkgs-unstable.legacyPackages.${prev.system}.nixfmt;
-  rust-analyzer = inputs.nixpkgs-unstable.legacyPackages.${prev.system}.rust-analyzer;
+  inherit (inputs.nixpkgs-unstable.legacyPackages.${prev.system}) nushell;
+  inherit (inputs.nixpkgs-unstable.legacyPackages.${prev.system}) nixfmt-tree;
+  inherit (inputs.nixpkgs-unstable.legacyPackages.${prev.system}) nixfmt;
+  inherit (inputs.nixpkgs-unstable.legacyPackages.${prev.system}) rust-analyzer;
 
   nixci = inputs.nixci.packages.${prev.system}.default;
 
