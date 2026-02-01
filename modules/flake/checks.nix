@@ -16,7 +16,7 @@
 
       clark = self.nixosConfigurations.clark.config.system.build.toplevel;
 
-      riscv = self.nixosConfigurations.riscv.config.system.build.toplevel;
+      #riscv = self.nixosConfigurations.riscv.config.system.build.toplevel;
     };
 
     aarch64-darwin.zion = self.darwinConfigurations.zion.config.system.build.toplevel;
