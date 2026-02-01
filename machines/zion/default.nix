@@ -20,6 +20,7 @@
   nix = {
     # These users can add Nix caches.
     settings.trusted-users = [
+      "@admin"
       "root"
       "${config.me.username}"
       "_github-runner"
