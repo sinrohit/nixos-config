@@ -6,9 +6,10 @@
 
       ema = self.nixosConfigurations.ema.config.system.build.toplevel;
 
+      enigma = self.nixosConfigurations.enigma.config.system.build.toplevel;
+
       pi = self.nixosConfigurations.pi.config.system.build.toplevel;
 
-      orb = self.nixosConfigurations.orb.config.system.build.toplevel;
     };
 
     x86_64-linux = {
