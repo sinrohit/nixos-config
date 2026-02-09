@@ -29,4 +29,5 @@ in
   "cloudflare-tunnel.age".publicKeys = users ++ systems;
   "cloudflare-tunnel-sinrohit.age".publicKeys = users ++ systems;
   "restic.age".publicKeys = users ++ systems;
+  "nextcloud-admin-passwd.age".publicKeys = users ++ systems;
 }

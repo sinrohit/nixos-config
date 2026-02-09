@@ -51,6 +51,13 @@
           options.mountpoint = mountpoint;
           options."com.sun:auto-snapshot" = "true";
         };
+
+        nextcloud = rec {
+          type = "zfs_fs";
+          mountpoint = "/media/nextcloud";
+          options.mountpoint = mountpoint;
+          options."com.sun:auto-snapshot" = "true";
+        };
       };
     };
   };
