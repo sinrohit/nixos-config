@@ -41,18 +41,10 @@ jobs:
           hostPlatform: x86_64-linux
           name: clark
           runsOn: '["self-hosted", "linux", "x64"]'
-        - attr: nixosConfigurations.ema.config.system.build.toplevel
-          hostPlatform: aarch64-linux
-          name: ema
-          runsOn: '["self-hosted", "linux", "ARM64"]'
-        - attr: nixosConfigurations.enigma.config.system.build.toplevel
-          hostPlatform: aarch64-linux
-          name: enigma
-          runsOn: '["self-hosted", "linux", "ARM64"]'
         - attr: nixosConfigurations.pi.config.system.build.toplevel
           hostPlatform: aarch64-linux
           name: pi
-          runsOn: '["self-hosted", "linux", "ARM64"]'
+          runsOn: '["self-hosted", "linux"]'
         - attr: darwinConfigurations.zion.config.system.build.toplevel
           hostPlatform: aarch64-darwin
           name: zion
@@ -102,7 +94,7 @@ jobs:
         systems:
         - label: '["self-hosted", "linux", "x64"]'
           platform: x86_64-linux
-        - label: '["self-hosted", "linux", "ARM64"]'
+        - label: '["self-hosted", "linux"]'
           platform: aarch64-linux
         - label: '["self-hosted", "macOS", "ARM64"]'
           platform: aarch64-darwin

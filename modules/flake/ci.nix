@@ -8,7 +8,7 @@
 let
   # Platform mappings: Nix system -> GitHub runner
   platforms = {
-    aarch64-linux.label = ''["self-hosted", "linux", "ARM64"]'';
+    aarch64-linux.label = ''["self-hosted", "linux"]'';
     aarch64-darwin.label = ''["self-hosted", "macOS", "ARM64"]'';
     x86_64-linux.label = ''["self-hosted", "linux", "x64"]'';
   };
@@ -32,8 +32,13 @@ let
           "darwinConfigurations.${name}.config.system.build.toplevel";
     };
 
+  excludedHosts = [
+    "enigma"
+    "ema"
+  ];
+
   # Autodiscover all hosts and filter out unsupported platforms
-  nixosHosts = lib.filter (h: h != { }) (
+  nixosHosts = lib.filter (h: h != { } && !(lib.elem h.name excludedHosts)) (
     lib.mapAttrsToList (mkHostInfo "nixos") (self.nixosConfigurations or { })
   );
   darwinHosts = lib.filter (h: h != { }) (
