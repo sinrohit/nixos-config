@@ -16,15 +16,22 @@ let
   };
 in
 {
-  programs.bash = {
-    enable = true;
-    enableCompletion = false;
-    shellOptions = [ ];
-    historyControl = [
-      "ignoredups"
-      "ignorespace"
-    ];
-    initExtra = builtins.readFile ./bashrc;
-    inherit shellAliases;
+  programs = {
+    bash = {
+      enable = true;
+      enableCompletion = false;
+      shellOptions = [ ];
+      historyControl = [
+        "ignoredups"
+        "ignorespace"
+      ];
+      initExtra = builtins.readFile ./bashrc;
+      inherit shellAliases;
+    };
+
+    fzf = {
+      enable = true;
+      enableBashIntegration = true;
+    };
   };
 }

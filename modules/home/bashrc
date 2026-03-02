@@ -5,8 +5,6 @@ export GREP_COLOR='1;36'
 export LSCOLORS='ExGxbEaECxxEhEhBaDaCaD'
 export PAGER='less'
 
-source <(fzf --bash)
-
 # History
 HISTFILE="$HOME/.bash_history"
 HISTSIZE=10000000
@@ -27,14 +25,9 @@ export LESS_TERMCAP_ZV=$(tput rsubm)
 export LESS_TERMCAP_ZO=$(tput ssupm)
 export LESS_TERMCAP_ZW=$(tput rsupm)
 
+# Aliases
 alias lg=lazygit
-
-# Enable color support of ls
-if ls --color=auto &>/dev/null; then
-        alias ls='ls -p --color=auto'
-else
-        alias ls='ls -p -G'
-fi
+alias ..='echo "cd .."; cd ..'
 
 # print a colorized diff
 colordiff() {
@@ -84,6 +77,19 @@ truecolor-rainbow() {
         echo
 }
 
+
+# Prompt
+# Store `tput` colors for future use to reduce fork+exec
+# the array will be 0-255 for colors, 256 will be sgr0
+# and 257 will be bold
+COLOR256=()
+COLOR256[0]=$(tput setaf 1)
+COLOR256[256]=$(tput sgr0)
+COLOR256[257]=$(tput bold)
+
+# Colors for use in PS1 that may or may not change when
+# set_prompt_colors is run
+PROMPT_COLORS=()
 
 # Change the prompt colors to a theme, themes are 0-29
 set_prompt_colors() {
@@ -136,20 +142,28 @@ PS1+='\[${PROMPT_COLORS[5]}\]\w '
 PS1+='$(branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null); [[ -n $branch ]] && echo "\[${PROMPT_COLORS[2]}\](\[${PROMPT_COLORS[3]}\]git:$branch\[${PROMPT_COLORS[2]}\]) ")'
 
 # prompt character
-PS1+='\[${PROMPT_COLORS[0]}\]\$\[\033[0m\] '
+PS1+='\[${PROMPT_COLORS[0]}\]λ\[\033[0m\] '
 
 # set the theme
 set_prompt_colors 24
 
 # Prompt command
 _prompt_command() {
+        # Sync history across all bash sessions
+        history -a  # Append new commands to history file
+        history -c  # Clear in-memory history
+        history -r  # Re-read history file
+
+        # Set terminal window title
         local user=$USER
         local host=${HOSTNAME%%.*}
         local pwd=${PWD/#$HOME/\~}
         local ssh=
         [[ -n $SSH_CLIENT ]] && ssh='[ssh] '
         printf "\033]0;%s%s@%s:%s\007" "$ssh" "$user" "$host" "$pwd"
+        printf "\n"
 }
+
 PROMPT_COMMAND=_prompt_command
 
 PROMPT_DIRTRIM=6

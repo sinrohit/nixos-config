@@ -17,7 +17,7 @@
     };
 
     atuin = {
-      enable = true;
+      enable = false;
       settings = {
         show_tabs = false;
         style = "compact";
