@@ -24,6 +24,9 @@
     };
     # Enable ZFS support
     supportedFilesystems = [ "zfs" ];
+
+    # Setup qemu so we can run aarch64 binaries
+    binfmt.emulatedSystems = [ "aarch64-linux" ];
   };
 
   # Recommended ZFS services
