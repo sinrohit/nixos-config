@@ -26,6 +26,7 @@ export LESS_TERMCAP_ZO=$(tput ssupm)
 export LESS_TERMCAP_ZW=$(tput rsupm)
 
 # Aliases
+alias v=nvim
 alias lg=lazygit
 alias ..='echo "cd .."; cd ..'
 
