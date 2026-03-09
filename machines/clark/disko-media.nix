@@ -65,6 +65,13 @@
           options.mountpoint = mountpoint;
           options."com.sun:auto-snapshot" = "true";
         };
+
+        minio = rec {
+          type = "zfs_fs";
+          mountpoint = "/media/minio";
+          options.mountpoint = mountpoint;
+          options."com.sun:auto-snapshot" = "true";
+        };
       };
     };
   };

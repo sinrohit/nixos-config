@@ -90,6 +90,7 @@
     lsd
     fzf
     forgejo-cli
+    minio-client
   ];
 
   users = {

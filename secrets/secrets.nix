@@ -31,4 +31,10 @@ in
   "restic.age".publicKeys = users ++ systems;
   "nextcloud-admin-passwd.age".publicKeys = users ++ systems;
   "forgejo-runner.age".publicKeys = users ++ systems;
+  "minio-creds.age".publicKeys = users ++ systems;
+  "ente-minio-user.age".publicKeys = users ++ systems;
+  "ente-minio-passwd.age".publicKeys = users ++ systems;
+  "ente-encryption.age".publicKeys = users ++ systems;
+  "ente-hash.age".publicKeys = users ++ systems;
+  "ente-jwt.age".publicKeys = users ++ systems;
 }

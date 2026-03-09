@@ -37,6 +37,16 @@
           proxyPass = "http://localhost:${toString config.services.forgejo.settings.server.HTTP_PORT}";
           proxyWebsockets = true;
         };
+      "s3.sinrohit.com" = {
+        forceSSL = true;
+        useACMEHost = "sinrohit.com";
+        locations."/".proxyPass = "http://localhost:9000";
+        # determine max file upload size
+        extraConfig = ''
+          client_max_body_size 16G;
+          proxy_buffering off;
+          proxy_request_buffering off;
+        '';
       };
     };
   };
