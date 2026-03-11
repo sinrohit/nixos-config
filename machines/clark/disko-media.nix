@@ -58,6 +58,13 @@
           options.mountpoint = mountpoint;
           options."com.sun:auto-snapshot" = "true";
         };
+
+        forgejo = rec {
+          type = "zfs_fs";
+          mountpoint = "/media/forgejo";
+          options.mountpoint = mountpoint;
+          options."com.sun:auto-snapshot" = "true";
+        };
       };
     };
   };

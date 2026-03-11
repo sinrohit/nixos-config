@@ -30,6 +30,14 @@
         forceSSL = true;
         useACMEHost = "sinrohit.com";
       };
+      "git.sinrohit.com" = {
+        useACMEHost = "sinrohit.com";
+        forceSSL = true;
+        locations."/" = {
+          proxyPass = "http://localhost:${toString config.services.forgejo.settings.server.HTTP_PORT}";
+          proxyWebsockets = true;
+        };
+      };
     };
   };
 }

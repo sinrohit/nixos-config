@@ -30,4 +30,5 @@ in
   "cloudflare-tunnel-sinrohit.age".publicKeys = users ++ systems;
   "restic.age".publicKeys = users ++ systems;
   "nextcloud-admin-passwd.age".publicKeys = users ++ systems;
+  "forgejo-runner.age".publicKeys = users ++ systems;
 }
