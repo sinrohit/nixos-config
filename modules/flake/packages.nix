@@ -6,7 +6,6 @@
     }:
     {
       packages = {
-        inherit (pkgs) chadwm;
         inherit (pkgs) deploy;
       };
     };
