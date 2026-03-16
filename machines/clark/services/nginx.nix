@@ -18,6 +18,7 @@
           proxyWebsockets = true;
         };
       };
+
       "immich.sinrohit.com" = {
         useACMEHost = "sinrohit.com";
         forceSSL = true;
@@ -26,10 +27,12 @@
           proxyWebsockets = true;
         };
       };
+
       ${config.services.nextcloud.hostName} = {
         forceSSL = true;
         useACMEHost = "sinrohit.com";
       };
+
       "git.sinrohit.com" = {
         useACMEHost = "sinrohit.com";
         forceSSL = true;
@@ -37,6 +40,8 @@
           proxyPass = "http://localhost:${toString config.services.forgejo.settings.server.HTTP_PORT}";
           proxyWebsockets = true;
         };
+      };
+
       "s3.sinrohit.com" = {
         forceSSL = true;
         useACMEHost = "sinrohit.com";
