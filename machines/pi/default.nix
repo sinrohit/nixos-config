@@ -189,14 +189,6 @@
       # allow large file uploads
       clientMaxBodySize = "50000M";
 
-      virtualHosts."git.rdev.in" = {
-        useACMEHost = "rdev.in";
-        forceSSL = true;
-        locations."/" = {
-          proxyPass = "http://localhost:3002";
-          proxyWebsockets = true;
-        };
-      };
       virtualHosts."pihole.rdev.in" = {
         useACMEHost = "rdev.in";
         forceSSL = true;
@@ -204,26 +196,6 @@
           proxyPass = "http://localhost:8080";
           proxyWebsockets = true;
         };
-      };
-    };
-
-    gitea = {
-      enable = true;
-      database = {
-        type = "postgres";
-        port = 5432;
-      };
-      settings = {
-        log.LEVEL = "Error";
-        service.DISABLE_REGISTRATION = true;
-        metrics.ENABLED = true;
-        server = {
-          DISABLE_ROUTER_LOG = true;
-          ROOT_URL = "https://git.rdev.in";
-          HTTP_PORT = 3002;
-          DOMAIN = "rdev.in";
-        };
-        security.DISABLE_GIT_HOOKS = false;
       };
     };
 
