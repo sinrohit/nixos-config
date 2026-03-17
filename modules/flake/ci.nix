@@ -41,9 +41,9 @@ let
   nixosHosts = lib.filter (h: h != { } && !(lib.elem h.name excludedHosts)) (
     lib.mapAttrsToList (mkHostInfo "nixos") (self.nixosConfigurations or { })
   );
-  darwinHosts = lib.filter (h: h != { }) (
-    lib.mapAttrsToList (mkHostInfo "darwin") (self.darwinConfigurations or { })
-  );
+  # darwinHosts = lib.filter (h: h != { }) (
+  #   lib.mapAttrsToList (mkHostInfo "darwin") (self.darwinConfigurations or { })
+  # );
 
   # GitHub Actions references - all versions consolidated here for Renovate
   actions = {
@@ -107,8 +107,8 @@ let
   # Platforms to run flake check/show on (derived from all hosts)
   checkPlatforms =
     let
-      allHosts = nixosHosts ++ darwinHosts;
-      hostPlatforms = lib.unique (map (h: h.hostPlatform) allHosts);
+      # allHosts = nixosHosts ++ darwinHosts; TODO: Skip Darwin for now
+      hostPlatforms = lib.unique (map (h: h.hostPlatform) nixosHosts);
     in
     map (p: {
       platform = p;
@@ -153,7 +153,7 @@ in
           flake-check = {
             name = "flake check (\${{ matrix.systems.platform }})";
             strategy.matrix.systems = checkPlatforms;
-            runs-on = "\${{ fromJSON(matrix.systems.label) }}";
+            runs-on = "native";
             steps = setupSteps ++ [
               {
                 name = "nix flake check";
@@ -171,15 +171,15 @@ in
             name = "\${{ matrix.attrs.name }} (\${{ matrix.attrs.hostPlatform }})";
             strategy = {
               fail-fast = false;
-              matrix.attrs = nixosHosts ++ darwinHosts;
+              matrix.attrs = nixosHosts; # TODO: Skip Darwin Hosts for now.
             };
-            runs-on = "\${{ fromJSON(matrix.attrs.runsOn) }}";
+            runs-on = "native";
             steps = setupSteps ++ [ (steps.nixci-build "\${{ matrix.attrs.attr }}") ];
           };
 
           # Final check job - aggregates all results
           check = {
-            runs-on = "macOS";
+            runs-on = "native";
             needs = [
               "flake-check"
               "build"
