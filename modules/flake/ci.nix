@@ -47,12 +47,10 @@ let
 
   # GitHub Actions references - all versions consolidated here for Renovate
   actions = {
-    alls-green = "re-actors/alls-green@05ac9388f0aebcb5727afa17fcccfecd6f8ec5fe"; # v1.2.2
     cache = "actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7"; # v5.0.2
-    cachix = "cachix/cachix-action@0fc020193b5a1fa3ac4575aa3a7d3aa6a35435ad"; # v16
     checkout = "actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8"; # v6.0.1
-    nix-installer = "cachix/install-nix-action@v24";
     update-flake-inputs = "mic92/update-flake-inputs@main";
+    nix-installer = "https://git.sinrohit.com/sinrohit/install-nix-action@v24";
   };
 
   # Reusable step definitions
@@ -66,9 +64,7 @@ let
       uses = actions.nix-installer;
       "with".extra-conf = ''
         accept-flake-config = true
-        always-allow-substitutes = true
-        builders-use-substitutes = true
-        max-jobs = auto
+        max-jobs = 2
       '';
     };
 
@@ -78,14 +74,6 @@ let
         path = "~/.cache/nix";
         key = "nix-eval-\${{ runner.os }}-\${{ runner.arch }}-\${{ hashFiles('flake.lock') }}";
         restore-keys = "nix-eval-\${{ runner.os }}-\${{ runner.arch }}-";
-      };
-    };
-
-    cachix = {
-      uses = actions.cachix;
-      "with" = {
-        name = "sinrohit";
-        authToken = "\${{ secrets.CACHIX_AUTH_TOKEN }}";
       };
     };
 
@@ -101,7 +89,6 @@ let
     steps.checkout
     steps.nixInstaller
     steps.nixCache
-    steps.cachix
   ];
 
   # Platforms to run flake check/show on (derived from all hosts)
@@ -125,7 +112,7 @@ in
 
     defaultValues.jobs = {
       timeout-minutes = 60;
-      runs-on = "macOS";
+      runs-on = "native";
     };
 
     workflows = {
@@ -175,24 +162,6 @@ in
             };
             runs-on = "native";
             steps = setupSteps ++ [ (steps.nixci-build "\${{ matrix.attrs.attr }}") ];
-          };
-
-          # Final check job - aggregates all results
-          check = {
-            runs-on = "native";
-            needs = [
-              "flake-check"
-              "build"
-            ];
-            "if" = "always()";
-            steps = [
-              {
-                uses = actions.alls-green;
-                "with" = {
-                  jobs = "\${{ toJSON(needs) }}";
-                };
-              }
-            ];
           };
         };
       };

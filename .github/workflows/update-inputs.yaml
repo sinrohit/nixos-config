@@ -10,13 +10,11 @@ jobs:
     - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
       with:
         token: ${{ secrets.PAT }}
-    - uses: cachix/install-nix-action@v24
+    - uses: https://git.sinrohit.com/sinrohit/install-nix-action@v24
       with:
         extra-conf: |-
           accept-flake-config = true
-          always-allow-substitutes = true
-          builders-use-substitutes = true
-          max-jobs = auto
+          max-jobs = 2
     - name: Update flake inputs
       uses: mic92/update-flake-inputs@main
       with:

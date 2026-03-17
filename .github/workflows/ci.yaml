@@ -14,23 +14,17 @@ jobs:
     - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
       with:
         persist-credentials: false
-    - uses: cachix/install-nix-action@v24
+    - uses: https://git.sinrohit.com/sinrohit/install-nix-action@v24
       with:
         extra-conf: |-
           accept-flake-config = true
-          always-allow-substitutes = true
-          builders-use-substitutes = true
-          max-jobs = auto
+          max-jobs = 2
     - uses: actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7
       with:
         key: nix-eval-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('flake.lock')
           }}
         path: ~/.cache/nix
         restore-keys: nix-eval-${{ runner.os }}-${{ runner.arch }}-
-    - uses: cachix/cachix-action@0fc020193b5a1fa3ac4575aa3a7d3aa6a35435ad
-      with:
-        authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
-        name: sinrohit
     - name: "Run Nix CI \U0001F527"
       run: nix build git+file:.#${{ matrix.attrs.attr }}
     strategy:
@@ -46,17 +40,6 @@ jobs:
           name: pi
           runsOn: '["self-hosted", "linux"]'
     timeout-minutes: 60
-  check:
-    if: always()
-    needs:
-    - flake-check
-    - build
-    runs-on: native
-    steps:
-    - uses: re-actors/alls-green@05ac9388f0aebcb5727afa17fcccfecd6f8ec5fe
-      with:
-        jobs: ${{ toJSON(needs) }}
-    timeout-minutes: 60
   flake-check:
     name: flake check (${{ matrix.systems.platform }})
     runs-on: native
@@ -64,23 +47,17 @@ jobs:
     - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
       with:
         persist-credentials: false
-    - uses: cachix/install-nix-action@v24
+    - uses: https://git.sinrohit.com/sinrohit/install-nix-action@v24
       with:
         extra-conf: |-
           accept-flake-config = true
-          always-allow-substitutes = true
-          builders-use-substitutes = true
-          max-jobs = auto
+          max-jobs = 2
     - uses: actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7
       with:
         key: nix-eval-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('flake.lock')
           }}
         path: ~/.cache/nix
         restore-keys: nix-eval-${{ runner.os }}-${{ runner.arch }}-
-    - uses: cachix/cachix-action@0fc020193b5a1fa3ac4575aa3a7d3aa6a35435ad
-      with:
-        authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
-        name: sinrohit
     - name: nix flake check
       run: nix flake check 'git+file:.'
     - name: nix flake show
