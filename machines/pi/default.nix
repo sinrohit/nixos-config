@@ -1,17 +1,16 @@
-{
-  config,
-  pkgs,
-  inputs,
-  ...
-}:
+{ pkgs, ... }:
 {
 
   imports = [
-    inputs.agenix.nixosModules.default
+    ./router.nix
   ];
 
   boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = pkgs.linuxPackages;
+
+    # Fix bcmgenet EEE bug that causes TX queue deadlock under load
+    # https://github.com/openwrt/openwrt/issues/16077#issuecomment-2272967079
+    kernelParams = [ "bcmgenet.eee=0" ];
 
     initrd.availableKernelModules = [
       "xhci_pci"
@@ -24,9 +23,10 @@
       generic-extlinux-compatible.enable = true;
     };
 
-    # Required by cloudflared-tunnel
     kernel.sysctl = {
-      "net.core.rmem_max" = 7500000;
+      # Enable IP forwarding — required for routing
+      "net.ipv4.ip_forward" = 1;
+      "net.ipv6.conf.all.forwarding" = 1;
     };
   };
 
@@ -38,34 +38,18 @@
     };
   };
 
-    acme-cloudflare = {
-      file = ../../secrets/acme-cloudflare.age;
-      owner = "nginx";
-      group = "users";
-    };
-    cloudflare-tunnel.file = ../../secrets/cloudflare-tunnel.age;
-  };
-
-  networking = {
-    hostName = "pi";
-    enableIPv6 = true;
-    wireless = {
-      enable = false;
-    };
-    firewall = {
-      enable = true;
-      allowedTCPPorts = [
-        2283
-        53
-      ];
-      allowedUDPPorts = [ 53 ];
-    };
-  };
+  networking.hostName = "pi";
 
   environment.systemPackages = with pkgs; [
     git
     vim
     btop
+
+    #networking
+    dig
+    tcpdump
+    nftables
+    inetutils
   ];
 
   nixpkgs.hostPlatform = "aarch64-linux";
