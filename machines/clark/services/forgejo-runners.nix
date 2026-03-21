@@ -19,6 +19,7 @@
       };
       labels = [
         "nixos-latest:docker://git.notthebe.ee/notthebee/nix-ci-builder:latest"
+        "buildah:docker://quay.io/containers/buildah:latest"
       ];
     };
   };
