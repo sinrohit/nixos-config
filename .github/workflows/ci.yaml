@@ -9,22 +9,11 @@ concurrency:
 jobs:
   build:
     name: ${{ matrix.attrs.name }} (${{ matrix.attrs.hostPlatform }})
-    runs-on: native
+    runs-on: nixos-latest
     steps:
     - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
       with:
         persist-credentials: false
-    - uses: https://git.sinrohit.com/sinrohit/install-nix-action@v24
-      with:
-        extra-conf: |-
-          accept-flake-config = true
-          max-jobs = 2
-    - uses: actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7
-      with:
-        key: nix-eval-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('flake.lock')
-          }}
-        path: ~/.cache/nix
-        restore-keys: nix-eval-${{ runner.os }}-${{ runner.arch }}-
     - name: "Run Nix CI \U0001F527"
       run: nix build git+file:.#${{ matrix.attrs.attr }}
     strategy:
@@ -42,22 +31,11 @@ jobs:
     timeout-minutes: 60
   flake-check:
     name: flake check (${{ matrix.systems.platform }})
-    runs-on: native
+    runs-on: nixos-latest
     steps:
     - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
       with:
         persist-credentials: false
-    - uses: https://git.sinrohit.com/sinrohit/install-nix-action@v24
-      with:
-        extra-conf: |-
-          accept-flake-config = true
-          max-jobs = 2
-    - uses: actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7
-      with:
-        key: nix-eval-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('flake.lock')
-          }}
-        path: ~/.cache/nix
-        restore-keys: nix-eval-${{ runner.os }}-${{ runner.arch }}-
     - name: nix flake check
       run: nix flake check 'git+file:.'
     - name: nix flake show

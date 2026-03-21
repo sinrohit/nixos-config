@@ -18,8 +18,7 @@
         runner.capacity = 1;
       };
       labels = [
-        "node-22:docker://node:22-bookworm"
-        "nixos-latest:docker://nixos/nix"
+        "nixos-latest:docker://git.notthebe.ee/notthebee/nix-ci-builder:latest"
       ];
     };
   };

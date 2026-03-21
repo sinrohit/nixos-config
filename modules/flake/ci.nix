@@ -45,7 +45,7 @@ let
   #   lib.mapAttrsToList (mkHostInfo "darwin") (self.darwinConfigurations or { })
   # );
 
-  # GitHub Actions references - all versions consolidated here for Renovate
+  # Actions references - all versions consolidated here for Renovate
   actions = {
     cache = "actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7"; # v5.0.2
     checkout = "actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8"; # v6.0.1
@@ -58,14 +58,6 @@ let
     checkout = {
       uses = actions.checkout;
       "with".persist-credentials = false;
-    };
-
-    nixInstaller = {
-      uses = actions.nix-installer;
-      "with".extra-conf = ''
-        accept-flake-config = true
-        max-jobs = 2
-      '';
     };
 
     nixCache = {
@@ -87,8 +79,6 @@ let
   # Common setup steps for build jobs
   setupSteps = [
     steps.checkout
-    steps.nixInstaller
-    steps.nixCache
   ];
 
   # Platforms to run flake check/show on (derived from all hosts)
@@ -112,7 +102,7 @@ in
 
     defaultValues.jobs = {
       timeout-minutes = 60;
-      runs-on = "native";
+      runs-on = "nixos-latest";
     };
 
     workflows = {
@@ -140,7 +130,7 @@ in
           flake-check = {
             name = "flake check (\${{ matrix.systems.platform }})";
             strategy.matrix.systems = checkPlatforms;
-            runs-on = "native";
+            runs-on = "nixos-latest";
             steps = setupSteps ++ [
               {
                 name = "nix flake check";
@@ -160,7 +150,7 @@ in
               fail-fast = false;
               matrix.attrs = nixosHosts; # TODO: Skip Darwin Hosts for now.
             };
-            runs-on = "native";
+            runs-on = "nixos-latest";
             steps = setupSteps ++ [ (steps.nixci-build "\${{ matrix.attrs.attr }}") ];
           };
         };
@@ -193,8 +183,6 @@ in
                 };
               }
             )
-
-            steps.nixInstaller
 
             {
               name = "Update flake inputs";
