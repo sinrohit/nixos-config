@@ -15,6 +15,7 @@ final: prev: {
   inherit (inputs.nixpkgs-unstable.legacyPackages.${prev.system}) nixfmt-tree;
   inherit (inputs.nixpkgs-unstable.legacyPackages.${prev.system}) nixfmt;
   inherit (inputs.nixpkgs-unstable.legacyPackages.${prev.system}) rust-analyzer;
+  inherit (inputs.nixpkgs-unstable.legacyPackages.${prev.system}) forgejo-runner;
 
   nixci = inputs.nixci.packages.${prev.system}.default;
 

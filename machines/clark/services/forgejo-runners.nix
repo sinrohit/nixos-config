@@ -5,6 +5,8 @@
     owner = "forgejo";
   };
 
+  virtualisation.podman.enable = true;
+
   services.gitea-actions-runner = {
     package = pkgs.forgejo-runner;
     instances.default = {
@@ -12,7 +14,13 @@
       url = "https://git.sinrohit.com";
       name = config.networking.hostName;
       tokenFile = config.age.secrets.forgejo-runner.path;
-      labels = [ "native:host" ];
+      settings = {
+        runner.capacity = 1;
+      };
+      labels = [
+        "node-22:docker://node:22-bookworm"
+        "nixos-latest:docker://nixos/nix"
+      ];
     };
   };
 }

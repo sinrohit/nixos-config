@@ -5,7 +5,7 @@
 
   services.github-runners = {
     "runner1" = {
-      enable = true;
+      enable = false;
       name = "x84_64-linux-runner1";
       url = "https://github.com/sinrohit/nixos-config";
       tokenFile = config.age.secrets.github-runner-nixos-config-x84_64-linux.path;

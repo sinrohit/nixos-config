@@ -88,6 +88,8 @@
     deploy
     duf
     lsd
+    fzf
+    forgejo-cli
   ];
 
   users = {
