@@ -185,6 +185,27 @@
     },
     "flake-parts_2": {
       "inputs": {
+        "nixpkgs-lib": [
+          "neovim",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1775087534,
+        "narHash": "sha256-91qqW8lhL7TLwgQWijoGBbiD4t7/q75KTi8NxjVmSmA=",
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "rev": "3107b77cd68437b9a76194f0f7f9c55f2329ca5b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "type": "github"
+      }
+    },
+    "flake-parts_3": {
+      "inputs": {
         "nixpkgs-lib": "nixpkgs-lib"
       },
       "locked": {
@@ -213,6 +234,27 @@
       "original": {
         "owner": "numtide",
         "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "gift-wrap": {
+      "inputs": {
+        "nixpkgs": [
+          "neovim",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1773403464,
+        "narHash": "sha256-fckT48WShz/HqRgHgBKbVZCreC+Apfu3UqPZxFuL7Us=",
+        "owner": "tgirlcloud",
+        "repo": "gift-wrap",
+        "rev": "9499bc6e450d9959e2019f7122efd3b9077f333a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tgirlcloud",
+        "repo": "gift-wrap",
         "type": "github"
       }
     },
@@ -406,6 +448,26 @@
         "type": "github"
       }
     },
+    "neovim": {
+      "inputs": {
+        "flake-parts": "flake-parts_2",
+        "gift-wrap": "gift-wrap",
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1775232865,
+        "narHash": "sha256-lZznvBhZOBvjiZlowMuU6U/626eKVm5Lp2t5LDZ59Wc=",
+        "ref": "refs/heads/main",
+        "rev": "2ed36bd52563a90fb36922fe0e4eb2a04d249dd1",
+        "revCount": 3,
+        "type": "git",
+        "url": "https://git.sinrohit.com/sinrohit/nvim.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.sinrohit.com/sinrohit/nvim.git"
+      }
+    },
     "nix-darwin": {
       "inputs": {
         "nixpkgs": [
@@ -431,9 +493,9 @@
       "inputs": {
         "cargo-doc-live": "cargo-doc-live",
         "devour-flake": "devour-flake",
-        "flake-parts": "flake-parts_2",
+        "flake-parts": "flake-parts_3",
         "git-hooks-nix": "git-hooks-nix",
-        "nixpkgs": "nixpkgs",
+        "nixpkgs": "nixpkgs_2",
         "process-compose-flake": "process-compose-flake",
         "rust-flake": "rust-flake",
         "systems": "systems_2"
@@ -470,18 +532,15 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1760580664,
-        "narHash": "sha256-/YdfibIrnqXAL8p5kqCU345mzpHoOtuVIkMiI2pF4Dc=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "98ff3f9af2684f6136c24beef08f5e2033fc5389",
-        "type": "github"
+        "lastModified": 1775126147,
+        "narHash": "sha256-6d2gqeTZREHUbEgsb6KM8/oIHQH2dtx6Z/WvcJbMz7s=",
+        "rev": "8d8c1fa5b412c223ffa47410867813290cdedfef",
+        "type": "tarball",
+        "url": "https://releases.nixos.org/nixpkgs/nixpkgs-26.05pre973403.8d8c1fa5b412/nixexprs.tar.xz"
       },
       "original": {
-        "owner": "nixos",
-        "ref": "nixos-25.05",
-        "repo": "nixpkgs",
-        "type": "github"
+        "type": "tarball",
+        "url": "https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.xz"
       }
     },
     "nixpkgs-lib": {
@@ -516,6 +575,22 @@
       }
     },
     "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1760580664,
+        "narHash": "sha256-/YdfibIrnqXAL8p5kqCU345mzpHoOtuVIkMiI2pF4Dc=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "98ff3f9af2684f6136c24beef08f5e2033fc5389",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-25.05",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_3": {
       "locked": {
         "lastModified": 1775002709,
         "narHash": "sha256-d3Yx83vSrN+2z/loBh4mJpyRqr9aAJqlke4TkpFmRJA=",
@@ -555,10 +630,11 @@
         "git-hooks": "git-hooks_2",
         "home-manager": "home-manager_2",
         "import-tree": "import-tree",
+        "neovim": "neovim",
         "nix-darwin": "nix-darwin",
         "nixci": "nixci",
         "nixos-hardware": "nixos-hardware",
-        "nixpkgs": "nixpkgs_2",
+        "nixpkgs": "nixpkgs_3",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "st": "st"
       }

@@ -59,6 +59,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    neovim.url = "git+https://git.sinrohit.com/sinrohit/nvim.git";
+
   };
 
   outputs =

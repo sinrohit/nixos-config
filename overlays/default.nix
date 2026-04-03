@@ -18,5 +18,6 @@ final: prev: {
   inherit (inputs.nixpkgs-unstable.legacyPackages.${prev.system}) forgejo-runner;
 
   nixci = inputs.nixci.packages.${prev.system}.default;
+  neovim = inputs.neovim.packages.${prev.system}.default;
 
 }
