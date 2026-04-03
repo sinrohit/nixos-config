@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, ... }:
 let
   domain = "sinrohit.com";
 in
@@ -26,14 +26,6 @@ in
       owner = "ente";
     };
   };
-  services.minio = {
-    enable = true;
-    # ente's config must match this region!
-    region = "us-east-1";
-    rootCredentialsFile = config.age.secrets.minio-creds.path;
-    dataDir = [ "/media/minio/data" ];
-    configDir = "/media/minio/config";
-  };
 
   systemd.services.minio.environment.MINIO_SERVER_URL = "https://s3.sinrohit.com";
 
@@ -43,69 +35,83 @@ in
     443
   ];
 
-  services.ente = {
-    web = {
+  services = {
+
+    minio = {
       enable = true;
-      domains = {
-        accounts = "accounts.${domain}";
-        albums = "albums.${domain}";
-        cast = "cast.${domain}";
-        photos = "photos.${domain}";
-      };
+      # ente's config must match this region!
+      region = "us-east-1";
+      rootCredentialsFile = config.age.secrets.minio-creds.path;
+      dataDir = [ "/media/minio/data" ];
+      configDir = "/media/minio/config";
     };
-    api = {
-      enable = true;
-      nginx.enable = true;
-      # Create a local postgres database and set the necessary config in ente
-      enableLocalDB = true;
-      domain = "api.${domain}";
-      # You can hide secrets by setting xyz._secret = file instead of xyz = value.
-      # Make sure to not include any of the secrets used here directly
-      # in your config. They would be publicly readable in the nix store.
-      # Use agenix, sops-nix or an equivalent secret management solution.
-      settings = {
-        s3 = {
-          use_path_style_urls = true;
-          b2-eu-cen = {
-            endpoint = "https://s3.${domain}";
-            region = "us-east-1";
-            bucket = "ente";
-            key._secret = config.age.secrets.ente-minio-user.path;
-            secret._secret = config.age.secrets.ente-minio-passwd.path;
+
+    ente = {
+      web = {
+        enable = true;
+        domains = {
+          accounts = "accounts.${domain}";
+          albums = "albums.${domain}";
+          cast = "cast.${domain}";
+          photos = "photos.${domain}";
+        };
+      };
+      api = {
+        enable = true;
+        nginx.enable = true;
+        # Create a local postgres database and set the necessary config in ente
+        enableLocalDB = true;
+        domain = "api.${domain}";
+        # You can hide secrets by setting xyz._secret = file instead of xyz = value.
+        # Make sure to not include any of the secrets used here directly
+        # in your config. They would be publicly readable in the nix store.
+        # Use agenix, sops-nix or an equivalent secret management solution.
+        settings = {
+          s3 = {
+            use_path_style_urls = true;
+            b2-eu-cen = {
+              endpoint = "https://s3.${domain}";
+              region = "us-east-1";
+              bucket = "ente";
+              key._secret = config.age.secrets.ente-minio-user.path;
+              secret._secret = config.age.secrets.ente-minio-passwd.path;
+            };
           };
-        };
-        key = {
+          key = {
+            # generate with: openssl rand -base64 32
+            encryption._secret = config.age.secrets.ente-encryption.path;
+            # generate with: openssl rand -base64 64
+            hash._secret = config.age.secrets.ente-hash.path;
+          };
           # generate with: openssl rand -base64 32
-          encryption._secret = config.age.secrets.ente-encryption.path;
-          # generate with: openssl rand -base64 64
-          hash._secret = config.age.secrets.ente-hash.path;
+          jwt.secret._secret = config.age.secrets.ente-jwt.path;
         };
-        # generate with: openssl rand -base64 32
-        jwt.secret._secret = config.age.secrets.ente-jwt.path;
       };
     };
   };
 
   services.nginx = {
-    virtualHosts."accounts.${domain}" = {
-      useACMEHost = "sinrohit.com";
-      forceSSL = true;
-    };
-    virtualHosts."albums.${domain}" = {
-      useACMEHost = "sinrohit.com";
-      forceSSL = true;
-    };
-    virtualHosts."api.${domain}" = {
-      useACMEHost = "sinrohit.com";
-      forceSSL = true;
-    };
-    virtualHosts."cast.${domain}" = {
-      useACMEHost = "sinrohit.com";
-      forceSSL = true;
-    };
-    virtualHosts."photos.${domain}" = {
-      useACMEHost = "sinrohit.com";
-      forceSSL = true;
+    virtualHosts = {
+      "accounts.${domain}" = {
+        useACMEHost = "sinrohit.com";
+        forceSSL = true;
+      };
+      "albums.${domain}" = {
+        useACMEHost = "sinrohit.com";
+        forceSSL = true;
+      };
+      "api.${domain}" = {
+        useACMEHost = "sinrohit.com";
+        forceSSL = true;
+      };
+      "cast.${domain}" = {
+        useACMEHost = "sinrohit.com";
+        forceSSL = true;
+      };
+      "photos.${domain}" = {
+        useACMEHost = "sinrohit.com";
+        forceSSL = true;
+      };
     };
   };
 }
