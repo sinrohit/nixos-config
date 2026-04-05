@@ -91,6 +91,7 @@
     fzf
     forgejo-cli
     minio-client
+    inetutils
   ];
 
   users = {
