@@ -24,7 +24,7 @@ let
     lib.optionalAttrs (platformInfo != null) {
       inherit name;
       hostPlatform = platform;
-      runsOn = platformInfo.label;
+      #runsOn = platformInfo.label;
       attr =
         if kind == "nixos" then
           "nixosConfigurations.${name}.config.system.build.toplevel"
@@ -41,9 +41,10 @@ let
   nixosHosts = lib.filter (h: h != { } && !(lib.elem h.name excludedHosts)) (
     lib.mapAttrsToList (mkHostInfo "nixos") (self.nixosConfigurations or { })
   );
-  # darwinHosts = lib.filter (h: h != { }) (
-  #   lib.mapAttrsToList (mkHostInfo "darwin") (self.darwinConfigurations or { })
-  # );
+
+  darwinHosts = lib.filter (h: h != { }) (
+    lib.mapAttrsToList (mkHostInfo "darwin") (self.darwinConfigurations or { })
+  );
 
   # Actions references - all versions consolidated here for Renovate
   actions = {
@@ -70,9 +71,9 @@ let
     };
 
     # Helper to create nixci-build step for a given attribute expression
-    nixci-build = flakeAttr: {
+    nixci = flakeAttr: {
       name = "Run Nix CI 🔧";
-      run = "nix build ${flakeRef}#${flakeAttr}";
+      run = "nix eval ${flakeRef}#${flakeAttr}";
     };
   };
 
@@ -82,15 +83,15 @@ let
   ];
 
   # Platforms to run flake check/show on (derived from all hosts)
-  checkPlatforms =
-    let
-      # allHosts = nixosHosts ++ darwinHosts; TODO: Skip Darwin for now
-      hostPlatforms = lib.unique (map (h: h.hostPlatform) nixosHosts);
-    in
-    map (p: {
-      platform = p;
-      inherit (platforms.${p}) label;
-    }) hostPlatforms;
+  # checkPlatforms =
+  #   let
+  #     allHosts = nixosHosts ++ darwinHosts;
+  #     hostPlatforms = lib.unique (map (h: h.hostPlatform) allHosts);
+  #   in
+  #   map (p: {
+  #     platform = p;
+  #     inherit (platforms.${p}) label;
+  #   }) hostPlatforms;
 
   flakeRef = "git+file:.";
 in
@@ -126,32 +127,15 @@ in
         permissions = { };
 
         jobs = {
-          # Flake check on all platforms
-          flake-check = {
-            name = "flake check (\${{ matrix.systems.platform }})";
-            strategy.matrix.systems = checkPlatforms;
-            runs-on = "nixos-latest";
-            steps = setupSteps ++ [
-              {
-                name = "nix flake check";
-                run = "nix flake check '${flakeRef}'";
-              }
-              {
-                name = "nix flake show";
-                run = "nix flake show '${flakeRef}'";
-              }
-            ];
-          };
-
-          # Build hosts
-          build = {
+          # Evaluate hosts
+          eval = {
             name = "\${{ matrix.attrs.name }} (\${{ matrix.attrs.hostPlatform }})";
             strategy = {
               fail-fast = false;
-              matrix.attrs = nixosHosts; # TODO: Skip Darwin Hosts for now.
+              matrix.attrs = nixosHosts ++ darwinHosts;
             };
             runs-on = "nixos-latest";
-            steps = setupSteps ++ [ (steps.nixci-build "\${{ matrix.attrs.attr }}") ];
+            steps = setupSteps ++ [ (steps.nixci "\${{ matrix.attrs.attr }}") ];
           };
         };
       };

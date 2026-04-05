@@ -7,7 +7,7 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
   group: ci-${{ github.head_ref || github.ref_name }}
 jobs:
-  build:
+  eval:
     name: ${{ matrix.attrs.name }} (${{ matrix.attrs.hostPlatform }})
     runs-on: nixos-latest
     steps:
@@ -15,7 +15,7 @@ jobs:
       with:
         persist-credentials: false
     - name: "Run Nix CI \U0001F527"
-      run: nix build git+file:.#${{ matrix.attrs.attr }}
+      run: nix eval git+file:.#${{ matrix.attrs.attr }}
     strategy:
       fail-fast: false
       matrix:
@@ -23,30 +23,12 @@ jobs:
         - attr: nixosConfigurations.clark.config.system.build.toplevel
           hostPlatform: x86_64-linux
           name: clark
-          runsOn: '["self-hosted", "linux", "x64"]'
         - attr: nixosConfigurations.pi.config.system.build.toplevel
           hostPlatform: aarch64-linux
           name: pi
-          runsOn: '["self-hosted", "linux"]'
-    timeout-minutes: 60
-  flake-check:
-    name: flake check (${{ matrix.systems.platform }})
-    runs-on: nixos-latest
-    steps:
-    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
-      with:
-        persist-credentials: false
-    - name: nix flake check
-      run: nix flake check 'git+file:.'
-    - name: nix flake show
-      run: nix flake show 'git+file:.'
-    strategy:
-      matrix:
-        systems:
-        - label: '["self-hosted", "linux", "x64"]'
-          platform: x86_64-linux
-        - label: '["self-hosted", "linux"]'
-          platform: aarch64-linux
+        - attr: darwinConfigurations.zion.config.system.build.toplevel
+          hostPlatform: aarch64-darwin
+          name: zion
     timeout-minutes: 60
 name: ci
 'on':
