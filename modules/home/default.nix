@@ -36,7 +36,6 @@
       nix-eval-jobs
       nix-output-monitor
       nixfmt
-      nixci
       rust-analyzer
       lsd
       duf
