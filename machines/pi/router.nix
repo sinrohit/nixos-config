@@ -25,6 +25,13 @@ let
       mv zones $out
     '';
   };
+  localServices = [
+    "vault"
+    "immich"
+    "nextcloud"
+    "git"
+    "s3"
+  ];
 in
 {
 
@@ -162,6 +169,7 @@ in
           "10.0.0.0/24 allow"
           "100.64.0.0/10 allow" # Tailscale CGNAT range. TODO: Find a better way
         ];
+        local-data = map (s: "\"${s}.sinrohit.com. A 10.0.0.10\"") localServices;
       };
     };
   };
