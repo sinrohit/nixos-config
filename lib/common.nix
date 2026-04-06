@@ -10,7 +10,6 @@
       # Use all CPU cores
       max-jobs = lib.mkDefault "auto";
       experimental-features = lib.mkDefault "nix-command flakes";
-      auto-optimise-store = true; 
       extra-substituters = [
         "https://cache.clan.lol"
         "https://sinrohit.cachix.org"
