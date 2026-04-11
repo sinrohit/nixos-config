@@ -20,10 +20,6 @@
         "**/cache"
         "**/tmp"
 
-        # Immich thumbnails (can be regenerated)
-        "**/thumbs"
-        "**/encoded-video"
-
         # Temporary files
         "**/*.tmp"
         "**/.Trash-*"
@@ -55,6 +51,40 @@
       checkOpts = [
         "--read-data-subset=5%" # Check 5% of data each run
       ];
+    };
+
+    # Backup Locally
+    immich-local = {
+      repository = "/var/backup/immich"; # local path
+      passwordFile = config.age.secrets.restic.path;
+
+      paths = [ "/media/immich" ];
+
+      exclude = [
+        "**/.cache"
+        "**/cache"
+        "**/tmp"
+        "**/*.tmp"
+        "**/.Trash-*"
+      ];
+
+      initialize = true;
+
+      pruneOpts = [
+        "--keep-daily 7"
+        "--keep-weekly 4"
+        "--keep-monthly 6"
+        "--keep-yearly 2"
+      ];
+
+      timerConfig = {
+        OnCalendar = "06:00"; # offset from remote backup
+        RandomizedDelaySec = "30m";
+        Persistent = true;
+      };
+
+      runCheck = true;
+      checkOpts = [ "--read-data-subset=5%" ];
     };
   };
 }
