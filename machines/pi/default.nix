@@ -2,7 +2,7 @@
 {
 
   imports = [
-    ./router.nix
+    ./router
   ];
 
   boot = {
@@ -22,12 +22,6 @@
       grub.enable = false;
       generic-extlinux-compatible.enable = true;
     };
-
-    kernel.sysctl = {
-      # Enable IP forwarding — required for routing
-      "net.ipv4.ip_forward" = 1;
-      "net.ipv6.conf.all.forwarding" = 1;
-    };
   };
 
   fileSystems = {
@@ -42,14 +36,7 @@
 
   environment.systemPackages = with pkgs; [
     git
-    vim
     btop
-
-    #networking
-    dig
-    tcpdump
-    nftables
-    inetutils
   ];
 
   nixpkgs.hostPlatform = "aarch64-linux";
