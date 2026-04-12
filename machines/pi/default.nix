@@ -71,5 +71,32 @@
   security.sudo.wheelNeedsPassword = false;
 
   hardware.enableRedistributableFirmware = true;
+
+  ## -- Router Configs Start -- ##
+  homelab.router = {
+    network = {
+      enable = true;
+      wan.macAddress = "00:e0:4c:2e:54:50";
+      lan.macAddress = "d8:3a:dd:aa:90:7f";
+      lan.staticLeases = [
+        {
+          MACAddress = "b8:85:84:9a:5d:12";
+          Address = "10.0.0.10";
+        }
+      ];
+    };
+
+    dns.enable = true; # brings up both Unbound + AdGuard together
+
+    firewall.enable = true;
+
+    security = {
+      enable = true;
+      disableIPv6 = true;
+    };
+  };
+
+  ## -- Router Configs Ends -- ##
+
   system.stateVersion = "23.11";
 }

@@ -50,6 +50,8 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    services.resolved.enable = false;
+
     # Pull in AdGuard, pointed at our Unbound instance
     homelab.router.adguard = {
       enable = true;

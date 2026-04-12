@@ -90,9 +90,10 @@ in
       inherit (cfg) host port;
       settings = {
         dns = {
-          inherit (cfg) bindHosts upstream_dns ratelimit;
+          inherit (cfg) bindHosts ratelimit;
           port = 53;
           bootstrap_dns = cfg.upstreamDns;
+          upstream_dns = cfg.upstreamDns;
           enable_dnssec = true;
           cache_size = 8388608; # 8 MB
           cache_ttl_min = 300;
