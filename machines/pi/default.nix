@@ -1,8 +1,8 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 {
 
   imports = [
-    ./router
+    (inputs.import-tree ../../modules/nixos/router)
   ];
 
   boot = {

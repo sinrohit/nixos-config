@@ -1,8 +1,9 @@
 {
   imports = [
-    ./core.nix
+    ./adguard.nix
     ./dns.nix
     ./firewall.nix
+    ./network.nix
     ./security.nix
   ];
 }
