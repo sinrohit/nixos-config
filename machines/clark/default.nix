@@ -1,5 +1,4 @@
 {
-  config,
   inputs,
   pkgs,
   ...
@@ -43,6 +42,7 @@
     hostId = "2dbce559";
     hostName = "clark";
   };
+
   # Enable networking
   networking.networkmanager.enable = true;
 
@@ -84,13 +84,10 @@
     btop
     git
     rsync
-    restic
     deploy
     duf
     lsd
     fzf
-    forgejo-cli
-    minio-client
     inetutils
   ];
 
@@ -103,30 +100,24 @@
 
   environment.pathsToLink = [ "/share/bash-completion" ];
 
-  age.secrets = {
-    acme-cloudflare-sinrohit = {
-      file = ../../secrets/acme-cloudflare-sinrohit.age;
-      owner = "nginx";
-      group = "users";
-    };
-    cloudflare-tunnel.file = ../../secrets/cloudflare-tunnel.age;
-  };
-
   security = {
     # Don't require password for sudo
     sudo.wheelNeedsPassword = false;
-
     rtkit.enable = true;
-    acme = {
-      acceptTerms = true;
-      defaults.email = "rsrohitsingh682@gmail.com";
+  };
 
-      certs."sinrohit.com" = {
-        domain = "*.sinrohit.com";
-        dnsProvider = "cloudflare";
-        dnsResolver = "1.1.1.1:53";
-        environmentFile = config.age.secrets.acme-cloudflare-sinrohit.path;
-      };
+  ## -- Homelab Services -- ##
+  homelab = {
+    acme.enable = true;
+    vaultwarden.enable = true;
+    immich.enable = true;
+    forgejo.enable = true;
+    forgejo-runners.enable = true;
+    nginx.enable = true;
+    restic = {
+      enable = true;
+      immich.remote.enable = true;
+      immich.local.enable = true;
     };
   };
 

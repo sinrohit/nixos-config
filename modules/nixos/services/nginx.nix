@@ -1,58 +1,90 @@
-{ config, ... }:
+{ config, lib, ... }:
+
+let
+  cfg = config.homelab.nginx;
+  acmeHost = "sinrohit.com";
+
+  # Helper to build a standard SSL vhost that proxies to localhost
+  mkProxy = port: {
+    useACMEHost = acmeHost;
+    forceSSL = true;
+    locations."/" = {
+      proxyPass = "http://localhost:${toString port}";
+      proxyWebsockets = true;
+    };
+  };
+in
 {
+  options.homelab.nginx = {
+    enable = lib.mkEnableOption "nginx reverse proxy for homelab services";
+  };
 
-  services.nginx = {
-    enable = true;
-    recommendedProxySettings = true;
-    recommendedTlsSettings = true;
+  config = lib.mkIf cfg.enable {
+    networking.firewall.allowedTCPPorts = [
+      80
+      443
+    ];
 
-    # allow large file uploads
-    clientMaxBodySize = "50000M";
+    services.nginx = {
+      enable = true;
+      recommendedProxySettings = true;
+      recommendedTlsSettings = true;
+      clientMaxBodySize = "50000M";
 
-    virtualHosts = {
-      "vault.sinrohit.com" = {
-        useACMEHost = "sinrohit.com";
-        forceSSL = true;
-        locations."/" = {
-          proxyPass = "http://localhost:${toString config.services.vaultwarden.config.ROCKET_PORT}";
-          proxyWebsockets = true;
-        };
-      };
+      virtualHosts = lib.mkMerge [
+        (lib.mkIf config.homelab.vaultwarden.enable {
+          "vault.sinrohit.com" = mkProxy config.homelab.vaultwarden.port;
+        })
 
-      "immich.sinrohit.com" = {
-        useACMEHost = "sinrohit.com";
-        forceSSL = true;
-        locations."/" = {
-          proxyPass = "http://localhost:2283";
-          proxyWebsockets = true;
-        };
-      };
+        (lib.mkIf config.homelab.immich.enable {
+          "immich.sinrohit.com" = mkProxy config.homelab.immich.port;
+        })
 
-      ${config.services.nextcloud.hostName} = {
-        forceSSL = true;
-        useACMEHost = "sinrohit.com";
-      };
+        (lib.mkIf config.homelab.nextcloud.enable {
+          ${config.homelab.nextcloud.domain} = {
+            useACMEHost = acmeHost;
+            forceSSL = true;
+          };
+        })
 
-      "git.sinrohit.com" = {
-        useACMEHost = "sinrohit.com";
-        forceSSL = true;
-        locations."/" = {
-          proxyPass = "http://localhost:${toString config.services.forgejo.settings.server.HTTP_PORT}";
-          proxyWebsockets = true;
-        };
-      };
+        (lib.mkIf config.homelab.forgejo.enable {
+          "git.sinrohit.com" = mkProxy config.homelab.forgejo.port;
+        })
 
-      "s3.sinrohit.com" = {
-        forceSSL = true;
-        useACMEHost = "sinrohit.com";
-        locations."/".proxyPass = "http://localhost:9000";
-        # determine max file upload size
-        extraConfig = ''
-          client_max_body_size 16G;
-          proxy_buffering off;
-          proxy_request_buffering off;
-        '';
-      };
+        (lib.mkIf config.homelab.ente.enable {
+          "accounts.sinrohit.com" = {
+            useACMEHost = acmeHost;
+            forceSSL = true;
+          };
+          "albums.sinrohit.com" = {
+            useACMEHost = acmeHost;
+            forceSSL = true;
+          };
+          "api.sinrohit.com" = {
+            useACMEHost = acmeHost;
+            forceSSL = true;
+          };
+          "cast.sinrohit.com" = {
+            useACMEHost = acmeHost;
+            forceSSL = true;
+          };
+          "photos.sinrohit.com" = {
+            useACMEHost = acmeHost;
+            forceSSL = true;
+          };
+
+          "s3.sinrohit.com" = {
+            useACMEHost = acmeHost;
+            forceSSL = true;
+            locations."/".proxyPass = "http://localhost:9000";
+            extraConfig = ''
+              client_max_body_size 16G;
+              proxy_buffering off;
+              proxy_request_buffering off;
+            '';
+          };
+        })
+      ];
     };
   };
 }
