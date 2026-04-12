@@ -13,7 +13,7 @@
     inputs.disko.nixosModules.default
 
     # nixos services
-    (inputs.import-tree ./services)
+    (inputs.import-tree ../../modules/nixos/services)
   ];
 
   # Bootloader.
