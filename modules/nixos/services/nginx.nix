@@ -13,6 +13,15 @@ let
       proxyWebsockets = true;
     };
   };
+
+   mkProxy' = address: port: {
+    useACMEHost = acmeHost;
+    forceSSL = true;
+    locations."/" = {
+      proxyPass = "http://${address}:${toString port}";
+      proxyWebsockets = true;
+    };
+  };
 in
 {
   options.homelab.nginx = {
@@ -32,8 +41,8 @@ in
       clientMaxBodySize = "50000M";
 
       virtualHosts = lib.mkMerge [
-        (lib.mkIf config.homelab.vaultwarden.enable {
-          "vault.sinrohit.com" = mkProxy config.homelab.vaultwarden.port;
+        (lib.mkIf true {
+          "vault.sinrohit.com" = mkProxy' "10.10.0.2" config.homelab.vaultwarden.port;
         })
 
         (lib.mkIf config.homelab.immich.enable {

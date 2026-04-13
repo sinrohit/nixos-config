@@ -35,6 +35,7 @@ let
   excludedHosts = [
     "enigma"
     "ema"
+    "vaultwarden-vm"
   ];
 
   # Autodiscover all hosts and filter out unsupported platforms

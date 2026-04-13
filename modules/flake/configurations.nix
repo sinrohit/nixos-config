@@ -6,6 +6,7 @@
       ema = self.mkSystem.nixOS "ema" { withHomeManager = true; };
       enigma = self.mkSystem.nixOS "enigma" { withHomeManager = true; };
       pi = self.mkSystem.nixOS "pi" { };
+      vaultwarden-vm = self.mkSystem.nixOS "vaultwarden-vm" { };
       #riscv = self.mkSystem.nixOS "riscv" { };
     };
 

@@ -1,8 +1,4 @@
-{
-  inputs,
-  pkgs,
-  ...
-}:
+{ inputs, pkgs, ... }:
 
 {
   imports = [
@@ -13,6 +9,7 @@
 
     # nixos services
     (inputs.import-tree ../../modules/nixos/services)
+    inputs.microvm.nixosModules.host
   ];
 
   # Bootloader.
@@ -45,6 +42,7 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+  networking.useNetworkd = true;
 
   # Set your time zone.
   time.timeZone = "Asia/Kolkata";
@@ -109,7 +107,7 @@
   ## -- Homelab Services -- ##
   homelab = {
     acme.enable = true;
-    vaultwarden.enable = true;
+    vaultwarden.enable = false;
     immich.enable = true;
     forgejo.enable = true;
     forgejo-runners.enable = true;
@@ -118,6 +116,20 @@
       enable = true;
       immich.remote.enable = true;
       immich.local.enable = true;
+    };
+  };
+
+  homelab.microvm-host = {
+    enable = true;
+    externalInterface = "enp2s0";
+  };
+
+  microvm.vms = {
+    vaultwarden-vm = {
+      flake = inputs.self;
+      autostart = true;
+      restartIfChanged = true;
+      updateFlake = "git+https://git.sinrohit.com/sinrohit/nixos-config.git";
     };
   };
 
