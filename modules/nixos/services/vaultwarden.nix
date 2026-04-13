@@ -12,6 +12,12 @@ in
       default = 8222;
       description = "Port vaultwarden listens on";
     };
+
+    host = lib.mkOption {
+      type = lib.types.str;
+      default = "127.0.0.1";
+      description = "Interface vaultwarden listens on";
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -19,6 +25,7 @@ in
       enable = true;
       config = {
         ROCKET_PORT = cfg.port;
+        ROCKET_ADDRESS = cfg.host;
       };
     };
   };
