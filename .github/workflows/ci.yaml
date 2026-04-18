@@ -26,6 +26,9 @@ jobs:
         - attr: nixosConfigurations.pi.config.system.build.toplevel
           hostPlatform: aarch64-linux
           name: pi
+        - attr: nixosConfigurations.yuta.config.system.build.toplevel
+          hostPlatform: x86_64-linux
+          name: yuta
         - attr: darwinConfigurations.zion.config.system.build.toplevel
           hostPlatform: aarch64-darwin
           name: zion

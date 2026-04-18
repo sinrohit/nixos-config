@@ -7,6 +7,7 @@
       enigma = self.mkSystem.nixOS "enigma" { withHomeManager = true; };
       pi = self.mkSystem.nixOS "pi" { };
       vaultwarden-vm = self.mkSystem.nixOS "vaultwarden-vm" { };
+      yuta = self.mkSystem.nixOS "yuta" { withHomeManager = true; };
       #riscv = self.mkSystem.nixOS "riscv" { };
     };
 
