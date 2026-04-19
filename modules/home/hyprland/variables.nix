@@ -25,5 +25,9 @@
     CLUTTER_BACKEND = "wayland";
     GTK_THEME = "Colloid-Green-Dark-Gruvbox";
     GRIMBLAST_HIDE_CURSOR = 0;
+
+    # Font rendering
+    FREETYPE_PROPERTIES = "truetype:interpreter-version=40";
+    GDK_DPI_SCALE = "1";
   };
 }

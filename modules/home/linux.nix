@@ -3,6 +3,7 @@
   imports = [
     ./bash.nix
     ./hyprland
+    ./fonts.nix
   ];
 
   home = {
