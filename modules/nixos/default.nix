@@ -42,7 +42,7 @@
     ];
     openssh.authorizedKeys.keys = [
       "${config.me.sshKey}"
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO2I5q4joEZHECEbEhLvcH1J67NGODrCmjZXwVCoMSLo"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILi9beFjzQjcv+LVPAiG9YYdorUxmIxXiy36BAnd5fH8"
     ];
   };
 
