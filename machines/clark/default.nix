@@ -107,6 +107,7 @@
   ## -- Homelab Services -- ##
   homelab = {
     acme.enable = true;
+    ente.enable = true;
     vaultwarden.enable = false;
     immich.enable = true;
     forgejo.enable = true;
