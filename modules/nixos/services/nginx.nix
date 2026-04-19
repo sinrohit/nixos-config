@@ -14,7 +14,7 @@ let
     };
   };
 
-   mkProxy' = address: port: {
+  mkProxy' = address: port: {
     useACMEHost = acmeHost;
     forceSSL = true;
     locations."/" = {
