@@ -77,7 +77,6 @@ in
         so-rcvbuf = "1m";
         qname-minimisation = true;
         access-control = cfg.allowedRanges;
-        local-data = map (s: "\"${s}.${cfg.domain}. A ${cfg.lanAddress}\"") cfg.localServices;
       };
     };
   };
