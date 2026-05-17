@@ -12,10 +12,6 @@
 
     zoxide.enable = true;
 
-    direnv = {
-      enable = true;
-    };
-
     atuin = {
       enable = false;
       settings = {
