@@ -25,6 +25,7 @@ Options:
     --dry-run: build, but do not apply the changes
     --use-substitutes: instruct remote to download from cache.nixos.org if possible
     --build-remote: build on remote machine rather than locally
+    --fast: Equivalent to --no-build-nix
 " >/dev/stderr
 }
 
@@ -39,6 +40,9 @@ for i in "$@"; do
     ;;
   --use-substitutes)
     EXTRA_SWITCH_ARGS+=("--use-substitutes")
+    ;;
+  --fast)
+    EXTRA_SWITCH_ARGS+=("--fast")
     ;;
   --build-remote)
     BUILD_REMOTE=1
