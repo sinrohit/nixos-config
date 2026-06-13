@@ -1,8 +1,11 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 
 {
   imports = [
     ./hardware-configuration.nix
+    inputs.agenix.nixosModules.default
+    # nixos services
+    (inputs.import-tree ../../modules/nixos/services)
   ];
 
   # Bootloader.
@@ -60,6 +63,13 @@
         PermitRootLogin = "no";
       };
     };
+
+    qemuGuest.enable = true;
+  };
+
+  homelab.immich = {
+    enable = true;
+    machineLearning = false;
   };
 
   system.stateVersion = "25.11";
