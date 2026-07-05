@@ -1,22 +1,18 @@
 let
   rohit = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOWUINFSlhsbwckdAlvE/V1ESIk0yXdVvE/BuMEJpEvl";
-  rohit-enigma = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO2I5q4joEZHECEbEhLvcH1J67NGODrCmjZXwVCoMSLo";
   users = [
     rohit
-    rohit-enigma
   ];
 
   clark = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMY+NmD4GBq9Haqa1iBiofEWvsmQh7KgHCP60y6TFLZq";
-  enigma = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMoJURAZ9WI8IrcAThSDhKbGtlSTnvY/YbgflaZlJXmi";
   pi = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILm4Jfv+D2mUwyEYZ+DBeEBnFFeKxMNoG4ZpvV9VXorQ";
   zion = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOZWNuSlFSzLHVOB59SxltjNDNLYuwKqA4iiKAf4Lo8n";
-  orb = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOZWNuSlFSzLHVOB59SxltjNDNLYuwKqA4iiKAf4Lo8n";
+  firefly = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILIC6trUFI9NF17ZarZdXBU4feyaVgTgJvd9YZUj69fr";
   systems = [
     clark
-    enigma
     pi
     zion
-    orb
+    firefly
   ];
 in
 {
