@@ -77,6 +77,13 @@ in
         so-rcvbuf = "1m";
         qname-minimisation = true;
         access-control = cfg.allowedRanges;
+        hide-identity = true;    # don't reveal hostname in CHAOS queries
+        hide-version = true;     # don't reveal Unbound version
+        use-caps-for-id = true;  # random capitalisation — extra defence against DNS poisoning
+        harden-glue = true;
+        harden-dnssec-stripped = true;
+        harden-below-nxdomain = true;
+        val-clean-additional = true;
       };
     };
   };

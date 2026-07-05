@@ -8,7 +8,8 @@
       pi = self.mkSystem.nixOS "pi" { };
       vaultwarden-vm = self.mkSystem.nixOS "vaultwarden-vm" { };
       yuta = self.mkSystem.nixOS "yuta" { withHomeManager = true; };
-      rika = self.mkSystem.nixOS "rika" { };
+      firefly = self.mkSystem.nixOS "firefly" { };
+      comet = self.mkSystem.nixOS "comet" { };
       #riscv = self.mkSystem.nixOS "riscv" { };
     };
 

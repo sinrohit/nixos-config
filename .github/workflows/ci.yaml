@@ -23,12 +23,15 @@ jobs:
         - attr: nixosConfigurations.clark.config.system.build.toplevel
           hostPlatform: x86_64-linux
           name: clark
+        - attr: nixosConfigurations.comet.config.system.build.toplevel
+          hostPlatform: x86_64-linux
+          name: comet
+        - attr: nixosConfigurations.firefly.config.system.build.toplevel
+          hostPlatform: x86_64-linux
+          name: firefly
         - attr: nixosConfigurations.pi.config.system.build.toplevel
           hostPlatform: aarch64-linux
           name: pi
-        - attr: nixosConfigurations.rika.config.system.build.toplevel
-          hostPlatform: x86_64-linux
-          name: rika
         - attr: nixosConfigurations.yuta.config.system.build.toplevel
           hostPlatform: x86_64-linux
           name: yuta
