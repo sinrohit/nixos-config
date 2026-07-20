@@ -81,12 +81,6 @@ in
       ];
       description = "Blocklist filter subscriptions";
     };
-
-    userRules = lib.mkOption {
-      type = lib.types.listOf lib.types.str;
-      default = [ "||amazon-adsystem.com^" ];
-      description = "Custom AdGuard Home filtering rules (AdBlock syntax)";
-    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -115,7 +109,6 @@ in
           enabled = true;
           interval = "24h";
         };
-        user_rules = cfg.userRules;
         inherit (cfg) filters;
       };
     };
