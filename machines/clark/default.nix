@@ -1,4 +1,9 @@
-{ inputs, pkgs, ... }:
+{
+  inputs,
+  pkgs,
+  config,
+  ...
+}:
 
 {
   imports = [
@@ -89,13 +94,6 @@
     inetutils
   ];
 
-  users = {
-    users.nginx.extraGroups = [
-      "acme"
-      "disk"
-    ];
-  };
-
   environment.pathsToLink = [ "/share/bash-completion" ];
 
   security = {
@@ -104,19 +102,40 @@
     rtkit.enable = true;
   };
 
+  age.secrets = {
+    acme-cloudflare-sinrohit = {
+      file = ../../secrets/acme-cloudflare-sinrohit.age;
+      owner = "caddy";
+      group = "caddy";
+    };
+  };
+
   ## -- Homelab Services -- ##
   homelab = {
-    acme.enable = true;
+    acme.enable = false;
     ente.enable = false;
     vaultwarden.enable = false;
     immich.enable = true;
     forgejo.enable = true;
-    forgejo-runners.enable = true;
-    nginx.enable = true;
+    forgejo-runners.enable = false;
+    nginx.enable = false;
     restic = {
       enable = true;
       immich.remote.enable = true;
       immich.local.enable = true;
+    };
+
+    caddy = {
+      enable = true;
+      cloudflareTokenFile = config.age.secrets.acme-cloudflare-sinrohit.path;
+      virtualHosts = {
+        "immich.sinrohit.com".extraConfig = ''
+          reverse_proxy http://localhost:2283
+        '';
+        "vault.sinrohit.com".extraConfig = ''
+          reverse_proxy http://10.10.0.2:${toString config.homelab.vaultwarden.port}
+        '';
+      };
     };
   };
 
@@ -130,7 +149,7 @@
       flake = inputs.self;
       autostart = true;
       restartIfChanged = true;
-      updateFlake = "git+https://git.sinrohit.com/sinrohit/nixos-config.git";
+      updateFlake = "github:sinrohit/nixos-config";
     };
   };
 
