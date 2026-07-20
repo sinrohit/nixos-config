@@ -33,4 +33,7 @@ in
   "ente-encryption.age".publicKeys = users ++ systems;
   "ente-hash.age".publicKeys = users ++ systems;
   "ente-jwt.age".publicKeys = users ++ systems;
+  "nixbot-webhooks-secret.age".publicKeys = users ++ systems;
+  "nixbot-sinrohit.private-key.age".publicKeys = users ++ systems;
+  "nixbot-sinrohit.oauth-key.age".publicKeys = users ++ systems;
 }
