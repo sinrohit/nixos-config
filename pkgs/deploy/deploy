@@ -25,7 +25,6 @@ Options:
     --dry-run: build, but do not apply the changes
     --use-substitutes: instruct remote to download from cache.nixos.org if possible
     --build-remote: build on remote machine rather than locally
-    --fast: Equivalent to --no-build-nix
 " >/dev/stderr
 }
 
@@ -40,9 +39,6 @@ for i in "$@"; do
     ;;
   --use-substitutes)
     EXTRA_SWITCH_ARGS+=("--use-substitutes")
-    ;;
-  --fast)
-    EXTRA_SWITCH_ARGS+=("--fast")
     ;;
   --build-remote)
     BUILD_REMOTE=1
@@ -107,12 +103,12 @@ function deploy_nixos() {
     exit 0
   fi
 
-  if [ "$target" = "$(hostname)" ]; then
-    echo e "${BLUE}nixos-rebuild switch --use-remote-sudo --flake .#$target ${NC}"
-    nixos-rebuild switch --use-remote-sudo --flake ".#$target"
+  if [ $is_local == 1 ]; then
+    echo e "${BLUE}nixos-rebuild switch --sudo --flake .#$target ${NC}"
+    nixos-rebuild switch --sudo --flake ".#$target"
   else
-    echo -e "${BLUE}nixos-rebuild switch --use-remote-sudo --flake .#$target --target-host $target ${EXTRA_SWITCH_ARGS[*]} ${NC}"
-    nixos-rebuild switch --use-remote-sudo --flake ".#$target" --target-host "$target" "${EXTRA_SWITCH_ARGS[@]}"
+    echo -e "${BLUE}nixos-rebuild switch --flake .#$target --target-host $target --no-reexec --ask-sudo-password --sudo ${EXTRA_SWITCH_ARGS[*]} ${NC}"
+    nixos-rebuild switch --flake ".#$target" --target-host "$target" --no-reexec --ask-sudo-password --sudo "${EXTRA_SWITCH_ARGS[@]}"
   fi
 }
 
@@ -151,7 +147,7 @@ if [ "$SYSTEM_TYPE" = "darwin" ]; then
   deploy_darwin "$TARGET"
 else
   if [ $BUILD_REMOTE == 1 ]; then
-    EXTRA_SWITCH_ARGS+=("--build-host" "$TARGET" "--fast")
+    EXTRA_SWITCH_ARGS+=("--build-host" "$TARGET")
   fi
   deploy_nixos "$TARGET"
 fi
