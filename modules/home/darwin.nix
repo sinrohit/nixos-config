@@ -6,5 +6,5 @@
     ./starship.nix
   ];
 
-  home.packages = with pkgs; [ cachix neovide ];
+  home.packages = with pkgs; [ cachix ];
 }

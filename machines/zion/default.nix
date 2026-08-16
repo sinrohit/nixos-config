@@ -47,6 +47,17 @@
   environment.systemPackages = with pkgs; [
     restic
     deploy
+
+    # Neovim
+    nil
+    tree-sitter
+    shfmt
+    marksman
+    stylua
+    taplo
+    yamllint
+    rustfmt
+    gopls
   ];
 
   system.stateVersion = 5;

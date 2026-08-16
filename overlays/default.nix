@@ -16,6 +16,5 @@ final: prev: {
   inherit (inputs.nixpkgs-unstable.legacyPackages.${prev.system}) nixfmt;
   inherit (inputs.nixpkgs-unstable.legacyPackages.${prev.system}) rust-analyzer;
   inherit (inputs.nixpkgs-unstable.legacyPackages.${prev.system}) forgejo-runner;
-
-  neovim = inputs.neovim.packages.${prev.system}.default;
+  inherit (inputs.nixpkgs-unstable.legacyPackages.${prev.system}) neovim;
 }

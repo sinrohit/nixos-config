@@ -57,8 +57,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    neovim.url = "git+https://git.sinrohit.com/sinrohit/nvim.git";
-
     microvm = {
       url = "github:microvm-nix/microvm.nix";
       inputs.nixpkgs.follows = "nixpkgs";
