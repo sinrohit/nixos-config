@@ -65,9 +65,10 @@ in
           "127.0.0.1"
           "::1"
         ];
+        verbosity = 3;
         port = cfg.unboundPort;
         do-ip4 = true;
-        do-ip6 = true;
+        do-ip6 = false;
         do-udp = true;
         do-tcp = true;
         prefer-ip6 = false;
@@ -77,14 +78,15 @@ in
         so-rcvbuf = "1m";
         qname-minimisation = true;
         access-control = cfg.allowedRanges;
-        hide-identity = true;    # don't reveal hostname in CHAOS queries
-        hide-version = true;     # don't reveal Unbound version
-        use-caps-for-id = true;  # random capitalisation — extra defence against DNS poisoning
+        hide-identity = true; # don't reveal hostname in CHAOS queries
+        hide-version = true; # don't reveal Unbound version
+        use-caps-for-id = true; # random capitalisation — extra defence against DNS poisoning
         harden-glue = true;
         harden-dnssec-stripped = true;
         harden-below-nxdomain = true;
         val-clean-additional = true;
       };
+      settings.remote-control.control-enable = true;
     };
   };
 }

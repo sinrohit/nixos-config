@@ -100,6 +100,7 @@ in
           cache_ttl_max = 86400;
           blocking_mode = cfg.blockingMode;
           filtering_enabled = true;
+          aaaa_disabled = true;
         };
         querylog = {
           enabled = true;
