@@ -1,8 +1,7 @@
-_:
-{
+_: {
   # Better shell prmot!
   programs.starship = {
-    enable = false;
+    enable = true;
     settings = {
       username = {
         style_user = "blue bold";
