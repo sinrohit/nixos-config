@@ -22,12 +22,10 @@
   };
 
   microvm = {
-
+    systemSymlink = true;
     hypervisor = "qemu";
     writableStoreOverlay = "/nix/.rw-store";
-
     socket = "control.socket";
-
     interfaces = [
       {
         type = "tap";
