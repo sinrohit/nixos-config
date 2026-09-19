@@ -135,6 +135,9 @@
         "vault.sinrohit.com".extraConfig = ''
           reverse_proxy http://10.10.0.2:${toString config.homelab.vaultwarden.port}
         '';
+        "pdf.sinrohit.com".extraConfig = ''
+          reverse_proxy http://10.10.0.2:${toString config.homelab.stirling-pdf.port}
+        '';
       };
     };
   };
@@ -146,6 +149,12 @@
 
   microvm.vms = {
     vaultwarden-vm = {
+      flake = inputs.self;
+      autostart = true;
+      restartIfChanged = true;
+      updateFlake = "github:sinrohit/nixos-config";
+    };
+    stirling-pdf-vm = {
       flake = inputs.self;
       autostart = true;
       restartIfChanged = true;

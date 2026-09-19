@@ -36,6 +36,7 @@ let
     "enigma"
     "ema"
     "vaultwarden-vm"
+    "stirling-pdf-vm"
   ];
 
   # Autodiscover all hosts and filter out unsupported platforms
