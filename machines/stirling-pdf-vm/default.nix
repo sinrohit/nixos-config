@@ -16,8 +16,8 @@
   microvm-base = {
     ip = "10.10.0.11";
     mac = "e2:25:56:dc:fa:15";
-    vcpu = 1;
-    mem = 256;
+    vcpu = 2;
+    mem = 3072;
     gateway = "10.10.0.1";
   };
 
