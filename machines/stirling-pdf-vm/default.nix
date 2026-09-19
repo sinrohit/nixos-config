@@ -40,7 +40,7 @@
         proto = "virtiofs";
         tag = "stirling-pdf-data";
         source = "/var/lib/stirling-pdf";
-        mountPoint = "/var/lib/stirling-pdf";
+        mountPoint = "/var/lib/private/stirling-pdf";
       }
     ];
   };
