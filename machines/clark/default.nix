@@ -133,10 +133,10 @@
           reverse_proxy http://localhost:2283
         '';
         "vault.sinrohit.com".extraConfig = ''
-          reverse_proxy http://10.10.0.2:${toString config.homelab.vaultwarden.port}
+          reverse_proxy http://10.10.0.10:${toString config.homelab.vaultwarden.port}
         '';
         "pdf.sinrohit.com".extraConfig = ''
-          reverse_proxy http://10.10.0.2:${toString config.homelab.stirling-pdf.port}
+          reverse_proxy http://10.10.0.11:${toString config.homelab.stirling-pdf.port}
         '';
       };
     };
