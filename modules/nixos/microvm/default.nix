@@ -120,6 +120,11 @@ in
       settings.auto-optimise-store = lib.mkForce false;
     };
 
+    users.users.root.openssh.authorizedKeys = {
+      keys = config.users.users.rohit.openssh.authorizedKeys.keys;
+      keyFiles = config.users.users.rohit.openssh.authorizedKeys.keyFiles;
+    };
+
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
     system.stateVersion = "25.11";
