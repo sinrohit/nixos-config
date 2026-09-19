@@ -14,7 +14,7 @@
   boot.loader.systemd-boot.enable = false;
 
   microvm-base = {
-    ip = "10.10.0.3";
+    ip = "10.10.0.11";
     mac = "e2:25:56:dc:fa:15";
     vcpu = 1;
     mem = 256;
@@ -22,6 +22,7 @@
   };
 
   microvm = {
+    vsock.cid = 11;
     systemSymlink = true;
     hypervisor = "qemu";
     writableStoreOverlay = "/nix/.rw-store";
