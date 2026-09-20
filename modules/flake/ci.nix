@@ -37,6 +37,7 @@ let
     "ema"
     "vaultwarden-vm"
     "stirling-pdf-vm"
+    "trilium-vm"
   ];
 
   # Autodiscover all hosts and filter out unsupported platforms

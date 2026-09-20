@@ -72,6 +72,13 @@
           options.mountpoint = mountpoint;
           options."com.sun:auto-snapshot" = "true";
         };
+
+        trilium = rec {
+          type = "zfs_fs";
+          mountpoint = "/media/trilium";
+          options.mountpoint = mountpoint;
+          options."com.sun:auto-snapshot" = "true";
+        };
       };
     };
   };

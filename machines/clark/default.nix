@@ -138,6 +138,9 @@
         "pdf.sinrohit.com".extraConfig = ''
           reverse_proxy http://10.10.0.11:${toString config.homelab.stirling-pdf.port}
         '';
+        "notes.sinrohit.com".extraConfig = ''
+          reverse_proxy http://10.10.0.12:${toString config.homelab.trilium-server.port}
+        '';
       };
     };
   };
@@ -155,6 +158,12 @@
       updateFlake = "github:sinrohit/nixos-config";
     };
     stirling-pdf-vm = {
+      flake = inputs.self;
+      autostart = true;
+      restartIfChanged = true;
+      updateFlake = "github:sinrohit/nixos-config";
+    };
+    trilium-vm = {
       flake = inputs.self;
       autostart = true;
       restartIfChanged = true;

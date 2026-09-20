@@ -8,6 +8,7 @@
       pi = self.mkSystem.nixOS "pi" { };
       vaultwarden-vm = self.mkSystem.nixOS "vaultwarden-vm" { };
       stirling-pdf-vm = self.mkSystem.nixOS "stirling-pdf-vm" { };
+      trilium-vm = self.mkSystem.nixOS "trilium-vm" { };
       yuta = self.mkSystem.nixOS "yuta" { withHomeManager = true; };
       firefly = self.mkSystem.nixOS "firefly" { };
       comet = self.mkSystem.nixOS "comet" { };
