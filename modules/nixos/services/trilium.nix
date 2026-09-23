@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.homelab.trilium-server;
@@ -30,6 +35,7 @@ in
     services.trilium-server = {
       enable = true;
       inherit (cfg) port host dataDir;
+      package = pkgs.trilium-server;
     };
   };
 }
