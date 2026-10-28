@@ -68,7 +68,6 @@
   };
 
   nix.gc.automatic = true;
-  security.sudo.wheelNeedsPassword = false;
 
   hardware.enableRedistributableFirmware = true;
 

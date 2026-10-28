@@ -97,8 +97,6 @@
   environment.pathsToLink = [ "/share/bash-completion" ];
 
   security = {
-    # Don't require password for sudo
-    sudo.wheelNeedsPassword = false;
     rtkit.enable = true;
   };
 
